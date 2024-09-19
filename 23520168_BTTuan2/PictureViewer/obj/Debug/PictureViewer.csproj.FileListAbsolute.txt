@@ -1,0 +1,10 @@
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\bin\Debug\PictureViewer.exe.config
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\bin\Debug\PictureViewer.exe
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\bin\Debug\PictureViewer.pdb
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\obj\Debug\PictureViewer.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\obj\Debug\PictureViewer.Form1.resources
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\obj\Debug\PictureViewer.Properties.Resources.resources
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\obj\Debug\PictureViewer.csproj.GenerateResource.cache
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\obj\Debug\PictureViewer.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\obj\Debug\PictureViewer.exe
+C:\Users\Admin\Desktop\Lập trình mạng căn bản ⚝\BT Tuần 2\23520168_BTTuan2\PictureViewer\obj\Debug\PictureViewer.pdb
