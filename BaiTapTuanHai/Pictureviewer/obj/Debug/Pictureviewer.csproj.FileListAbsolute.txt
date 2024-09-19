@@ -1,0 +1,10 @@
+E:\BaiTapTuanHai\Pictureviewer\bin\Debug\Pictureviewer.exe.config
+E:\BaiTapTuanHai\Pictureviewer\bin\Debug\Pictureviewer.exe
+E:\BaiTapTuanHai\Pictureviewer\bin\Debug\Pictureviewer.pdb
+E:\BaiTapTuanHai\Pictureviewer\obj\Debug\Pictureviewer.csproj.AssemblyReference.cache
+E:\BaiTapTuanHai\Pictureviewer\obj\Debug\Pictureviewer.Form1.resources
+E:\BaiTapTuanHai\Pictureviewer\obj\Debug\Pictureviewer.Properties.Resources.resources
+E:\BaiTapTuanHai\Pictureviewer\obj\Debug\Pictureviewer.csproj.GenerateResource.cache
+E:\BaiTapTuanHai\Pictureviewer\obj\Debug\Pictureviewer.csproj.CoreCompileInputs.cache
+E:\BaiTapTuanHai\Pictureviewer\obj\Debug\Pictureviewer.exe
+E:\BaiTapTuanHai\Pictureviewer\obj\Debug\Pictureviewer.pdb

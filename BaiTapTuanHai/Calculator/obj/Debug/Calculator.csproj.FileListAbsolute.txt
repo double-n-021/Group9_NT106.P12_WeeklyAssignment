@@ -1,0 +1,10 @@
+E:\BaiTapTuanHai\Calculator\bin\Debug\Calculator.exe.config
+E:\BaiTapTuanHai\Calculator\bin\Debug\Calculator.exe
+E:\BaiTapTuanHai\Calculator\bin\Debug\Calculator.pdb
+E:\BaiTapTuanHai\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+E:\BaiTapTuanHai\Calculator\obj\Debug\Calculator.Form1.resources
+E:\BaiTapTuanHai\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+E:\BaiTapTuanHai\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+E:\BaiTapTuanHai\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+E:\BaiTapTuanHai\Calculator\obj\Debug\Calculator.exe
+E:\BaiTapTuanHai\Calculator\obj\Debug\Calculator.pdb
