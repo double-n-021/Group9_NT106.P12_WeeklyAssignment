@@ -170,12 +170,23 @@ namespace FileExplorer_Basic
     
         private void CopySelectedItems()
         {
-
+            itemsToCopy.Clear();
+            foreach (ListViewItem item in listView1.SelectedItems)
+            {
+                string path = Path.Combine(currentPath, item.Text);
+                itemsToCopy.Add(path);
+            }
         }
 
         private void CutSelectedItems()
         {
-
+            itemsToCut.Clear();
+            foreach (ListViewItem item in listView1.SelectedItems)
+            {
+                string path = Path.Combine(currentPath, item.Text);
+                itemsToCut.Add(path);
+            }
+            isCutOperation = true;
         }
         private async void PasteItems()
         {
