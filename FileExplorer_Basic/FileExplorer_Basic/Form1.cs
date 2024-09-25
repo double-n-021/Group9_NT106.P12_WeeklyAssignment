@@ -221,7 +221,19 @@ namespace FileExplorer_Basic
 
         private void CreateNewFolder()
         {
+            string newFolderName = "New Folder";
+            string newFolderPath = Path.Combine(currentPath, newFolderName);
+            int counter = 1;
 
+            while (Directory.Exists(newFolderPath))
+            {
+                newFolderName = $"New Folder ({counter})";
+                newFolderPath = Path.Combine(currentPath, newFolderName);
+                counter++;
+            }
+
+            Directory.CreateDirectory(newFolderPath);
+            ShowDirectoryItems(currentPath);
         }
     
         private void CopySelectedItems()
