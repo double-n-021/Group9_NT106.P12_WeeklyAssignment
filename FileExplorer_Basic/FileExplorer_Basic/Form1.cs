@@ -33,7 +33,11 @@ namespace FileExplorer_Basic
 
         private void ShowTreeViewItems(string path)
         {
-            
+            treeView1.Nodes.Clear();
+            DirectoryInfo rootDirectoryInfo = new DirectoryInfo(path);
+            var rootNode = new TreeNode(rootDirectoryInfo.Name) { Tag = rootDirectoryInfo.FullName };
+            treeView1.Nodes.Add(rootNode);
+            LoadSubDirectories(rootNode);
         }
 
         private void LoadSubDirectories(TreeNode node)
@@ -64,34 +68,86 @@ namespace FileExplorer_Basic
 
         private void ShowDirectoryItems(string path)
         {
-            
+            listView1.Items.Clear();
+            var directory = new DirectoryInfo(path);
+
+            foreach (var dir in directory.GetDirectories())
+            {
+                listView1.Items.Add(dir.Name, 1); // 1: Index cho thư mục
+            }
+
+            foreach (var file in directory.GetFiles())
+            {
+                listView1.Items.Add(file.Name, 0); // 0: Index cho file
+            }
         }
 
         private void txtPath_TextChanged(object sender, EventArgs e)
         {
-
+            if (Directory.Exists(pathtb.Text))
+            {
+                currentPath = pathtb.Text;
+                ShowTreeViewItems(currentPath);
+                ShowDirectoryItems(currentPath);
+            }
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-
+            string selectedPath = e.Node.Tag.ToString();
+            if (Directory.Exists(selectedPath))
+            {
+                currentPath = selectedPath;
+                pathtb.Text = currentPath;
+                ShowDirectoryItems(currentPath);
+            }
         }
 
 
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
- 
+            if (listView1.SelectedItems.Count > 0)
+            {
+                string selectedItem = listView1.SelectedItems[0].Text;
+                string newPath = Path.Combine(currentPath, selectedItem);
+
+                if (Directory.Exists(newPath))
+                {
+                    backStack.Push(currentPath);
+                    forwardStack.Clear();
+                    currentPath = newPath;
+                    pathtb.Text = currentPath;
+                    ShowDirectoryItems(currentPath);
+                    ShowTreeViewItems(currentPath);
+                }
+                else if (File.Exists(newPath))
+                {
+                    System.Diagnostics.Process.Start(newPath);
+                }
+            }
         }
 
 
         private void btnForward_Click(object sender, EventArgs e)
         {
-
+            if (forwardStack.Count > 0)
+            {
+                backStack.Push(currentPath);
+                currentPath = forwardStack.Pop();
+                pathtb.Text = currentPath;
+                ShowDirectoryItems(currentPath);
+            }
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-
+            if (backStack.Count > 0)
+            {
+                forwardStack.Push(currentPath);
+                currentPath = backStack.Pop();
+                pathtb.Text = currentPath;
+                ShowDirectoryItems(currentPath);
+            }
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
