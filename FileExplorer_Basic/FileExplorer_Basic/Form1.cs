@@ -197,7 +197,26 @@ namespace FileExplorer_Basic
 
         private void DeleteSelectedItems()
         {
-
+            if (listView1.SelectedItems.Count > 0)
+            {
+                var result = MessageBox.Show("Are you sure you want to delete the selected items?", "Confirm Delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    foreach (ListViewItem item in listView1.SelectedItems)
+                    {
+                        string path = Path.Combine(currentPath, item.Text);
+                        if (Directory.Exists(path))
+                        {
+                            Directory.Delete(path, true);
+                        }
+                        else if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
+                    }
+                    ShowDirectoryItems(currentPath);
+                }
+            }
         }
 
         private void CreateNewFolder()
