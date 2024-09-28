@@ -1,5 +1,5 @@
 # NT106_WeeklyAssignment
-Submit_weekly_assignments_for_NT106
+Submit_weekly_assignments_&_project_for_NT106
 
 23521037 - Bùi Đặng Nhật Nguyên
 
