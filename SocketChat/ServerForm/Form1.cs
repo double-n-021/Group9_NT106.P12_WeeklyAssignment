@@ -41,16 +41,16 @@ namespace ServerForm
             {
                 tcpListener = new TcpListener(new IPEndPoint(IPAddress.Parse(tb1.Text), _serverPort));
                 tcpListener.Start();
+                stopChatServer = false;
 
                 while (!stopChatServer)
                 {
                     TcpClient _client = tcpListener.AcceptTcpClient();
 
                     StreamReader sr = new StreamReader(_client.GetStream());
-                    StreamWriter sw = new StreamWriter(_client.GetStream())
-                    {
-                        AutoFlush = true
-                    };
+                    StreamWriter sw = new StreamWriter(_client.GetStream());
+                    sw.AutoFlush = true;
+
                     string username = sr.ReadLine();
                     if (string.IsNullOrEmpty(username))
                     {
@@ -61,13 +61,13 @@ namespace ServerForm
                     {
                         if (!dict.ContainsKey(username))
                         {
-                            Thread clientThread = new Thread(() => this.ClientRecv(username, _client));
                             dict.Add(username, _client);
+                            Thread clientThread = new Thread(() => this.ClientRecv(username, _client));
                             clientThread.Start();
                         }
                         else
                         {
-                            sw.WriteLine("Username already exists, pick another one");
+                            sw.WriteLine("Username already exist, pick another one");
                             _client.Close();
                         }
                     }
@@ -82,50 +82,62 @@ namespace ServerForm
         public void ClientRecv(string username, TcpClient tcpClient)
         {
             NetworkStream thisUserNetworkStream = tcpClient.GetStream();
+            byte[] buffer = new byte[BufferSize];
+
             try
             {
                 while (!stopChatServer)
                 {
-                    byte[] forwardBuffer = new byte[BufferSize];
+                    if (!tcpClient.Connected) break;
 
-                    while (thisUserNetworkStream.DataAvailable)
+                    int bytesRead = thisUserNetworkStream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead == 0) continue;
+
+                    string headerAndMessage = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    string[] arrPayload = headerAndMessage.Split(';');
+
+                    if (arrPayload.Length >= 3)
                     {
-                        int bytesRead = thisUserNetworkStream.Read(forwardBuffer, 0, BufferSize);
-                        string headerAndMessage = Encoding.UTF8.GetString(forwardBuffer, 0, bytesRead);
-                        string[] arrPayload = headerAndMessage.Split(';');
-                        if (arrPayload.Length >= 3)
+                        string friendUsername = arrPayload[0];
+                        MessageType msgType = (MessageType)Enum.Parse(typeof(MessageType), arrPayload[1], true);
+
+                        if (dict.TryGetValue(friendUsername, out TcpClient friendTcpClient))
                         {
-                            string friendUsername = arrPayload[0];
-                            MessageType msgType = (MessageType)Enum.Parse(typeof(MessageType), arrPayload[1], true);
+                            NetworkStream friendStream = friendTcpClient.GetStream();
+
                             if (msgType == MessageType.Text)
                             {
-                                string content = arrPayload[2].Replace("\0", string.Empty);
-                                string forwardHeaderAndMessage = $"{username};{MessageType.Text};{content}";
-                                if (dict.TryGetValue(friendUsername, out TcpClient friendTcpClient))
-                                {
-                                    StreamWriter sw = new StreamWriter(friendTcpClient.GetStream())
-                                    {
-                                        AutoFlush = true
-                                    };
-                                    sw.WriteLine(forwardHeaderAndMessage);
-                                }
-                                UpdateChatHistoryThreadSafe(forwardHeaderAndMessage);
+                                string content = arrPayload[2];
+                                string forwardMessage = $"{username};{MessageType.Text};{content}";
+                                byte[] forwardBytes = Encoding.UTF8.GetBytes(forwardMessage);
+                                friendStream.Write(forwardBytes, 0, forwardBytes.Length);
+
+                                UpdateChatHistoryThreadSafe($"{username} to {friendUsername}: {content}\n");
                             }
                             else if (msgType == MessageType.FilePart || msgType == MessageType.FileEof)
                             {
-                                if (dict.TryGetValue(friendUsername, out TcpClient friendTcpClient))
+                                string forwardMessage = $"{username};{msgType};{arrPayload[2]}";
+                                byte[] forwardBytes = Encoding.UTF8.GetBytes(forwardMessage);
+                                friendStream.Write(forwardBytes, 0, forwardBytes.Length);
+                                friendStream.Flush();
+
+                                if (msgType == MessageType.FileEof)
                                 {
-                                    NetworkStream ns = friendTcpClient.GetStream();
-                                    byte[] forwardBytes = Encoding.UTF8.GetBytes(headerAndMessage);
-                                    ns.Write(forwardBytes, 0, forwardBytes.Length);
+                                    UpdateChatHistoryThreadSafe($"{username} sent a file to {friendUsername}\n");
                                 }
                             }
                         }
                     }
                 }
             }
-            catch (SocketException sockEx)
+
+            catch (Exception ex)
             {
+                MessageBox.Show($"Error in ClientRecv: {ex.Message}");
+                if (dict.ContainsKey(username))
+                {
+                    dict.Remove(username);
+                }
                 tcpClient.Close();
             }
         }

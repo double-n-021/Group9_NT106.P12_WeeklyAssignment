@@ -44,121 +44,91 @@ namespace ClientForm
         private void ClientRecv()
         {
             NetworkStream networkStream = tcpClient.GetStream();
+            byte[] buffer = new byte[BufferSize];
+            MemoryStream currentFileStream = null;
+            string currentFileName = null;
+
             try
             {
                 while (!stopTcpClient && tcpClient.Connected)
                 {
-                    Application.DoEvents();
-                    byte[] readBuffers = new byte[BufferSize];
-                    while (networkStream.DataAvailable)
-                    {
-                        networkStream.Read(readBuffers, 0, BufferSize);
-                    }
-                    string headerAndMessage = Encoding.UTF8.GetString(readBuffers).Replace("\0", string.Empty); ;
+                    int bytesRead = networkStream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead == 0) continue;
+
+                    string headerAndMessage = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                     string[] arrPayload = headerAndMessage.Split(';');
+
                     if (arrPayload.Length >= 3)
                     {
                         string senderUsername = arrPayload[0];
                         MessageType msgType = (MessageType)Enum.Parse(typeof(MessageType), arrPayload[1], true);
+                        string content = arrPayload[2];
+
                         if (msgType == MessageType.Text)
                         {
-                            string content = arrPayload[2].Replace("\0", string.Empty);
-                            string formattedMsg = $"{senderUsername}: {content} \n";
-                            UpdateChatHistoryThreadSafe(formattedMsg);
+                            UpdateChatHistoryThreadSafe($"{senderUsername}: {content}\n");
                         }
                         else if (msgType == MessageType.FilePart)
                         {
-
-                            if (string.IsNullOrEmpty(SaveFileName))
+                            if (currentFileStream == null)
                             {
-                                string message = "Receive incoming file ";
-                                string caption = "File sent request";
-                                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                                DialogResult result;
-                                result = MessageBox.Show(message, caption, buttons);
-                                if (result == DialogResult.Yes)
+                                Invoke((Action)(() =>
                                 {
-                                    SaveFileDialog DialogSave = new SaveFileDialog();
-                                    DialogSave.Filter = "All files (*.*)|*.*";
-                                    DialogSave.RestoreDirectory = true;
-                                    DialogSave.Title = "Where do you want to save the file?";
-                                    DialogSave.InitialDirectory = @"C:/";
-                                    if (DialogSave.ShowDialog() == DialogResult.OK)
+                                    if (MessageBox.Show("Nhận file mới từ " + senderUsername + "?",
+                                        "Nhận file", MessageBoxButtons.YesNo) == DialogResult.Yes)
                                     {
-                                        SaveFileName = DialogSave.FileName;
-                                        fileSaveMemoryStream = new MemoryStream();
+                                        SaveFileDialog sfd = new SaveFileDialog();
+                                        sfd.Filter = "All files (*.*)|*.*";
+                                        if (sfd.ShowDialog() == DialogResult.OK)
+                                        {
+                                            currentFileName = sfd.FileName;
+                                            currentFileStream = new MemoryStream();
+                                        }
                                     }
-
-                                }
+                                }));
                             }
 
-                            byte[] filePart = Encoding.UTF8.GetBytes(arrPayload[2].Replace("\0", string.Empty));
-
-                            fileSaveMemoryStream?.Write(filePart, 0, filePart.Length);
+                            if (currentFileStream != null)
+                            {
+                                byte[] fileData = Convert.FromBase64String(content);
+                                currentFileStream.Write(fileData, 0, fileData.Length);
+                            }
                         }
                         else if (msgType == MessageType.FileEof)
                         {
-                            if (string.IsNullOrEmpty(SaveFileName))
+                            if (currentFileStream != null && currentFileName != null)
                             {
-                                string message = "Receive incoming file ";
-                                string caption = "File sent request";
-                                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                                DialogResult result;
-                                result = MessageBox.Show(message, caption, buttons);
-                                if (result == DialogResult.Yes)
+                                if (content.Length > 0)
                                 {
-                                    SaveFileDialog DialogSave = new SaveFileDialog();
-                                    DialogSave.Filter = "All files (*.*)|*.*";
-                                    DialogSave.RestoreDirectory = true;
-                                    DialogSave.Title = "Where do you want to save the file?";
-                                    DialogSave.InitialDirectory = @"C:/";
-
-                                    Invoke((Action)(() => {
-                                        if (DialogSave.ShowDialog() == DialogResult.OK)
-                                        {
-                                            SaveFileName = DialogSave.FileName;
-                                        }
-                                    }));
-
-
-                                }
-                            }
-                            byte[] finalFilePart = Encoding.UTF8.GetBytes(arrPayload[2].Replace("\0", string.Empty));
-
-                            if (fileSaveMemoryStream != null)
-                            {
-                                fileSaveMemoryStream.Write(finalFilePart, 0, finalFilePart.Length);
-                                using (FileStream fs = File.OpenWrite(SaveFileName))
-                                {
-                                    fileSaveMemoryStream.WriteTo(fs);
-                                }
-                            }
-                            else
-                            {
-                                using (FileStream fs = File.OpenWrite(SaveFileName))
-                                {
-                                    fs.Write(finalFilePart, 0, finalFilePart.Length);
+                                    byte[] finalData = Convert.FromBase64String(content);
+                                    currentFileStream.Write(finalData, 0, finalData.Length);
                                 }
 
+                                currentFileStream.Position = 0;
+                                using (FileStream fs = File.Create(currentFileName))
+                                {
+                                    currentFileStream.CopyTo(fs);
+                                }
+
+                                UpdateChatHistoryThreadSafe($"File đã được lưu tại: {currentFileName}\n");
+
+                                currentFileStream.Dispose();
+                                currentFileStream = null;
+                                currentFileName = null;
                             }
-
-                            fileSaveMemoryStream = null;
-                            SaveFileName = null;
-
                         }
                     }
-
                 }
             }
-            catch (SocketException sockEx)
+            catch (Exception ex)
             {
-                tcpClient.Close();
+                MessageBox.Show($"Lỗi nhận dữ liệu: {ex.Message}");
             }
         }
-
         private delegate void SafeCallDelegate(string text);
 
         private delegate void SaveFileConfirmDialogDelegate(DialogResult result);
+
         private void UpdateChatHistoryThreadSafe(string text)
         {
             if (rtb1.InvokeRequired)
@@ -177,17 +147,19 @@ namespace ClientForm
             try
             {
                 stopTcpClient = false;
-
                 this.tcpClient = new TcpClient();
                 this.tcpClient.Connect(new IPEndPoint(IPAddress.Parse(tb2.Text), serverPort));
                 this.sWriter = new StreamWriter(tcpClient.GetStream())
                 {
                     AutoFlush = true
                 };
+
                 sWriter.WriteLine(this.tb1.Text);
+
                 clientThread = new Thread(this.ClientRecv);
                 clientThread.Start();
-                MessageBox.Show("Connected");
+
+                MessageBox.Show("Connected to server");
             }
             catch (SocketException sockEx)
             {
@@ -199,59 +171,54 @@ namespace ClientForm
             }
         }
 
+
         private void btnSendFile_Click(object sender, EventArgs e)
         {
-            string fileContent = string.Empty;
-            string filePath = string.Empty;
-            byte[] sendingBuffer = null;
             try
             {
-                NetworkStream networkStream = tcpClient.GetStream();
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                using (OpenFileDialog ofd = new OpenFileDialog())
                 {
-                    openFileDialog.InitialDirectory = "c:\\";
-                    openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                    openFileDialog.FilterIndex = 2;
-                    openFileDialog.RestoreDirectory = true;
-
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    ofd.Filter = "All files (*.*)|*.*";
+                    if (ofd.ShowDialog() == DialogResult.OK)
                     {
-                        byte[] headerBytes = Encoding.UTF8.GetBytes($"{tb3.Text};{MessageType.FilePart};");
-                        using (Stream fileStream = openFileDialog.OpenFile())
+                        NetworkStream ns = tcpClient.GetStream();
+                        string receiverUsername = tb3.Text;
+
+                        using (FileStream fs = File.OpenRead(ofd.FileName))
                         {
-                            int NoOfPackets = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(fileStream.Length) / Convert.ToDouble(FileBufferSize)));
-                            progressBar1.Maximum = NoOfPackets;
-                            int TotalLength = (int)fileStream.Length, CurrentPacketLength, counter = 0;
-                            for (int i = 0; i < NoOfPackets; i++)
+                            byte[] buffer = new byte[FileBufferSize];
+                            int bytesRead;
+
+                            while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
                             {
-                                if (TotalLength > FileBufferSize)
-                                {
-                                    CurrentPacketLength = FileBufferSize;
-                                    TotalLength -= CurrentPacketLength;
-                                }
-                                else
-                                {
-                                    CurrentPacketLength = TotalLength;
-                                    headerBytes = Encoding.UTF8.GetBytes($"{tb3.Text};{MessageType.FileEof};");
-                                }
+                                byte[] actualData = new byte[bytesRead];
+                                Array.Copy(buffer, actualData, bytesRead);
 
-                                sendingBuffer = new byte[CurrentPacketLength];
-                                fileStream.Read(sendingBuffer, 0, CurrentPacketLength);
+                                string base64Data = Convert.ToBase64String(actualData);
+                                string message = $"{receiverUsername};{MessageType.FilePart};{base64Data}";
 
-                                byte[] sendingBytes = headerBytes.Concat(sendingBuffer).ToArray();
-                                networkStream.Write(sendingBytes, 0, (int)sendingBytes.Length);
-                                progressBar1.PerformStep();
+                                byte[] sendBuffer = Encoding.UTF8.GetBytes(message);
+                                ns.Write(sendBuffer, 0, sendBuffer.Length);
+                                ns.Flush();
+
+                                Thread.Sleep(10);
                             }
+
+                            string eofMessage = $"{receiverUsername};{MessageType.FileEof};";
+                            byte[] eofBuffer = Encoding.UTF8.GetBytes(eofMessage);
+                            ns.Write(eofBuffer, 0, eofBuffer.Length);
+                            ns.Flush();
                         }
+
+                        UpdateChatHistoryThreadSafe($"Đã gửi file: {Path.GetFileName(ofd.FileName)}\n");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Lỗi gửi file: {ex.Message}");
             }
         }
-
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             try
