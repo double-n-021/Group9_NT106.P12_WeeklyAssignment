@@ -341,11 +341,12 @@
             this.btFirstMovie.Name = "btFirstMovie";
             this.btFirstMovie.PressedColor = System.Drawing.Color.Silver;
             this.btFirstMovie.PressedDepth = 10;
-            this.btFirstMovie.Size = new System.Drawing.Size(305, 192);
+            this.btFirstMovie.Size = new System.Drawing.Size(326, 192);
             this.btFirstMovie.TabIndex = 19;
             this.btFirstMovie.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btFirstMovie.TextOffset = new System.Drawing.Point(37, 0);
             this.btFirstMovie.UseTransparentBackground = true;
+            this.btFirstMovie.Click += new System.EventHandler(this.btFirstMovie_Click);
             // 
             // btSecondMovie
             // 
@@ -552,7 +553,7 @@
             // pbBackgroundNextMV
             // 
             this.pbBackgroundNextMV.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundNextMV.Image")));
-            this.pbBackgroundNextMV.Location = new System.Drawing.Point(281, 36);
+            this.pbBackgroundNextMV.Location = new System.Drawing.Point(278, 38);
             this.pbBackgroundNextMV.Name = "pbBackgroundNextMV";
             this.pbBackgroundNextMV.Size = new System.Drawing.Size(749, 268);
             this.pbBackgroundNextMV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -563,7 +564,7 @@
             // pbBackgroundNS
             // 
             this.pbBackgroundNS.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundNS.Image")));
-            this.pbBackgroundNS.Location = new System.Drawing.Point(281, 304);
+            this.pbBackgroundNS.Location = new System.Drawing.Point(280, 300);
             this.pbBackgroundNS.Name = "pbBackgroundNS";
             this.pbBackgroundNS.Size = new System.Drawing.Size(749, 246);
             this.pbBackgroundNS.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

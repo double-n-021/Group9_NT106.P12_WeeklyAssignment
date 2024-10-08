@@ -118,5 +118,13 @@ namespace Client
         {
             pbBackgroundNS.Visible = !pbBackgroundNS.Visible;
         }
+
+        private void btFirstMovie_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form_Offlineroom formOfflineroom = new Form_Offlineroom();
+            formOfflineroom.Show();
+            formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
+        }
     }
 }

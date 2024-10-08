@@ -1,38 +1,37 @@
-﻿using System;
+﻿using AxWMPLib;
+using ColorSlider;
+using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class Form_Onlineroom : Form
+    public partial class Form_Offlineroom : Form
     {
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
-        public Form_Onlineroom()
+        public Form_Offlineroom()
         {
             InitializeComponent();
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
         }
-
-        private void Form_Onlineroom_Load(object sender, EventArgs e)
+        private void Form_Offlineroom_Load(object sender, EventArgs e)
         {
-            btExit.Parent = pbBackgroundONLR;
-            btMaximized.Parent = pbBackgroundONLR;
-            btMinimized.Parent = pbBackgroundONLR;
-            pnHeader.Parent = pbBackgroundONLR;
-            btBack.Parent = pbBackgroundONLR;
-            btMenu.Parent = pbBackgroundONLR;
-            tbEnterchat.Parent = pbBackgroundONLR;
+            btExit.Parent = pbBackgroundOFFR;
+            btMaximized.Parent = pbBackgroundOFFR;
+            btMinimized.Parent = pbBackgroundOFFR;
+            pnHeader.Parent = pbBackgroundOFFR;
+            btBack.Parent = pbBackgroundOFFR;
         }
 
         private void btExit_Click(object sender, EventArgs e)
@@ -78,11 +77,6 @@ namespace Client
             dragging = false;
         }
 
-        private void pbAvatar_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private bool isUserDragging = false;
 
         private void btUpload_Click(object sender, EventArgs e)
@@ -101,6 +95,7 @@ namespace Client
             btMute.Visible = true;
             btUnmute.Visible = false;
             Videoplayer.settings.volume = 0;
+
         }
 
         private void btMute_Click(object sender, EventArgs e)
@@ -134,19 +129,14 @@ namespace Client
             Videoplayer.Ctlcontrols.currentPosition -= 10;
         }
 
-        private void csSound_Scroll(object sender, ScrollEventArgs e)
-        {
-            Videoplayer.settings.volume = (int)csSound.Value;
-        }
-
         private void csSound_ValueChanged(object sender, EventArgs e)
         {
             Videoplayer.settings.volume = (int)csSound.Value;
         }
 
-        private void csVideo_Scroll(object sender, ScrollEventArgs e)
+        private void csSound_Scroll(object sender, ScrollEventArgs e)
         {
-            Videoplayer.Ctlcontrols.currentPosition = (int)csVideo.Value;
+            Videoplayer.settings.volume = (int)csSound.Value;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -160,6 +150,11 @@ namespace Client
             lbMaxTime.Text = Videoplayer.Ctlcontrols.currentItem.durationString.ToString();
         }
 
+        private void csVideo_Scroll(object sender, ScrollEventArgs e)
+        {
+            Videoplayer.Ctlcontrols.currentPosition = (int)csVideo.Value;
+        }
+
         private void csVideo_MouseUp(object sender, MouseEventArgs e)
         {
             isUserDragging = false;
@@ -171,12 +166,12 @@ namespace Client
             isUserDragging = true;
         }
 
-        private void pbBackgroundONLR_MouseEnter(object sender, EventArgs e)
+        private void pbBackgroundOFFR_MouseEnter(object sender, EventArgs e)
         {
             pnTool.Visible = false;
         }
 
-        private void pbBackgroundONLR_MouseLeave(object sender, EventArgs e)
+        private void pbBackgroundOFFR_MouseLeave(object sender, EventArgs e)
         {
             pnTool.Visible = true;
         }

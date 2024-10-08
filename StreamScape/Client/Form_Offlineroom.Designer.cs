@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class Form_Onlineroom
+    partial class Form_Offlineroom
     {
         /// <summary>
         /// Required designer variable.
@@ -29,23 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
-            this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Offlineroom));
+            this.pbBackgroundOFFR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
-            this.pnHeader = new System.Windows.Forms.Panel();
-            this.lbRoomname = new System.Windows.Forms.Label();
-            this.lbID = new System.Windows.Forms.Label();
             this.btMinimized = new Guna.UI2.WinForms.Guna2Button();
             this.btMaximized = new Guna.UI2.WinForms.Guna2Button();
             this.btExit = new Guna.UI2.WinForms.Guna2Button();
-            this.btMenu = new Guna.UI2.WinForms.Guna2Button();
-            this.tbEnterchat = new Guna.UI2.WinForms.Guna2TextBox();
-            this.btReaction = new Guna.UI2.WinForms.Guna2Button();
+            this.pnHeader = new System.Windows.Forms.Panel();
             this.btUpload = new Guna.UI2.WinForms.Guna2Button();
-            this.pbFirstavatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            this.btSecondavatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            this.lbFirstusername = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.pnVideo = new System.Windows.Forms.Panel();
             this.pnTool = new System.Windows.Forms.Panel();
             this.csVideo = new ColorSlider.ColorSlider();
@@ -61,27 +52,24 @@
             this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
-            this.pnHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFirstavatar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btSecondavatar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundOFFR)).BeginInit();
             this.pnVideo.SuspendLayout();
             this.pnTool.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Videoplayer)).BeginInit();
             this.SuspendLayout();
             // 
-            // pbBackgroundONLR
+            // pbBackgroundOFFR
             // 
-            this.pbBackgroundONLR.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbBackgroundONLR.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundONLR.Image")));
-            this.pbBackgroundONLR.Location = new System.Drawing.Point(0, 0);
-            this.pbBackgroundONLR.Name = "pbBackgroundONLR";
-            this.pbBackgroundONLR.Size = new System.Drawing.Size(1030, 550);
-            this.pbBackgroundONLR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbBackgroundONLR.TabIndex = 0;
-            this.pbBackgroundONLR.TabStop = false;
-            this.pbBackgroundONLR.MouseEnter += new System.EventHandler(this.pbBackgroundONLR_MouseEnter);
-            this.pbBackgroundONLR.MouseLeave += new System.EventHandler(this.pbBackgroundONLR_MouseLeave);
+            this.pbBackgroundOFFR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbBackgroundOFFR.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundOFFR.Image")));
+            this.pbBackgroundOFFR.Location = new System.Drawing.Point(0, 0);
+            this.pbBackgroundOFFR.Name = "pbBackgroundOFFR";
+            this.pbBackgroundOFFR.Size = new System.Drawing.Size(1030, 550);
+            this.pbBackgroundOFFR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbBackgroundOFFR.TabIndex = 0;
+            this.pbBackgroundOFFR.TabStop = false;
+            this.pbBackgroundOFFR.MouseEnter += new System.EventHandler(this.pbBackgroundOFFR_MouseEnter);
+            this.pbBackgroundOFFR.MouseLeave += new System.EventHandler(this.pbBackgroundOFFR_MouseLeave);
             // 
             // btBack
             // 
@@ -98,43 +86,9 @@
             this.btBack.Location = new System.Drawing.Point(21, 5);
             this.btBack.Name = "btBack";
             this.btBack.Size = new System.Drawing.Size(32, 32);
-            this.btBack.TabIndex = 14;
+            this.btBack.TabIndex = 19;
             this.btBack.Text = "guna2Button1";
             this.btBack.Click += new System.EventHandler(this.btBack_Click);
-            // 
-            // pnHeader
-            // 
-            this.pnHeader.BackColor = System.Drawing.Color.Transparent;
-            this.pnHeader.Controls.Add(this.lbRoomname);
-            this.pnHeader.Controls.Add(this.lbID);
-            this.pnHeader.Location = new System.Drawing.Point(56, 0);
-            this.pnHeader.Name = "pnHeader";
-            this.pnHeader.Size = new System.Drawing.Size(798, 45);
-            this.pnHeader.TabIndex = 13;
-            // 
-            // lbRoomname
-            // 
-            this.lbRoomname.AutoSize = true;
-            this.lbRoomname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.lbRoomname.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lbRoomname.ForeColor = System.Drawing.Color.White;
-            this.lbRoomname.Location = new System.Drawing.Point(249, 6);
-            this.lbRoomname.Name = "lbRoomname";
-            this.lbRoomname.Size = new System.Drawing.Size(154, 32);
-            this.lbRoomname.TabIndex = 28;
-            this.lbRoomname.Text = "Room_name";
-            // 
-            // lbID
-            // 
-            this.lbID.AutoSize = true;
-            this.lbID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.lbID.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Bold);
-            this.lbID.ForeColor = System.Drawing.Color.White;
-            this.lbID.Location = new System.Drawing.Point(465, 14);
-            this.lbID.Name = "lbID";
-            this.lbID.Size = new System.Drawing.Size(49, 15);
-            this.lbID.TabIndex = 27;
-            this.lbID.Text = "123456";
             // 
             // btMinimized
             // 
@@ -151,7 +105,7 @@
             this.btMinimized.Location = new System.Drawing.Point(860, 10);
             this.btMinimized.Name = "btMinimized";
             this.btMinimized.Size = new System.Drawing.Size(25, 25);
-            this.btMinimized.TabIndex = 12;
+            this.btMinimized.TabIndex = 17;
             this.btMinimized.Text = "guna2Button1";
             this.btMinimized.Click += new System.EventHandler(this.btMinimized_Click);
             // 
@@ -170,7 +124,7 @@
             this.btMaximized.Location = new System.Drawing.Point(928, 15);
             this.btMaximized.Name = "btMaximized";
             this.btMaximized.Size = new System.Drawing.Size(15, 15);
-            this.btMaximized.TabIndex = 11;
+            this.btMaximized.TabIndex = 16;
             this.btMaximized.Text = "guna2Button1";
             // 
             // btExit
@@ -188,72 +142,17 @@
             this.btExit.Location = new System.Drawing.Point(982, 12);
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(20, 20);
-            this.btExit.TabIndex = 10;
+            this.btExit.TabIndex = 15;
             this.btExit.Text = "guna2Button1";
             this.btExit.Click += new System.EventHandler(this.btExit_Click);
             // 
-            // btMenu
+            // pnHeader
             // 
-            this.btMenu.BackColor = System.Drawing.Color.Transparent;
-            this.btMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btMenu.BackgroundImage")));
-            this.btMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btMenu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btMenu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btMenu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btMenu.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btMenu.FillColor = System.Drawing.Color.Transparent;
-            this.btMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btMenu.ForeColor = System.Drawing.Color.White;
-            this.btMenu.Location = new System.Drawing.Point(56, 472);
-            this.btMenu.Name = "btMenu";
-            this.btMenu.Size = new System.Drawing.Size(32, 32);
-            this.btMenu.TabIndex = 15;
-            this.btMenu.Text = "guna2Button1";
-            // 
-            // tbEnterchat
-            // 
-            this.tbEnterchat.BackColor = System.Drawing.Color.Transparent;
-            this.tbEnterchat.BorderColor = System.Drawing.Color.White;
-            this.tbEnterchat.BorderRadius = 10;
-            this.tbEnterchat.BorderThickness = 2;
-            this.tbEnterchat.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbEnterchat.DefaultText = "";
-            this.tbEnterchat.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.tbEnterchat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.tbEnterchat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.tbEnterchat.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.tbEnterchat.FillColor = System.Drawing.Color.Transparent;
-            this.tbEnterchat.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbEnterchat.Font = new System.Drawing.Font("Segoe UI Black", 9F, System.Drawing.FontStyle.Bold);
-            this.tbEnterchat.ForeColor = System.Drawing.Color.White;
-            this.tbEnterchat.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbEnterchat.Location = new System.Drawing.Point(810, 461);
-            this.tbEnterchat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbEnterchat.Name = "tbEnterchat";
-            this.tbEnterchat.PasswordChar = '\0';
-            this.tbEnterchat.PlaceholderForeColor = System.Drawing.Color.White;
-            this.tbEnterchat.PlaceholderText = "Enter chat ...";
-            this.tbEnterchat.SelectedText = "";
-            this.tbEnterchat.Size = new System.Drawing.Size(192, 43);
-            this.tbEnterchat.TabIndex = 16;
-            this.tbEnterchat.TextOffset = new System.Drawing.Point(23, 0);
-            // 
-            // btReaction
-            // 
-            this.btReaction.BackColor = System.Drawing.Color.Black;
-            this.btReaction.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btReaction.BackgroundImage")));
-            this.btReaction.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btReaction.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btReaction.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btReaction.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btReaction.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btReaction.FillColor = System.Drawing.Color.Transparent;
-            this.btReaction.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btReaction.ForeColor = System.Drawing.Color.White;
-            this.btReaction.Location = new System.Drawing.Point(817, 467);
-            this.btReaction.Name = "btReaction";
-            this.btReaction.Size = new System.Drawing.Size(36, 32);
-            this.btReaction.TabIndex = 17;
+            this.pnHeader.BackColor = System.Drawing.Color.Transparent;
+            this.pnHeader.Location = new System.Drawing.Point(56, 0);
+            this.pnHeader.Name = "pnHeader";
+            this.pnHeader.Size = new System.Drawing.Size(798, 45);
+            this.pnHeader.TabIndex = 18;
             // 
             // btUpload
             // 
@@ -270,65 +169,10 @@
             this.btUpload.Location = new System.Drawing.Point(638, 464);
             this.btUpload.Name = "btUpload";
             this.btUpload.Size = new System.Drawing.Size(128, 45);
-            this.btUpload.TabIndex = 22;
+            this.btUpload.TabIndex = 33;
             this.btUpload.Text = "Upload";
             this.btUpload.UseTransparentBackground = true;
             this.btUpload.Click += new System.EventHandler(this.btUpload_Click);
-            // 
-            // pbFirstavatar
-            // 
-            this.pbFirstavatar.BackColor = System.Drawing.Color.Transparent;
-            this.pbFirstavatar.Image = ((System.Drawing.Image)(resources.GetObject("pbFirstavatar.Image")));
-            this.pbFirstavatar.ImageRotate = 0F;
-            this.pbFirstavatar.InitialImage = null;
-            this.pbFirstavatar.Location = new System.Drawing.Point(123, 448);
-            this.pbFirstavatar.Name = "pbFirstavatar";
-            this.pbFirstavatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbFirstavatar.Size = new System.Drawing.Size(61, 56);
-            this.pbFirstavatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbFirstavatar.TabIndex = 23;
-            this.pbFirstavatar.TabStop = false;
-            this.pbFirstavatar.UseTransparentBackground = true;
-            this.pbFirstavatar.Click += new System.EventHandler(this.pbAvatar_Click);
-            // 
-            // btSecondavatar
-            // 
-            this.btSecondavatar.BackColor = System.Drawing.Color.Transparent;
-            this.btSecondavatar.Image = ((System.Drawing.Image)(resources.GetObject("btSecondavatar.Image")));
-            this.btSecondavatar.ImageRotate = 0F;
-            this.btSecondavatar.InitialImage = null;
-            this.btSecondavatar.Location = new System.Drawing.Point(225, 448);
-            this.btSecondavatar.Name = "btSecondavatar";
-            this.btSecondavatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.btSecondavatar.Size = new System.Drawing.Size(61, 56);
-            this.btSecondavatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btSecondavatar.TabIndex = 24;
-            this.btSecondavatar.TabStop = false;
-            this.btSecondavatar.UseTransparentBackground = true;
-            // 
-            // lbFirstusername
-            // 
-            this.lbFirstusername.AutoSize = true;
-            this.lbFirstusername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.lbFirstusername.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.lbFirstusername.ForeColor = System.Drawing.Color.White;
-            this.lbFirstusername.Location = new System.Drawing.Point(128, 508);
-            this.lbFirstusername.Name = "lbFirstusername";
-            this.lbFirstusername.Size = new System.Drawing.Size(51, 19);
-            this.lbFirstusername.TabIndex = 25;
-            this.lbFirstusername.Text = "ovapil";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(224, 508);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 19);
-            this.label1.TabIndex = 26;
-            this.label1.Text = "miranee";
             // 
             // pnVideo
             // 
@@ -338,7 +182,7 @@
             this.pnVideo.Location = new System.Drawing.Point(12, 43);
             this.pnVideo.Name = "pnVideo";
             this.pnVideo.Size = new System.Drawing.Size(778, 392);
-            this.pnVideo.TabIndex = 36;
+            this.pnVideo.TabIndex = 35;
             // 
             // pnTool
             // 
@@ -642,74 +486,53 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // Form_Onlineroom
+            // Form_Offlineroom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
             this.Controls.Add(this.pnVideo);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lbFirstusername);
-            this.Controls.Add(this.btSecondavatar);
-            this.Controls.Add(this.pbFirstavatar);
             this.Controls.Add(this.btUpload);
-            this.Controls.Add(this.btReaction);
-            this.Controls.Add(this.tbEnterchat);
-            this.Controls.Add(this.btMenu);
             this.Controls.Add(this.btBack);
             this.Controls.Add(this.btMinimized);
             this.Controls.Add(this.btMaximized);
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.pnHeader);
-            this.Controls.Add(this.pbBackgroundONLR);
+            this.Controls.Add(this.pbBackgroundOFFR);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form_Onlineroom";
-            this.Text = "Form_Onlineroom";
-            this.Load += new System.EventHandler(this.Form_Onlineroom_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).EndInit();
-            this.pnHeader.ResumeLayout(false);
-            this.pnHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFirstavatar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btSecondavatar)).EndInit();
+            this.Name = "Form_Offlineroom";
+            this.Text = "Form_Offlineroom";
+            this.Load += new System.EventHandler(this.Form_Offlineroom_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundOFFR)).EndInit();
             this.pnVideo.ResumeLayout(false);
             this.pnTool.ResumeLayout(false);
             this.pnTool.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Videoplayer)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pbBackgroundONLR;
+        private System.Windows.Forms.PictureBox pbBackgroundOFFR;
         private Guna.UI2.WinForms.Guna2Button btBack;
-        private System.Windows.Forms.Panel pnHeader;
         private Guna.UI2.WinForms.Guna2Button btMinimized;
         private Guna.UI2.WinForms.Guna2Button btMaximized;
         private Guna.UI2.WinForms.Guna2Button btExit;
-        private Guna.UI2.WinForms.Guna2Button btMenu;
-        private Guna.UI2.WinForms.Guna2TextBox tbEnterchat;
-        private Guna.UI2.WinForms.Guna2Button btReaction;
+        private System.Windows.Forms.Panel pnHeader;
         private Guna.UI2.WinForms.Guna2Button btUpload;
-        private Guna.UI2.WinForms.Guna2CirclePictureBox pbFirstavatar;
-        private Guna.UI2.WinForms.Guna2CirclePictureBox btSecondavatar;
-        private System.Windows.Forms.Label lbFirstusername;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lbID;
-        private System.Windows.Forms.Label lbRoomname;
         private System.Windows.Forms.Panel pnVideo;
         private System.Windows.Forms.Panel pnTool;
-        private ColorSlider.ColorSlider csVideo;
         private Guna.UI2.WinForms.Guna2Button btPause;
-        private Guna.UI2.WinForms.Guna2Button btMute;
-        private ColorSlider.ColorSlider csSound;
         private Guna.UI2.WinForms.Guna2Button btPlaying;
+        private Guna.UI2.WinForms.Guna2Button btMute;
         private System.Windows.Forms.Label lbMaxTime;
         private System.Windows.Forms.Label lbTiming;
         private Guna.UI2.WinForms.Guna2Button btUnmute;
         private Guna.UI2.WinForms.Guna2Button btBackTime;
         private Guna.UI2.WinForms.Guna2Button btFowardTime;
+        private ColorSlider.ColorSlider csSound;
+        private ColorSlider.ColorSlider csVideo;
         private AxWMPLib.AxWindowsMediaPlayer Videoplayer;
         private System.Windows.Forms.OpenFileDialog OFD;
         private System.Windows.Forms.Timer timer1;
