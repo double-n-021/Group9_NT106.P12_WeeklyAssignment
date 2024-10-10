@@ -153,9 +153,15 @@ namespace Client
         {
             if (!isUserDragging && Videoplayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
             {
+                btPause.Visible = false;
+                csSound.Value = (int)Videoplayer.settings.volume;
                 csVideo.Maximum = (int)Videoplayer.Ctlcontrols.currentItem.duration;
                 csVideo.Value = (int)Videoplayer.Ctlcontrols.currentPosition;
             }
+
+            if (Videoplayer.playState == WMPLib.WMPPlayState.wmppsStopped)
+                btPause.Visible = true;
+
             lbTiming.Text = Videoplayer.Ctlcontrols.currentPositionString;
             lbMaxTime.Text = Videoplayer.Ctlcontrols.currentItem.durationString.ToString();
         }
