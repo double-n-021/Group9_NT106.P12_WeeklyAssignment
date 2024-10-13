@@ -38,7 +38,7 @@ namespace Client
 
         private void btSetting_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Setting formSetting = new Form_Setting();
             formSetting.Show();
             formSetting.Location = new Point(this.Location.X, this.Location.Y);
@@ -81,7 +81,7 @@ namespace Client
 
         private void btHome_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Home formHome = new Form_Home();
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
@@ -89,7 +89,7 @@ namespace Client
 
         private void btCreate_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Create formCreate = new Form_Create();
             formCreate.Show();
             formCreate.Location = new Point(this.Location.X, this.Location.Y);
@@ -97,7 +97,7 @@ namespace Client
 
         private void btJoin_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Join formJoin = new Form_Join();
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);

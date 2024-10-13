@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class Form_Offlineroom
+    partial class Form_room
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Offlineroom));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_room));
             this.pbBackgroundOFFR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.btMinimized = new Guna.UI2.WinForms.Guna2Button();
@@ -486,7 +486,7 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // Form_Offlineroom
+            // Form_room
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -500,7 +500,7 @@
             this.Controls.Add(this.pnHeader);
             this.Controls.Add(this.pbBackgroundOFFR);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form_Offlineroom";
+            this.Name = "Form_room";
             this.Text = "Form_Offlineroom";
             this.Load += new System.EventHandler(this.Form_Offlineroom_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundOFFR)).EndInit();

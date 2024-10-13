@@ -48,7 +48,7 @@ namespace Client
 
         private void btBack_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Home formHome = new Form_Home();
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
@@ -77,7 +77,7 @@ namespace Client
 
         private void btCreate_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Onlineroom formOnlineroom = new Form_Onlineroom();
             formOnlineroom.Show();
             formOnlineroom.Location = new Point(this.Location.X, this.Location.Y);

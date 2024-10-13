@@ -13,12 +13,12 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class Form_Offlineroom : Form
+    public partial class Form_room : Form
     {
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
-        public Form_Offlineroom()
+        public Form_room()
         {
             InitializeComponent();
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
@@ -50,7 +50,7 @@ namespace Client
 
         private void btBack_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Home formHome = new Form_Home();
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
@@ -78,6 +78,13 @@ namespace Client
         }
 
         private bool isUserDragging = false;
+
+        public void PlayVideo(string videoPath)
+        {
+            Videoplayer.URL = videoPath;
+            Videoplayer.Ctlcontrols.play();
+            timer1.Start();
+        }
 
         private void btUpload_Click(object sender, EventArgs e)
         {
@@ -137,6 +144,8 @@ namespace Client
         private void csSound_Scroll(object sender, ScrollEventArgs e)
         {
             Videoplayer.settings.volume = (int)csSound.Value;
+            btMute.Visible = false;
+            btUnmute.Visible = true;
         }
 
         private void timer1_Tick(object sender, EventArgs e)

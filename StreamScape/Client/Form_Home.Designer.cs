@@ -369,6 +369,7 @@
             this.btSecondMovie.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btSecondMovie.TextOffset = new System.Drawing.Point(37, 0);
             this.btSecondMovie.UseTransparentBackground = true;
+            //this.btSecondMovie.Click += new System.EventHandler(this.btSecondMovie_Click);
             // 
             // btFirstsong
             // 
@@ -391,6 +392,7 @@
             this.btFirstsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btFirstsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btFirstsong.UseTransparentBackground = true;
+            //this.btFirstsong.Click += new System.EventHandler(this.btFirstsong_Click);
             // 
             // btSecondsong
             // 
@@ -413,6 +415,7 @@
             this.btSecondsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btSecondsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btSecondsong.UseTransparentBackground = true;
+            //this.btSecondsong.Click += new System.EventHandler(this.btSecondsong_Click);
             // 
             // btThirdsong
             // 
@@ -435,6 +438,7 @@
             this.btThirdsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btThirdsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btThirdsong.UseTransparentBackground = true;
+            //this.btThirdsong.Click += new System.EventHandler(this.btThirdsong_Click);
             // 
             // btFouthsong
             // 
@@ -457,6 +461,7 @@
             this.btFouthsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btFouthsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btFouthsong.UseTransparentBackground = true;
+            //this.btFouthsong.Click += new System.EventHandler(this.btFouthsong_Click);
             // 
             // btBackofVideo
             // 

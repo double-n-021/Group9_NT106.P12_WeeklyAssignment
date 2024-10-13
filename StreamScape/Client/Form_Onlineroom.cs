@@ -51,7 +51,7 @@ namespace Client
 
         private void btBack_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Home formHome = new Form_Home();
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
@@ -137,6 +137,8 @@ namespace Client
         private void csSound_Scroll(object sender, ScrollEventArgs e)
         {
             Videoplayer.settings.volume = (int)csSound.Value;
+            btMute.Visible = false;
+            btUnmute.Visible = true;
         }
 
         private void csSound_ValueChanged(object sender, EventArgs e)
@@ -180,11 +182,16 @@ namespace Client
         private void pbBackgroundONLR_MouseEnter(object sender, EventArgs e)
         {
             pnTool.Visible = false;
+            btSearch.Visible = false;
+            tbSearch.Visible = false;
         }
 
         private void pbBackgroundONLR_MouseLeave(object sender, EventArgs e)
         {
             pnTool.Visible = true;
+            btSearch.Visible = true;
+            tbSearch.Visible = true;
         }
+
     }
 }

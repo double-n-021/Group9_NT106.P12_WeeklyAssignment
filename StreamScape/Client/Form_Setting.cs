@@ -69,7 +69,7 @@ namespace Client
 
         private void btHome_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Home formHome = new Form_Home();
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
@@ -77,7 +77,7 @@ namespace Client
 
         private void btProfile_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Profile formProfile = new Form_Profile();
             formProfile.Show();
             formProfile.Location = new Point(this.Location.X, this.Location.Y);
@@ -85,7 +85,7 @@ namespace Client
 
         private void btCreate_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Create formCreate = new Form_Create();
             formCreate.Show();
             formCreate.Location = new Point(this.Location.X, this.Location.Y);
@@ -93,15 +93,15 @@ namespace Client
 
         private void btJoin_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Join formJoin = new Form_Join();
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);
         }
 
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void btLogout_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             Form_Login formLogin = new Form_Login();
             formLogin.Show();
             formLogin.Location = new Point(this.Location.X, this.Location.Y);

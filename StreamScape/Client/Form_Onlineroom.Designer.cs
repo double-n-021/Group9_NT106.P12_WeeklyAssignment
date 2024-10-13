@@ -47,6 +47,7 @@
             this.lbFirstusername = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnVideo = new System.Windows.Forms.Panel();
+            this.btSearch = new Guna.UI2.WinForms.Guna2Button();
             this.pnTool = new System.Windows.Forms.Panel();
             this.csVideo = new ColorSlider.ColorSlider();
             this.btPause = new Guna.UI2.WinForms.Guna2Button();
@@ -58,9 +59,10 @@
             this.btUnmute = new Guna.UI2.WinForms.Guna2Button();
             this.btBackTime = new Guna.UI2.WinForms.Guna2Button();
             this.btFowardTime = new Guna.UI2.WinForms.Guna2Button();
-            this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
+            this.tbSearch = new Guna.UI2.WinForms.Guna2TextBox();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
             this.pnHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFirstavatar)).BeginInit();
@@ -333,12 +335,32 @@
             // pnVideo
             // 
             this.pnVideo.BackColor = System.Drawing.Color.Black;
+            this.pnVideo.Controls.Add(this.btSearch);
             this.pnVideo.Controls.Add(this.pnTool);
+            this.pnVideo.Controls.Add(this.tbSearch);
             this.pnVideo.Controls.Add(this.Videoplayer);
             this.pnVideo.Location = new System.Drawing.Point(12, 43);
             this.pnVideo.Name = "pnVideo";
             this.pnVideo.Size = new System.Drawing.Size(778, 392);
             this.pnVideo.TabIndex = 36;
+            // 
+            // btSearch
+            // 
+            this.btSearch.BackColor = System.Drawing.Color.Black;
+            this.btSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btSearch.BackgroundImage")));
+            this.btSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btSearch.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btSearch.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btSearch.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btSearch.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btSearch.FillColor = System.Drawing.Color.Transparent;
+            this.btSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btSearch.ForeColor = System.Drawing.Color.White;
+            this.btSearch.Location = new System.Drawing.Point(166, 14);
+            this.btSearch.Name = "btSearch";
+            this.btSearch.Size = new System.Drawing.Size(39, 35);
+            this.btSearch.TabIndex = 37;
+            this.btSearch.Visible = false;
             // 
             // pnTool
             // 
@@ -625,14 +647,33 @@
             this.btFowardTime.UseTransparentBackground = true;
             this.btFowardTime.Click += new System.EventHandler(this.btFowardTime_Click);
             // 
-            // Videoplayer
+            // tbSearch
             // 
-            this.Videoplayer.Enabled = true;
-            this.Videoplayer.Location = new System.Drawing.Point(-13, 0);
-            this.Videoplayer.Name = "Videoplayer";
-            this.Videoplayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Videoplayer.OcxState")));
-            this.Videoplayer.Size = new System.Drawing.Size(616, 395);
-            this.Videoplayer.TabIndex = 32;
+            this.tbSearch.AutoRoundedCorners = true;
+            this.tbSearch.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
+            this.tbSearch.BorderRadius = 20;
+            this.tbSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbSearch.DefaultText = "";
+            this.tbSearch.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.tbSearch.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.tbSearch.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbSearch.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbSearch.FillColor = System.Drawing.Color.Black;
+            this.tbSearch.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tbSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
+            this.tbSearch.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbSearch.Location = new System.Drawing.Point(157, 9);
+            this.tbSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.PasswordChar = '\0';
+            this.tbSearch.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
+            this.tbSearch.PlaceholderText = "What do you want to play?";
+            this.tbSearch.SelectedText = "";
+            this.tbSearch.Size = new System.Drawing.Size(456, 43);
+            this.tbSearch.TabIndex = 38;
+            this.tbSearch.TextOffset = new System.Drawing.Point(25, 0);
+            this.tbSearch.Visible = false;
             // 
             // OFD
             // 
@@ -641,6 +682,15 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // Videoplayer
+            // 
+            this.Videoplayer.Enabled = true;
+            this.Videoplayer.Location = new System.Drawing.Point(-13, 0);
+            this.Videoplayer.Name = "Videoplayer";
+            this.Videoplayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Videoplayer.OcxState")));
+            this.Videoplayer.Size = new System.Drawing.Size(616, 395);
+            this.Videoplayer.TabIndex = 32;
             // 
             // Form_Onlineroom
             // 
@@ -713,5 +763,7 @@
         private AxWMPLib.AxWindowsMediaPlayer Videoplayer;
         private System.Windows.Forms.OpenFileDialog OFD;
         private System.Windows.Forms.Timer timer1;
+        private Guna.UI2.WinForms.Guna2Button btSearch;
+        private Guna.UI2.WinForms.Guna2TextBox tbSearch;
     }
 }

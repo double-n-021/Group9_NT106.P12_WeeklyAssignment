@@ -355,7 +355,7 @@
             this.btLogout.TabIndex = 25;
             this.btLogout.Text = "Log out";
             this.btLogout.UseTransparentBackground = true;
-            this.btLogout.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.btLogout.Click += new System.EventHandler(this.btLogout_Click);
             // 
             // Form_Setting
             // 
