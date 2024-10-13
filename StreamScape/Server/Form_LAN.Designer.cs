@@ -87,6 +87,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(180, 22);
             this.textBox2.TabIndex = 4;
+            this.textBox2.Text = "127.0.0.1";
             // 
             // tbAvailableRoom
             // 
