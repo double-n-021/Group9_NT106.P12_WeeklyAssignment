@@ -90,7 +90,7 @@ namespace Client
 
         private void btSignin_Click(object sender, EventArgs e)
         {
-            try
+            /*try
             {
                 // Kết nối đến server
                 if (!clientSocket.Connected)
@@ -138,7 +138,7 @@ namespace Client
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi không xác định: " + ex.Message, "Lỗi");
-            }
+            }*/
         }
     }
 }
