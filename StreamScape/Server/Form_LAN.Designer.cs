@@ -36,7 +36,10 @@
             this.tbExistingUser = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxMessage = new System.Windows.Forms.RichTextBox();
+            this.cbUserAccount = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btStart
@@ -52,6 +55,7 @@
             this.btStart.Size = new System.Drawing.Size(180, 45);
             this.btStart.TabIndex = 1;
             this.btStart.Text = "Start";
+            this.btStart.Click += new System.EventHandler(this.btStart_Click);
             // 
             // btStop
             // 
@@ -66,6 +70,7 @@
             this.btStop.Size = new System.Drawing.Size(180, 45);
             this.btStop.TabIndex = 2;
             this.btStop.Text = "Stop";
+            this.btStop.Click += new System.EventHandler(this.btStop_Click);
             // 
             // guna2Button1
             // 
@@ -87,7 +92,6 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(180, 22);
             this.textBox2.TabIndex = 4;
-            this.textBox2.Text = "127.0.0.1";
             // 
             // tbAvailableRoom
             // 
@@ -121,20 +125,48 @@
             this.label2.TabIndex = 8;
             this.label2.Text = "Existing Users";
             // 
-            // textBoxMessage
+            // cbUserAccount
             // 
-            this.textBoxMessage.Location = new System.Drawing.Point(279, 12);
-            this.textBoxMessage.Name = "textBoxMessage";
-            this.textBoxMessage.Size = new System.Drawing.Size(699, 428);
-            this.textBoxMessage.TabIndex = 10;
-            this.textBoxMessage.Text = "";
+            this.cbUserAccount.BackColor = System.Drawing.Color.Transparent;
+            this.cbUserAccount.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbUserAccount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUserAccount.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbUserAccount.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbUserAccount.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cbUserAccount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cbUserAccount.ItemHeight = 30;
+            this.cbUserAccount.Location = new System.Drawing.Point(257, 12);
+            this.cbUserAccount.Name = "cbUserAccount";
+            this.cbUserAccount.Size = new System.Drawing.Size(743, 36);
+            this.cbUserAccount.TabIndex = 9;
+            this.cbUserAccount.SelectedIndexChanged += new System.EventHandler(this.cbUserAccount_SelectedIndexChanged);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(257, 65);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(743, 174);
+            this.dataGridView1.TabIndex = 10;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(257, 256);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(743, 180);
+            this.richTextBox1.TabIndex = 11;
+            this.richTextBox1.Text = "";
             // 
             // Form_LAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 503);
-            this.Controls.Add(this.textBoxMessage);
+            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.cbUserAccount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbExistingUser);
@@ -145,6 +177,8 @@
             this.Controls.Add(this.btStart);
             this.Name = "Form_LAN";
             this.Text = "Server";
+            this.Load += new System.EventHandler(this.Form_LAN_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -159,6 +193,8 @@
         private System.Windows.Forms.TextBox tbExistingUser;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox textBoxMessage;
+        private Guna.UI2.WinForms.Guna2ComboBox cbUserAccount;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

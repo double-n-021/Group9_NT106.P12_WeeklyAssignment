@@ -2,121 +2,221 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Net.Sockets;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+using System.Threading;
+using System.Data.SqlClient;
+using System.Data.SQLite; // Cần thư viện SQLite
+using System.Security.Cryptography;
 
 namespace Server
 {
     public partial class Form_LAN : Form
     {
-        private Socket serverSocket = null;
-        private bool started = false;
-        private int _port = 11000;
-        private static int _buff_size = 2048;
-        private byte[] _buffer = new byte[_buff_size];
-        private Dictionary<Socket, string> connectedClients = new Dictionary<Socket, string>(); // Client sockets and their names
-        private delegate void SafeCallDelegate(string text);
-
+        private TcpListener server;
+        private Thread listenerThread;
+        private bool isRunning;
+        private string dbPath = "DBSS.db"; // Đường dẫn file database
         public Form_LAN()
         {
             InitializeComponent();
-            serverSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            this.Load += new EventHandler(Form_LAN_Load);
-
         }
 
-        private void UpdateChatHistoryThreadSafe(string text)
-        {
-            if (textBoxMessage.InvokeRequired)
-            {
-                var d = new SafeCallDelegate(UpdateChatHistoryThreadSafe);
-                textBoxMessage.Invoke(d, new object[] { text });
-            }
-            else
-            {
-                textBoxMessage.AppendText(text + "\n");
-            }
-        }
         private void Form_LAN_Load(object sender, EventArgs e)
+        {
+            SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password FROM Users", connection);
+            var table = new DataTable();
+            dap.Fill(table);
+            cbUserAccount.DataSource = table;
+        }
+
+        private void cbUserAccount_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password FROM Users", connection);
+            var table = new DataTable();
+            dap.Fill(table);
+            dataGridView1.DataSource = table;
+        }
+
+
+        private void StartServer()
         {
             try
             {
-                // Tự động bắt đầu lắng nghe khi form được tải
-                listen();
-                btStart.Text = "Listening on port " + _port;
+                server = new TcpListener(IPAddress.Any, 5000); 
+                server.Start();
+                isRunning = true;
+                while (isRunning)
+                {
+                    // Chấp nhận kết nối từ client
+                    TcpClient client = server.AcceptTcpClient();
+                    Thread clientThread = new Thread(() => HandleClient(client));
+                    clientThread.IsBackground = true;
+                    clientThread.Start();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Lỗi khi khởi động server: " + ex.Message);
             }
         }
 
-
-        private void listen()
+        private void StopServer()
         {
-            serverSocket.Bind(new IPEndPoint(IPAddress.Parse(textBox2.Text), _port));
-            serverSocket.Listen(10);
-            started = true;
-            UpdateChatHistoryThreadSafe("Server started, listening on port " + _port);
-            serverSocket.BeginAccept(new AsyncCallback(onAccepting), serverSocket);
-        }
-
-        public void onAccepting(IAsyncResult ar)
-        {
-            Socket serverSocket = (Socket)ar.AsyncState;
-            Socket clientSocket = serverSocket.EndAccept(ar);
-
-            connectedClients.Add(clientSocket, clientSocket.RemoteEndPoint.ToString()); // Add new client
-
-            UpdateChatHistoryThreadSafe("Accepted connection from " + clientSocket.RemoteEndPoint.ToString());
-            clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(onReceive), clientSocket);
-            serverSocket.BeginAccept(new AsyncCallback(onAccepting), serverSocket); // Continue accepting new clients
-        }
-
-        public void onReceive(IAsyncResult ar)
-        {
-            Socket clientSocket = (Socket)ar.AsyncState;
-            int readbytes = clientSocket.EndReceive(ar);
-
-            if (readbytes > 0)
+            try
             {
-                string header = Encoding.UTF8.GetString(_buffer, 0, 4); // Đọc tiền tố 4 byte
-
-                if (header == "TEXT")
+                isRunning = false;
+                if (server != null)
                 {
-                    string message = Encoding.UTF8.GetString(_buffer, 4, readbytes - 4);
-
-                    UpdateChatHistoryThreadSafe("Client: " + message);
-
-
+                    server.Stop();
                 }
-                clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(onReceive), clientSocket);
+                if (listenerThread != null && listenerThread.IsAlive)
+                {
+                    listenerThread.Join(); // Dừng thread server
+                }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi dừng server: " + ex.Message);
+            }
         }
 
-        //Check thông tin từ database, tạm thời chưa dùng tới
-        private bool ValidateLogin(string username, string password)
+        private void HandleClient(TcpClient client)
         {
-            string connectionString = "Data Source=server_name;Initial Catalog=database_name;User ID=db_user;Password=db_password;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (NetworkStream stream = client.GetStream())
+            using (StreamReader reader = new StreamReader(stream))
+            using (StreamWriter writer = new StreamWriter(stream) { AutoFlush = true })
+            {
+                try
+                {
+                    string requestType = reader.ReadLine();
+                    if (requestType == "signup")
+                    {
+                        string username = reader.ReadLine();
+                        string password = reader.ReadLine();
+                        string emailphone = reader.ReadLine();
+
+                        bool registerSuccess = RegisterUser(username, password, emailphone);
+                        writer.WriteLine(registerSuccess ? "Đăng ký thành công!" : "Đăng ký thất bại. Tài khoản đã tồn tại.");
+                        if (registerSuccess == true) { UpdateDataGridView(); }
+                    }
+                }
+                catch (IOException ex)
+                {
+                    // Xử lý lỗi IO, có thể là kết nối bị ngắt
+                    MessageBox.Show($"Lỗi IO: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi tổng quát
+                    MessageBox.Show($"Lỗi: {ex.Message}");
+                }
+            }
+        }
+
+        private bool RegisterUser(string username, string password, string emailphone)
+        {
+
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
             {
                 connection.Open();
-                string query = "SELECT COUNT(*) FROM Users WHERE Username = @username AND Password = @password";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                string query = "INSERT INTO Users (Username, Emailphone, Password) VALUES (@username, @emailphone, @password)";
+
+                using (var command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@emailphone", emailphone);
                     command.Parameters.AddWithValue("@password", password);
 
-                    int userCount = (int)command.ExecuteScalar();
-                    return userCount > 0; // Trả về true nếu tìm thấy người dùng
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (SQLiteException ex) { }
+                    return false;
                 }
+            }
+        }
+
+        private void LoadUserData()
+        {
+            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password FROM Users", connection);
+            var table = new DataTable();
+            dap.Fill(table); // Đổ dữ liệu vào table
+
+            // Tạm thời lưu dữ liệu trong biến để cập nhật vào DataGridView thông qua UI thread
+            Action updateAction = () =>
+            {
+                dataGridView1.DataSource = table;
+                dataGridView1.Columns["Username"].HeaderText = "Username";
+                dataGridView1.Columns["Emailphone"].HeaderText = "EmailPhone";
+                dataGridView1.Columns["Password"].HeaderText = "Mật khẩu";
+            };
+
+            if (dataGridView1.InvokeRequired)
+            {
+                dataGridView1.Invoke(updateAction);
+            }
+            else
+            {
+                updateAction();
+            }
+        }
+
+
+        private void UpdateDataGridView()
+        {
+            // Kiểm tra nếu cần gọi Invoke để cập nhật từ UI thread
+            if (dataGridView1.InvokeRequired)
+            {
+                // Sử dụng Invoke để gọi lại từ UI thread
+                dataGridView1.Invoke(new Action(UpdateDataGridView));
+            }
+            else
+            {
+                // Hàm cập nhật dữ liệu DataGridView
+                LoadUserData();
+            }
+        }
+
+        private void btStart_Click(object sender, EventArgs e)
+        {
+            if (!isRunning)
+            {
+                // Khởi động server
+                listenerThread = new Thread(StartServer);
+                listenerThread.IsBackground = true;
+                listenerThread.Start();
+                isRunning = true;
+                MessageBox.Show("Server đã khởi động.");
+            }
+            else
+            {
+                MessageBox.Show("Server đang chạy.");
+            }
+        }
+
+        private void btStop_Click(object sender, EventArgs e)
+        {
+            if (isRunning)
+            {
+                // Dừng server
+                StopServer();
+                MessageBox.Show("Server đã dừng.");
+            }
+            else
+            {
+                MessageBox.Show("Server không hoạt động.");
             }
         }
     }

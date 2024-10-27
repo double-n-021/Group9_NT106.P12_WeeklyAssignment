@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.HtmlControls;
 using System.Windows.Forms;
 
 namespace Client
@@ -81,10 +84,80 @@ namespace Client
 
         private void btSignup_Click(object sender, EventArgs e)
         {
+            string username = tbUsername.Text;
+            string emailphone = tbEmailphone.Text;
+            string password = tbCreatepassword.Text;
+
+            // Kiểm tra dữ liệu nhập
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(emailphone))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
+                return;
+            }
+
+            //Khởi tạo đối tượng A thuộc lớp user với 3 thuộc tính
+            User A = new User(username, emailphone, password);
+
+            try
+            {
+                // Tạo kết nối TCP đến server
+                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Đảm bảo server đang chạy
+                using (NetworkStream stream = client.GetStream())
+                using (StreamWriter writer = new StreamWriter(stream) { AutoFlush = true }) // Đặt AutoFlush
+                {
+                    // Gửi yêu cầu đăng ký đến server
+                    writer.WriteLine("signup");
+                    writer.WriteLine(A.Username);
+                    writer.WriteLine(A.Password);
+                    writer.WriteLine(A.EmailPhone);
+
+                    // Đọc phản hồi từ server
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string response = reader.ReadLine();
+                        MessageBox.Show(response);
+
+                        // Nếu đăng ký thành công, hiển thị form Home
+                        if (response == "Đăng ký thành công!") // Kiểm tra phản hồi
+                        {
+                            OpenFormLogin();
+                        }
+                    }
+                }
+            }
+            catch (SocketException ex)
+            {
+                MessageBox.Show("Không thể kết nối đến server: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi: " + ex.Message);
+            }
+
+        }
+
+        private void OpenFormLogin()
+        {
             this.Close();
-            Form_Home formHome = new Form_Home();
-            formHome.Show();
-            formHome.Location = new Point(this.Location.X, this.Location.Y);
+            Form_Login formLogin = new Form_Login();
+            formLogin.Show();
+            formLogin.Location = new Point(this.Location.X, this.Location.Y);
+        }
+    }
+
+    [Serializable]
+    class User
+    {
+        public string Username { get; set; }
+        public string EmailPhone { get; set; }
+        public string Password { get; set; }
+
+        //Phương thức khởi tạo thông tin cho user
+        public User(string username, string emailPhone, string password)
+        {
+            Username = username;
+            EmailPhone = emailPhone;
+            Password = password;
         }
     }
 }
