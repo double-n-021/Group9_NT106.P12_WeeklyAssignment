@@ -14,6 +14,8 @@ using System.Threading;
 using System.Data.SqlClient;
 using System.Data.SQLite; // Cần thư viện SQLite
 using System.Security.Cryptography;
+using Azure.Core;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Server
 {
@@ -30,8 +32,9 @@ namespace Server
 
         private void Form_LAN_Load(object sender, EventArgs e)
         {
+            //Đổ dữ liệu từ DB vào form
             SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password FROM Users", connection);
+            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password, Avatar FROM Users", connection);
             var table = new DataTable();
             dap.Fill(table);
             cbUserAccount.DataSource = table;
@@ -39,8 +42,9 @@ namespace Server
 
         private void cbUserAccount_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Đổ dữ liệu từ DB vào form
             var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password FROM Users", connection);
+            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password, Avatar FROM Users", connection);
             var table = new DataTable();
             dap.Fill(table);
             dataGridView1.DataSource = table;
@@ -92,62 +96,84 @@ namespace Server
         private void HandleClient(TcpClient client)
         {
             using (NetworkStream stream = client.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            using (StreamWriter writer = new StreamWriter(stream) { AutoFlush = true })
+            using (BinaryReader reader = new BinaryReader(stream))
+            using (BinaryWriter writer = new BinaryWriter(stream))
             {
                 try
                 {
-                    string requestType = reader.ReadLine();
+                    string requestType = reader.ReadString(); // Đọc loại yêu cầu ("login",....v.v)
+
                     if (requestType == "signup")
                     {
-                        string username = reader.ReadLine();
-                        string password = reader.ReadLine();
-                        string emailphone = reader.ReadLine();
+                        string username = reader.ReadString();
+                        string password = reader.ReadString();
+                        string emailphone = reader.ReadString();
 
                         bool registerSuccess = RegisterUser(username, password, emailphone);
-                        writer.WriteLine(registerSuccess ? "Đăng ký thành công!" : "Đăng ký thất bại. Tài khoản đã tồn tại.");
-                        if (registerSuccess == true) { UpdateDataGridView(); }
+                        writer.Write(registerSuccess ? "Đăng ký thành công!" : "Đăng ký thất bại. Tài khoản đã tồn tại.");
+                        if (registerSuccess) { UpdateDataGridView(); }
                     }
-                    if (requestType == "login")
+                    else if (requestType == "login")
                     {
-                        string username = reader.ReadLine();
-                        string password = reader.ReadLine();
+                        string username = reader.ReadString();
+                        string password = reader.ReadString();
 
                         bool loginSuccess = CheckUserLogin(username, password);
-                        writer.WriteLine(loginSuccess ? "Đăng nhập thành công!" : "Tên tài khoản hoặc mật khẩu không đúng.");
+                        writer.Write(loginSuccess ? "Đăng nhập thành công!" : "Tên tài khoản hoặc mật khẩu không đúng.");
                     }
-                    if (requestType == "changeusername")
+                    else if (requestType == "changeusername")
                     {
-                        string newusername = reader.ReadLine();
-                        string oldusername = reader.ReadLine();
+                        string newusername = reader.ReadString();
+                        string oldusername = reader.ReadString();
 
-                        bool changeusernameSuccess = ChangeUsername(newusername, oldusername);
-                        writer.WriteLine(changeusernameSuccess ? "Đổi tên thành công!" : "Đổi tên thất bại.");
-                        if (changeusernameSuccess == true) { UpdateDataGridView(); }
+                        bool changeUsernameSuccess = ChangeUsername(newusername, oldusername);
+                        writer.Write(changeUsernameSuccess ? "Đổi tên thành công!" : "Đổi tên thất bại.");
+                        if (changeUsernameSuccess) { UpdateDataGridView(); }
                     }
-                    if (requestType == "changepassword")
+                    else if (requestType == "changepassword")
                     {
-                        string username = reader.ReadLine();
-                        string password = reader.ReadLine();
+                        string username = reader.ReadString();
+                        string password = reader.ReadString();
 
-                        bool changepasswordSuccess = ChangePassword(username, password);
-                        writer.WriteLine(changepasswordSuccess ? "Đổi mật khẩu thành công!" : "Đổi mật khẩu thất bại.");
-                        if (changepasswordSuccess == true) { UpdateDataGridView(); }
+                        bool changePasswordSuccess = ChangePassword(username, password);
+                        writer.Write(changePasswordSuccess ? "Đổi mật khẩu thành công!" : "Đổi mật khẩu thất bại.");
+                        if (changePasswordSuccess) { UpdateDataGridView(); }
                     }
+                    else if (requestType == "changeavatar")
+                    {
+                        string username = reader.ReadString(); // Đọc tên người dùng
+                        int imageSize = reader.ReadInt32();     // Đọc kích thước ảnh
+                        byte[] imageData = reader.ReadBytes(imageSize); // Đọc dữ liệu ảnh
 
+                        bool changeAvatarSuccess = UpdateAvatar(username, imageData);
+                        writer.Write(changeAvatarSuccess ? "Cập nhật ảnh đại diện thành công!" : "Đổi ảnh đại diện thất bại.");
+                    }
+                    else if (requestType == "getavatar")
+                    {
+                        string username = reader.ReadString();
+                        byte[] sendAvatar = GetAvatarFromDB(username);
+                        if (sendAvatar == null)
+                            writer.Write("Không có dữ liệu ảnh");
+
+                        else
+                        {
+                            writer.Write("Có dữ liệu ảnh");
+                            writer.Write(sendAvatar.Length);
+                            writer.Write(sendAvatar);
+                        }
+                    }
                 }
                 catch (IOException ex)
                 {
-                    // Xử lý lỗi IO, có thể là kết nối bị ngắt
                     MessageBox.Show($"Lỗi IO: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    // Xử lý lỗi tổng quát
                     MessageBox.Show($"Lỗi: {ex.Message}");
                 }
             }
         }
+
 
         private bool RegisterUser(string username, string password, string emailphone)
         {
@@ -206,7 +232,7 @@ namespace Server
             {
                 connection.Open();
 
-                // Câu truy vấn SQL để cập nhật tên người dùng
+                // Câu truy vấn SQL để cập nhật mật khẩu người dùng
                 string query = "UPDATE Users SET Password = @password WHERE Username = @username";
 
                 using (var command = new SQLiteCommand(query, connection))
@@ -217,10 +243,7 @@ namespace Server
 
                     try
                     {
-                        // Thực hiện câu lệnh
                         int rowsAffected = command.ExecuteNonQuery();
-
-                        // Kiểm tra nếu có ít nhất một bản ghi được cập nhật
                         return true;
                     }
                     catch (SQLiteException ex)
@@ -248,10 +271,7 @@ namespace Server
 
                     try
                     {
-                        // Thực hiện câu lệnh
                         int rowsAffected = command.ExecuteNonQuery();
-
-                        // Kiểm tra nếu có ít nhất một bản ghi được cập nhật
                         return true;
                     }
                     catch (SQLiteException ex)
@@ -262,11 +282,59 @@ namespace Server
             }
         }
 
+        private bool UpdateAvatar(string username, byte[] imageData)
+        {
+            try
+            {
+                using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+                {
+                    connection.Open();
+                    string query = "UPDATE Users SET Avatar = @avatar WHERE Username = @username";
+                    using (var command = new SQLiteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@avatar", imageData);
+                        command.Parameters.AddWithValue("@username", username);
+                        
+                        int rowsAffected = command.ExecuteNonQuery();
+                        LoadUserData();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        //Truy vấn ảnh đại diện từ DB
+        private byte[] GetAvatarFromDB(string username)
+        {
+                using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+                {
+                    connection.Open();
+                    string query = "SELECT Avatar FROM Users WHERE Username = @username";
+                    using (var command = new SQLiteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@username", username);
+
+                        object result = command.ExecuteScalar();
+                        int rowsAffected = command.ExecuteNonQuery();
+                        // Kiểm tra kết quả và chuyển đổi sang mảng byte
+                        if (result != DBNull.Value && result != null)
+                        {
+                            return (byte[])result;
+                        }
+                    }
+                }
+            return null;
+        }
+
 
         private void LoadUserData()
         {
             var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password FROM Users", connection);
+            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password, Avatar FROM Users", connection);
             var table = new DataTable();
             dap.Fill(table); // Đổ dữ liệu vào table
 
@@ -276,7 +344,8 @@ namespace Server
                 dataGridView1.DataSource = table;
                 dataGridView1.Columns["Username"].HeaderText = "Username";
                 dataGridView1.Columns["Emailphone"].HeaderText = "EmailPhone";
-                dataGridView1.Columns["Password"].HeaderText = "Mật khẩu";
+                dataGridView1.Columns["Password"].HeaderText = "Password";
+                dataGridView1.Columns["Avatar"].HeaderText = "Avatar";
             };
 
             if (dataGridView1.InvokeRequired)

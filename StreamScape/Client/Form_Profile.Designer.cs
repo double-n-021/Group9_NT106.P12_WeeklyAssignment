@@ -53,6 +53,7 @@
             this.btAccept = new Guna.UI2.WinForms.Guna2Button();
             this.lbUsernameofDetails = new System.Windows.Forms.Label();
             this.btEditavatar = new Guna.UI2.WinForms.Guna2CircleButton();
+            this.OFD = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundProfile)).BeginInit();
             this.pnHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAvatar)).BeginInit();
@@ -521,6 +522,11 @@
             this.btEditavatar.TabIndex = 36;
             this.btEditavatar.UseTransparentBackground = true;
             this.btEditavatar.Visible = false;
+            this.btEditavatar.Click += new System.EventHandler(this.btEditavatar_Click);
+            // 
+            // OFD
+            // 
+            this.OFD.FileName = "Open Pictures";
             // 
             // Form_Profile
             // 
@@ -588,5 +594,6 @@
         private Guna.UI2.WinForms.Guna2Button btAccept;
         private System.Windows.Forms.Label lbUsernameofDetails;
         private Guna.UI2.WinForms.Guna2CircleButton btEditavatar;
+        private System.Windows.Forms.OpenFileDialog OFD;
     }
 }

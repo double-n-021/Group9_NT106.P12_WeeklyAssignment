@@ -15,6 +15,7 @@ namespace Client
 {
     public partial class Form_Signup : Form
     {
+        //3 biến này sử dụng cho chức năng panelHeader
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
@@ -28,6 +29,7 @@ namespace Client
 
         private void Form_Signup_Load(object sender, EventArgs e)
         {
+            //tạo background trong suốt
             btExit.Parent = pbBackgroundSignup;
             btMaximized.Parent = pbBackgroundSignup;
             btMinimized.Parent = pbBackgroundSignup;
@@ -39,28 +41,7 @@ namespace Client
             btSignup.Parent = pbBackgroundSignup;
         }
 
-        private void btExit_Click(object sender, EventArgs e)
-        {
-            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
-            foreach (var form in formsToClose)
-            {
-                form.Close();
-            }
-        }
-
-        private void btMinimized_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-        }
-
-        private void btBack_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            Form_Login formLogin = new Form_Login();
-            formLogin.Show();
-            formLogin.Location = new Point(this.Location.X, this.Location.Y);
-        }
-
+        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -81,47 +62,69 @@ namespace Client
         {
             dragging = false;
         }
+        //Kết thúc ở đây
 
+        //Đóng app
+        private void btExit_Click(object sender, EventArgs e)
+        {
+            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
+            foreach (var form in formsToClose)
+            {
+                form.Close();
+            }
+        }
+
+        //Chức năng thu nhỏ cửa sổ xuống tab
+        private void btMinimized_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        //Chức năng quay lại form login và đóng form hiện tại
+        private void btBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form_Login formLogin = new Form_Login();
+            formLogin.Show();
+            formLogin.Location = new Point(this.Location.X, this.Location.Y);
+        }
+
+        //Chức năng gửi thông tin username, emailphone, password đến server để server lưu vào DB
         private void btSignup_Click(object sender, EventArgs e)
         {
             string username = tbUsername.Text;
             string emailphone = tbEmailphone.Text;
             string password = tbCreatepassword.Text;
 
-            // Kiểm tra dữ liệu nhập
+            // Kiểm tra tính đúng đắn của dữ liệu nhập
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(emailphone))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
                 return;
             }
 
-            //Khởi tạo đối tượng A thuộc lớp user với 3 thuộc tính
-            User A = new User(username, emailphone, password);
-
             try
             {
                 // Tạo kết nối TCP đến server
                 using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Đảm bảo server đang chạy
                 using (NetworkStream stream = client.GetStream())
-                using (StreamWriter writer = new StreamWriter(stream) { AutoFlush = true }) // Đặt AutoFlush
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                using (BinaryReader reader = new BinaryReader(stream))
                 {
                     // Gửi yêu cầu đăng ký đến server
-                    writer.WriteLine("signup");
-                    writer.WriteLine(A.Username);
-                    writer.WriteLine(A.Password);
-                    writer.WriteLine(A.EmailPhone);
+                    writer.Write("signup");           // Gửi yêu cầu "signup"
+                    writer.Write(username);         // Gửi tên người dùng
+                    writer.Write(password);         // Gửi mật khẩu
+                    writer.Write(emailphone);       // Gửi email/điện thoại
 
                     // Đọc phản hồi từ server
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        string response = reader.ReadLine();
-                        MessageBox.Show(response);
+                    string response = reader.ReadString();
+                    MessageBox.Show(response);
 
-                        // Nếu đăng ký thành công, hiển thị form Home
-                        if (response == "Đăng ký thành công!") // Kiểm tra phản hồi
-                        {
-                            OpenFormLogin();
-                        }
+                    // Nếu đăng ký thành công, hiển thị form Login
+                    if (response == "Đăng ký thành công!") // Kiểm tra phản hồi
+                    {
+                        OpenFormLogin();
                     }
                 }
             }
@@ -133,31 +136,15 @@ namespace Client
             {
                 MessageBox.Show("Đã xảy ra lỗi: " + ex.Message);
             }
-
         }
 
+        //Mở form login và đóng form hiện tại
         private void OpenFormLogin()
         {
             this.Close();
             Form_Login formLogin = new Form_Login();
             formLogin.Show();
             formLogin.Location = new Point(this.Location.X, this.Location.Y);
-        }
-    }
-
-    [Serializable]
-    class User
-    {
-        public string Username { get; set; }
-        public string EmailPhone { get; set; }
-        public string Password { get; set; }
-
-        //Phương thức khởi tạo thông tin cho user
-        public User(string username, string emailPhone, string password)
-        {
-            Username = username;
-            EmailPhone = emailPhone;
-            Password = password;
         }
     }
 }

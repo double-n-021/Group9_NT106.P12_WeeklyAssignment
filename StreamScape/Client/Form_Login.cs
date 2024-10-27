@@ -35,22 +35,6 @@ namespace Client
             btLogin.Parent = pbBackgroundlogin;
         }
 
-        private void btExit_Click(object sender, EventArgs e)
-        {
-            //Đóng app
-            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
-            foreach (var form in formsToClose)
-            {
-                form.Close();
-            }
-        }
-
-        //Chức năng thu nhỏ cửa sổ xuống tab
-        private void btMinimized_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-        }
-
         //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
@@ -72,8 +56,25 @@ namespace Client
         {
             dragging = false;
         }
-        //Tới đây
+        //Kết thúc ở đây
 
+        //Đóng app
+        private void btExit_Click(object sender, EventArgs e)
+        {
+            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
+            foreach (var form in formsToClose)
+            {
+                form.Close();
+            }
+        }
+
+        //Chức năng thu nhỏ cửa sổ xuống tab
+        private void btMinimized_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        //Chức năng chuyển đến form đăng nhập
         private void btLogin_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -82,6 +83,7 @@ namespace Client
             formSignin.Location = new Point(this.Location.X, this.Location.Y);
         }
 
+        //Chức năng chuyển đến form đăng ký
         private void Signup_Click(object sender, EventArgs e)
         {
             this.Hide();

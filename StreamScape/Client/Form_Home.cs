@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,15 +14,25 @@ namespace Client
 {
     public partial class Form_Home : Form
     {
+        //3 biến này sử dụng cho chức năng panelHeader
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
-        private string textconnect;
-        public Form_Home(string username)
+        private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
+        private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
+        public Form_Home(string username, byte[] avatarconnect)
         {
             InitializeComponent();
-            lbUsername.Text = username;
-            textconnect = username;
+            Avatarconnect = avatarconnect;
+            lbUsername.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
+            textconnect = username; //gán dữ liệu bắc cầu form signin -> form home -> form tiếp theo
+            if (avatarconnect != null && avatarconnect.Length > 0)
+            {
+                using (MemoryStream ms = new MemoryStream(avatarconnect))
+                {
+                    btAvatar.Image = Image.FromStream(ms); //load avatar vừa được truyền lên giao diện
+                }
+            }
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -29,6 +40,7 @@ namespace Client
 
         private void Form_Home_Load(object sender, EventArgs e)
         {
+            //tạo background trong suốt
             btExit.Parent = pbBackgroundHome;
             btMaximized.Parent = pbBackgroundHome;
             btMinimized.Parent = pbBackgroundHome;
@@ -36,28 +48,7 @@ namespace Client
             btSetting.Parent = pbBackgroundHome;
         }
 
-        private void btExit_Click(object sender, EventArgs e)
-        {
-            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
-            foreach (var form in formsToClose)
-            {
-                form.Close();
-            }
-        }
-
-        private void btMinimized_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-        }
-
-        private void btSetting_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            Form_Setting formSetting = new Form_Setting(textconnect);
-            formSetting.Show();
-            formSetting.Location = new Point(this.Location.X, this.Location.Y);
-        }
-
+        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -78,31 +69,61 @@ namespace Client
         {
             dragging = false;
         }
+        //Kết thúc ở đây
 
+        //Đóng app
+        private void btExit_Click(object sender, EventArgs e)
+        {
+            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
+            foreach (var form in formsToClose)
+            {
+                form.Close();
+            }
+        }
+
+        //Chức năng thu nhỏ cửa sổ xuống tab
+        private void btMinimized_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        //Mở form setting và đóng form hiện tại
+        private void btSetting_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form_Setting formSetting = new Form_Setting(textconnect, Avatarconnect);//truyền cho form setting username và avatar
+            formSetting.Show();
+            formSetting.Location = new Point(this.Location.X, this.Location.Y);
+        }
+
+        //Mở form profile và đóng form hiện tại
         private void btProfile_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Profile formProfile = new Form_Profile(textconnect);//
+            Form_Profile formProfile = new Form_Profile(textconnect, Avatarconnect);//truyền cho form profile username và avatar
             formProfile.Show();
             formProfile.Location = new Point(this.Location.X, this.Location.Y);
         }
 
+        //Mở form create và đóng form hiện tại
         private void btCreate_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Create formCreate = new Form_Create();
+            Form_Create formCreate = new Form_Create(textconnect, Avatarconnect);//truyền cho form create username và avatar
             formCreate.Show();
             formCreate.Location = new Point(this.Location.X, this.Location.Y);
         }
 
+        //Mở form join và đóng form hiện tại
         private void btJoin_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Join formJoin = new Form_Join();
+            Form_Join formJoin = new Form_Join(textconnect, Avatarconnect);//truyền cho form join username và avatar
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);
         }
 
+        //Phần dưới này liên quan tới bấm vào bt ở form home để xem phim và nghe nhạc
         bool FlagNextMV = false, FlagNextMC = false;
 
         private void btBackofVideo_Click(object sender, EventArgs e)
@@ -141,7 +162,7 @@ namespace Client
                 videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "Conan.mp4");
             }
             this.Close();
-            Form_room formOfflineroom = new Form_room();
+            Form_room formOfflineroom = new Form_room(textconnect, Avatarconnect);
             formOfflineroom.Show();
             formOfflineroom.PlayVideo(videoPath);
             formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
