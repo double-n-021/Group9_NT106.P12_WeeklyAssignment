@@ -42,7 +42,7 @@
             this.btProfile = new Guna.UI2.WinForms.Guna2Button();
             this.btHome = new Guna.UI2.WinForms.Guna2Button();
             this.btAvatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbUsername = new System.Windows.Forms.Label();
             this.btLowG = new Guna.UI2.WinForms.Guna2Button();
             this.btLogout = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundSetting)).BeginInit();
@@ -292,26 +292,26 @@
             this.btAvatar.Image = ((System.Drawing.Image)(resources.GetObject("btAvatar.Image")));
             this.btAvatar.ImageRotate = 0F;
             this.btAvatar.InitialImage = null;
-            this.btAvatar.Location = new System.Drawing.Point(97, 108);
+            this.btAvatar.Location = new System.Drawing.Point(95, 108);
             this.btAvatar.Name = "btAvatar";
             this.btAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.btAvatar.Size = new System.Drawing.Size(96, 92);
+            this.btAvatar.Size = new System.Drawing.Size(99, 92);
             this.btAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btAvatar.TabIndex = 22;
             this.btAvatar.TabStop = false;
             this.btAvatar.UseTransparentBackground = true;
             // 
-            // label1
+            // lbUsername
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(93, 207);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 23);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "user_name";
+            this.lbUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.lbUsername.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUsername.ForeColor = System.Drawing.Color.White;
+            this.lbUsername.Location = new System.Drawing.Point(68, 207);
+            this.lbUsername.Name = "lbUsername";
+            this.lbUsername.Size = new System.Drawing.Size(153, 23);
+            this.lbUsername.TabIndex = 23;
+            this.lbUsername.Text = "user_name12345";
+            this.lbUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btLowG
             // 
@@ -364,7 +364,7 @@
             this.ClientSize = new System.Drawing.Size(1030, 550);
             this.Controls.Add(this.btLogout);
             this.Controls.Add(this.btLowG);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbUsername);
             this.Controls.Add(this.btAvatar);
             this.Controls.Add(this.btJoin);
             this.Controls.Add(this.btCreate);
@@ -384,7 +384,6 @@
             this.pnHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btAvatar)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -403,7 +402,7 @@
         private Guna.UI2.WinForms.Guna2Button btProfile;
         private Guna.UI2.WinForms.Guna2Button btHome;
         private Guna.UI2.WinForms.Guna2CirclePictureBox btAvatar;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbUsername;
         private Guna.UI2.WinForms.Guna2Button btLowG;
         private Guna.UI2.WinForms.Guna2Button btLogout;
     }

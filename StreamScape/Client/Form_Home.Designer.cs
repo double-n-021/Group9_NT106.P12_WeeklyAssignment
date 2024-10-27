@@ -42,7 +42,7 @@
             this.btProfile = new Guna.UI2.WinForms.Guna2Button();
             this.btCreate = new Guna.UI2.WinForms.Guna2Button();
             this.btJoin = new Guna.UI2.WinForms.Guna2Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbUsername = new System.Windows.Forms.Label();
             this.btFirstMovie = new Guna.UI2.WinForms.Guna2Button();
             this.btSecondMovie = new Guna.UI2.WinForms.Guna2Button();
             this.btFirstsong = new Guna.UI2.WinForms.Guna2Button();
@@ -209,10 +209,10 @@
             this.btAvatar.Image = ((System.Drawing.Image)(resources.GetObject("btAvatar.Image")));
             this.btAvatar.ImageRotate = 0F;
             this.btAvatar.InitialImage = null;
-            this.btAvatar.Location = new System.Drawing.Point(97, 108);
+            this.btAvatar.Location = new System.Drawing.Point(95, 109);
             this.btAvatar.Name = "btAvatar";
             this.btAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.btAvatar.Size = new System.Drawing.Size(96, 92);
+            this.btAvatar.Size = new System.Drawing.Size(99, 92);
             this.btAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btAvatar.TabIndex = 13;
             this.btAvatar.TabStop = false;
@@ -313,17 +313,17 @@
             this.btJoin.UseTransparentBackground = true;
             this.btJoin.Click += new System.EventHandler(this.btJoin_Click);
             // 
-            // label1
+            // lbUsername
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(93, 207);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 23);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "user_name";
+            this.lbUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.lbUsername.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUsername.ForeColor = System.Drawing.Color.White;
+            this.lbUsername.Location = new System.Drawing.Point(65, 203);
+            this.lbUsername.Name = "lbUsername";
+            this.lbUsername.Size = new System.Drawing.Size(156, 27);
+            this.lbUsername.TabIndex = 18;
+            this.lbUsername.Text = "user_name12345";
+            this.lbUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btFirstMovie
             // 
@@ -369,7 +369,6 @@
             this.btSecondMovie.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btSecondMovie.TextOffset = new System.Drawing.Point(37, 0);
             this.btSecondMovie.UseTransparentBackground = true;
-            //this.btSecondMovie.Click += new System.EventHandler(this.btSecondMovie_Click);
             // 
             // btFirstsong
             // 
@@ -392,7 +391,6 @@
             this.btFirstsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btFirstsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btFirstsong.UseTransparentBackground = true;
-            //this.btFirstsong.Click += new System.EventHandler(this.btFirstsong_Click);
             // 
             // btSecondsong
             // 
@@ -415,7 +413,6 @@
             this.btSecondsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btSecondsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btSecondsong.UseTransparentBackground = true;
-            //this.btSecondsong.Click += new System.EventHandler(this.btSecondsong_Click);
             // 
             // btThirdsong
             // 
@@ -438,7 +435,6 @@
             this.btThirdsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btThirdsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btThirdsong.UseTransparentBackground = true;
-            //this.btThirdsong.Click += new System.EventHandler(this.btThirdsong_Click);
             // 
             // btFouthsong
             // 
@@ -461,7 +457,6 @@
             this.btFouthsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btFouthsong.TextOffset = new System.Drawing.Point(37, 0);
             this.btFouthsong.UseTransparentBackground = true;
-            //this.btFouthsong.Click += new System.EventHandler(this.btFouthsong_Click);
             // 
             // btBackofVideo
             // 
@@ -592,7 +587,7 @@
             this.Controls.Add(this.btFirstsong);
             this.Controls.Add(this.btSecondMovie);
             this.Controls.Add(this.btFirstMovie);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbUsername);
             this.Controls.Add(this.btJoin);
             this.Controls.Add(this.btCreate);
             this.Controls.Add(this.btProfile);
@@ -616,7 +611,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundNextMV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundNS)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -635,7 +629,7 @@
         private Guna.UI2.WinForms.Guna2Button btProfile;
         private Guna.UI2.WinForms.Guna2Button btCreate;
         private Guna.UI2.WinForms.Guna2Button btJoin;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbUsername;
         private Guna.UI2.WinForms.Guna2Button btFirstMovie;
         private Guna.UI2.WinForms.Guna2Button btSecondMovie;
         private Guna.UI2.WinForms.Guna2Button btFirstsong;

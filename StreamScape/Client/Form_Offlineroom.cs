@@ -51,7 +51,7 @@ namespace Client
         private void btBack_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Home formHome = new Form_Home();
+            Form_Home formHome = new Form_Home("");
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }

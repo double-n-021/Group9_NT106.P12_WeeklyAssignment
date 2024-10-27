@@ -12,12 +12,15 @@ namespace Client
 {
     public partial class Form_Setting : Form
     {
+        private string textconnect;
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
-        public Form_Setting()
+        public Form_Setting(string username)
         {
             InitializeComponent();
+            lbUsername.Text = username;
+            textconnect = username;
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -70,7 +73,7 @@ namespace Client
         private void btHome_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Home formHome = new Form_Home();
+            Form_Home formHome = new Form_Home(textconnect);
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -78,7 +81,7 @@ namespace Client
         private void btProfile_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Profile formProfile = new Form_Profile();
+            Form_Profile formProfile = new Form_Profile(textconnect);
             formProfile.Show();
             formProfile.Location = new Point(this.Location.X, this.Location.Y);
         }

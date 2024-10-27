@@ -108,6 +108,33 @@ namespace Server
                         writer.WriteLine(registerSuccess ? "Đăng ký thành công!" : "Đăng ký thất bại. Tài khoản đã tồn tại.");
                         if (registerSuccess == true) { UpdateDataGridView(); }
                     }
+                    if (requestType == "login")
+                    {
+                        string username = reader.ReadLine();
+                        string password = reader.ReadLine();
+
+                        bool loginSuccess = CheckUserLogin(username, password);
+                        writer.WriteLine(loginSuccess ? "Đăng nhập thành công!" : "Tên tài khoản hoặc mật khẩu không đúng.");
+                    }
+                    if (requestType == "changeusername")
+                    {
+                        string newusername = reader.ReadLine();
+                        string oldusername = reader.ReadLine();
+
+                        bool changeusernameSuccess = ChangeUsername(newusername, oldusername);
+                        writer.WriteLine(changeusernameSuccess ? "Đổi tên thành công!" : "Đổi tên thất bại.");
+                        if (changeusernameSuccess == true) { UpdateDataGridView(); }
+                    }
+                    if (requestType == "changepassword")
+                    {
+                        string username = reader.ReadLine();
+                        string password = reader.ReadLine();
+
+                        bool changepasswordSuccess = ChangePassword(username, password);
+                        writer.WriteLine(changepasswordSuccess ? "Đổi mật khẩu thành công!" : "Đổi mật khẩu thất bại.");
+                        if (changepasswordSuccess == true) { UpdateDataGridView(); }
+                    }
+
                 }
                 catch (IOException ex)
                 {
@@ -146,6 +173,95 @@ namespace Server
                 }
             }
         }
+        private bool CheckUserLogin(string username, string password)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT Password FROM Users WHERE Username = @username";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+                    var result = command.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        string storedHash = result.ToString();
+
+                        // So sánh mật khẩu người dùng nhập với mật khẩu đã lưu
+                        if (storedHash == password) // Ở đây bạn có thể thay đổi logic so sánh nếu cần
+                        {
+                            return true; // Đăng nhập thành công
+                        }
+                    }
+                }
+            }
+            return false; // Đăng nhập thất bại
+        }
+
+        private bool ChangePassword(string username, string password)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+
+                // Câu truy vấn SQL để cập nhật tên người dùng
+                string query = "UPDATE Users SET Password = @password WHERE Username = @username";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    // Thêm tham số vào câu lệnh SQL
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@password", password);
+
+                    try
+                    {
+                        // Thực hiện câu lệnh
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Kiểm tra nếu có ít nhất một bản ghi được cập nhật
+                        return true;
+                    }
+                    catch (SQLiteException ex)
+                    {
+                       return false;
+                    }
+                }
+            }
+        }
+
+        private bool ChangeUsername(string newusername, string oldusername)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+
+                // Câu truy vấn SQL để cập nhật tên người dùng
+                string query = "UPDATE Users SET Username = @newusername WHERE Username = @oldusername";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    // Thêm tham số vào câu lệnh SQL
+                    command.Parameters.AddWithValue("@newusername", newusername);
+                    command.Parameters.AddWithValue("@oldusername", oldusername);
+
+                    try
+                    {
+                        // Thực hiện câu lệnh
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Kiểm tra nếu có ít nhất một bản ghi được cập nhật
+                        return true;
+                    }
+                    catch (SQLiteException ex)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
 
         private void LoadUserData()
         {

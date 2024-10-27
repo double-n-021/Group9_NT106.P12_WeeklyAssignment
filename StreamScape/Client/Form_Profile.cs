@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,9 +17,13 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
-        public Form_Profile()
+        private string textconnect;
+        public Form_Profile(string username)
         {
             InitializeComponent();
+            lbUsername.Text = username;
+            lbUsernameofDetails.Text = username;
+            textconnect = lbUsername.Text;
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -39,7 +44,7 @@ namespace Client
         private void btSetting_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Setting formSetting = new Form_Setting();
+            Form_Setting formSetting = new Form_Setting(textconnect);
             formSetting.Show();
             formSetting.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -82,7 +87,7 @@ namespace Client
         private void btHome_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Home formHome = new Form_Home();
+            Form_Home formHome = new Form_Home(textconnect);
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -124,7 +129,38 @@ namespace Client
 
         private void btSave_Click(object sender, EventArgs e)
         {
-            //Hide
+            string newusername = tbUsername.Text;
+            string oldusername = lbUsername.Text;
+            // Kiểm tra dữ liệu nhập
+            if (string.IsNullOrWhiteSpace(newusername))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
+                return;
+            }
+
+            // Tạo kết nối TCP đến server
+            using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+            using (NetworkStream stream = client.GetStream())
+            using (StreamWriter writer = new StreamWriter(stream) { AutoFlush = true }) // Đặt AutoFlush
+            {
+                // Gửi yêu cầu đăng nhập đến server
+                writer.WriteLine("changeusername");
+                writer.WriteLine(newusername);
+                writer.WriteLine(oldusername);
+
+                // Đọc phản hồi từ server
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string response = reader.ReadLine();
+                    MessageBox.Show(response);
+                    if (response == "Đổi tên thành công!")
+                    {
+                        lbUsername.Text = newusername;
+                        lbUsernameofDetails.Text = newusername;
+                        textconnect = newusername;
+                    }    
+                }
+            }
             pbBackgroundProfiledetails.Visible = false;
             tbChangepassword.Visible = false;
             tbUsername.Visible = false;
@@ -139,6 +175,40 @@ namespace Client
             pbAvatar.Visible = true;
             btShowall.Visible = true;
             btEditProfile.Visible = true;
+
+            //Reset text trong 2 textbox changepass vs changeusername sau khi đã nhập thông tin vào
+            tbChangepassword.Text = "";
+            tbUsername.Text = "";
+        }
+
+        private void btAccept_Click(object sender, EventArgs e)
+        {
+            string password = tbChangepassword.Text;
+            string username = lbUsername.Text;
+            // Kiểm tra dữ liệu nhập
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
+                return;
+            }
+
+            // Tạo kết nối TCP đến server
+            using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+            using (NetworkStream stream = client.GetStream())
+            using (StreamWriter writer = new StreamWriter(stream) { AutoFlush = true }) // Đặt AutoFlush
+            {
+                // Gửi yêu cầu đăng nhập đến server
+                writer.WriteLine("changepassword");
+                writer.WriteLine(username);
+                writer.WriteLine(password);
+
+                // Đọc phản hồi từ server
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string response = reader.ReadLine();
+                    MessageBox.Show(response);
+                }
+            }
         }
     }
 }

@@ -302,10 +302,10 @@
             this.pbAvatar.Image = ((System.Drawing.Image)(resources.GetObject("pbAvatar.Image")));
             this.pbAvatar.ImageRotate = 0F;
             this.pbAvatar.InitialImage = null;
-            this.pbAvatar.Location = new System.Drawing.Point(601, 117);
+            this.pbAvatar.Location = new System.Drawing.Point(597, 117);
             this.pbAvatar.Name = "pbAvatar";
             this.pbAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbAvatar.Size = new System.Drawing.Size(101, 96);
+            this.pbAvatar.Size = new System.Drawing.Size(107, 96);
             this.pbAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAvatar.TabIndex = 22;
             this.pbAvatar.TabStop = false;
@@ -333,15 +333,15 @@
             // 
             // lbUsername
             // 
-            this.lbUsername.AutoSize = true;
             this.lbUsername.BackColor = System.Drawing.Color.Transparent;
             this.lbUsername.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lbUsername.ForeColor = System.Drawing.Color.White;
-            this.lbUsername.Location = new System.Drawing.Point(571, 63);
+            this.lbUsername.Location = new System.Drawing.Point(513, 63);
             this.lbUsername.Name = "lbUsername";
-            this.lbUsername.Size = new System.Drawing.Size(153, 37);
+            this.lbUsername.Size = new System.Drawing.Size(276, 37);
             this.lbUsername.TabIndex = 24;
-            this.lbUsername.Text = "user_name";
+            this.lbUsername.Text = "user_name12345";
+            this.lbUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btShowall
             // 
@@ -382,10 +382,10 @@
             this.pbAvatarofDetails.Image = ((System.Drawing.Image)(resources.GetObject("pbAvatarofDetails.Image")));
             this.pbAvatarofDetails.ImageRotate = 0F;
             this.pbAvatarofDetails.InitialImage = null;
-            this.pbAvatarofDetails.Location = new System.Drawing.Point(361, 209);
+            this.pbAvatarofDetails.Location = new System.Drawing.Point(359, 209);
             this.pbAvatarofDetails.Name = "pbAvatarofDetails";
             this.pbAvatarofDetails.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbAvatarofDetails.Size = new System.Drawing.Size(126, 122);
+            this.pbAvatarofDetails.Size = new System.Drawing.Size(132, 122);
             this.pbAvatarofDetails.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAvatarofDetails.TabIndex = 30;
             this.pbAvatarofDetails.TabStop = false;
@@ -409,7 +409,7 @@
             this.tbUsername.Font = new System.Drawing.Font("Segoe UI", 10.2F);
             this.tbUsername.ForeColor = System.Drawing.Color.White;
             this.tbUsername.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbUsername.Location = new System.Drawing.Point(250, 176);
+            this.tbUsername.Location = new System.Drawing.Point(258, 176);
             this.tbUsername.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.PasswordChar = '\0';
@@ -437,7 +437,7 @@
             this.tbChangepassword.Font = new System.Drawing.Font("Segoe UI", 10.2F);
             this.tbChangepassword.ForeColor = System.Drawing.Color.White;
             this.tbChangepassword.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbChangepassword.Location = new System.Drawing.Point(250, 265);
+            this.tbChangepassword.Location = new System.Drawing.Point(258, 265);
             this.tbChangepassword.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.tbChangepassword.Name = "tbChangepassword";
             this.tbChangepassword.PasswordChar = '\0';
@@ -488,18 +488,19 @@
             this.btAccept.Text = "Accept";
             this.btAccept.UseTransparentBackground = true;
             this.btAccept.Visible = false;
+            this.btAccept.Click += new System.EventHandler(this.btAccept_Click);
             // 
             // lbUsernameofDetails
             // 
-            this.lbUsernameofDetails.AutoSize = true;
             this.lbUsernameofDetails.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.lbUsernameofDetails.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.lbUsernameofDetails.ForeColor = System.Drawing.Color.White;
-            this.lbUsernameofDetails.Location = new System.Drawing.Point(358, 350);
+            this.lbUsernameofDetails.Location = new System.Drawing.Point(314, 350);
             this.lbUsernameofDetails.Name = "lbUsernameofDetails";
-            this.lbUsernameofDetails.Size = new System.Drawing.Size(136, 32);
+            this.lbUsernameofDetails.Size = new System.Drawing.Size(220, 32);
             this.lbUsernameofDetails.TabIndex = 35;
-            this.lbUsernameofDetails.Text = "user_name";
+            this.lbUsernameofDetails.Text = "user_name12345";
+            this.lbUsernameofDetails.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbUsernameofDetails.Visible = false;
             // 
             // btEditavatar
@@ -526,18 +527,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
+            this.Controls.Add(this.lbUsernameofDetails);
+            this.Controls.Add(this.lbUsername);
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.btMaximized);
             this.Controls.Add(this.btMinimized);
             this.Controls.Add(this.btEditavatar);
-            this.Controls.Add(this.lbUsernameofDetails);
             this.Controls.Add(this.btAccept);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.tbChangepassword);
             this.Controls.Add(this.tbUsername);
             this.Controls.Add(this.pbAvatarofDetails);
             this.Controls.Add(this.btShowall);
-            this.Controls.Add(this.lbUsername);
             this.Controls.Add(this.btEditProfile);
             this.Controls.Add(this.pbAvatar);
             this.Controls.Add(this.btJoin);
@@ -558,7 +559,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundProfiledetails)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAvatarofDetails)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

@@ -12,6 +12,7 @@ namespace Client
 {
     public partial class Form_Login : Form
     {
+        //3 biến này sử dụng cho chức năng panelHeader
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
@@ -26,6 +27,7 @@ namespace Client
 
         private void Form_Login_Load(object sender, EventArgs e)
         {
+            //tạo background trong suốt
             btExit.Parent = pbBackgroundlogin;
             btMaximized.Parent = pbBackgroundlogin;
             btMinimized.Parent = pbBackgroundlogin;
@@ -35,6 +37,7 @@ namespace Client
 
         private void btExit_Click(object sender, EventArgs e)
         {
+            //Đóng app
             var formsToClose = Application.OpenForms.Cast<Form>().ToList();
             foreach (var form in formsToClose)
             {
@@ -42,11 +45,13 @@ namespace Client
             }
         }
 
+        //Chức năng thu nhỏ cửa sổ xuống tab
         private void btMinimized_Click(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
         }
 
+        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -67,6 +72,7 @@ namespace Client
         {
             dragging = false;
         }
+        //Tới đây
 
         private void btLogin_Click(object sender, EventArgs e)
         {

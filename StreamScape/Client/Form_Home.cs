@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Client
 {
@@ -15,9 +16,12 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
-        public Form_Home()
+        private string textconnect;
+        public Form_Home(string username)
         {
             InitializeComponent();
+            lbUsername.Text = username;
+            textconnect = username;
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -49,7 +53,7 @@ namespace Client
         private void btSetting_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Setting formSetting = new Form_Setting();
+            Form_Setting formSetting = new Form_Setting(textconnect);
             formSetting.Show();
             formSetting.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -78,7 +82,7 @@ namespace Client
         private void btProfile_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Profile formProfile = new Form_Profile();
+            Form_Profile formProfile = new Form_Profile(textconnect);//
             formProfile.Show();
             formProfile.Location = new Point(this.Location.X, this.Location.Y);
         }
