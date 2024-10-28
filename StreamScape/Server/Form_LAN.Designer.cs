@@ -36,10 +36,22 @@
             this.tbExistingUser = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbUserAccount = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cbUserandAdd = new Guna.UI2.WinForms.Guna2ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.btAdd = new Guna.UI2.WinForms.Guna2Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbTitle = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tbDescription = new System.Windows.Forms.TextBox();
+            this.gbAdd = new System.Windows.Forms.GroupBox();
+            this.btUploadFile = new System.Windows.Forms.Button();
+            this.btPoster = new System.Windows.Forms.Button();
+            this.cbTag = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.OFD = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.gbAdd.SuspendLayout();
             this.SuspendLayout();
             // 
             // btStart
@@ -65,7 +77,7 @@
             this.btStop.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.btStop.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btStop.ForeColor = System.Drawing.Color.White;
-            this.btStop.Location = new System.Drawing.Point(54, 95);
+            this.btStop.Location = new System.Drawing.Point(54, 65);
             this.btStop.Name = "btStop";
             this.btStop.Size = new System.Drawing.Size(180, 45);
             this.btStop.TabIndex = 2;
@@ -80,15 +92,15 @@
             this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(54, 260);
+            this.guna2Button1.Location = new System.Drawing.Point(54, 305);
             this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(180, 92);
+            this.guna2Button1.Size = new System.Drawing.Size(180, 47);
             this.guna2Button1.TabIndex = 3;
             this.guna2Button1.Text = "Get Server\'s IP Address";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(54, 382);
+            this.textBox2.Location = new System.Drawing.Point(54, 358);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(180, 22);
             this.textBox2.TabIndex = 4;
@@ -125,48 +137,164 @@
             this.label2.TabIndex = 8;
             this.label2.Text = "Existing Users";
             // 
-            // cbUserAccount
+            // cbUserandAdd
             // 
-            this.cbUserAccount.BackColor = System.Drawing.Color.Transparent;
-            this.cbUserAccount.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbUserAccount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbUserAccount.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbUserAccount.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbUserAccount.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cbUserAccount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cbUserAccount.ItemHeight = 30;
-            this.cbUserAccount.Location = new System.Drawing.Point(257, 12);
-            this.cbUserAccount.Name = "cbUserAccount";
-            this.cbUserAccount.Size = new System.Drawing.Size(743, 36);
-            this.cbUserAccount.TabIndex = 9;
-            this.cbUserAccount.SelectedIndexChanged += new System.EventHandler(this.cbUserAccount_SelectedIndexChanged);
+            this.cbUserandAdd.BackColor = System.Drawing.Color.Transparent;
+            this.cbUserandAdd.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbUserandAdd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUserandAdd.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbUserandAdd.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbUserandAdd.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cbUserandAdd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cbUserandAdd.ItemHeight = 30;
+            this.cbUserandAdd.Items.AddRange(new object[] {
+            "User Accounts",
+            "Movies and Musics"});
+            this.cbUserandAdd.Location = new System.Drawing.Point(262, 12);
+            this.cbUserandAdd.Name = "cbUserandAdd";
+            this.cbUserandAdd.Size = new System.Drawing.Size(738, 36);
+            this.cbUserandAdd.TabIndex = 9;
+            this.cbUserandAdd.SelectedIndexChanged += new System.EventHandler(this.cbUserAccount_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(257, 65);
+            this.dataGridView1.Location = new System.Drawing.Point(262, 65);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(743, 174);
+            this.dataGridView1.Size = new System.Drawing.Size(738, 164);
             this.dataGridView1.TabIndex = 10;
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(257, 256);
+            this.richTextBox1.Location = new System.Drawing.Point(262, 235);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(743, 180);
+            this.richTextBox1.Size = new System.Drawing.Size(738, 145);
             this.richTextBox1.TabIndex = 11;
             this.richTextBox1.Text = "";
+            // 
+            // btAdd
+            // 
+            this.btAdd.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btAdd.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btAdd.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btAdd.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btAdd.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btAdd.ForeColor = System.Drawing.Color.White;
+            this.btAdd.Location = new System.Drawing.Point(52, 394);
+            this.btAdd.Name = "btAdd";
+            this.btAdd.Size = new System.Drawing.Size(84, 45);
+            this.btAdd.TabIndex = 12;
+            this.btAdd.Text = "Add";
+            this.btAdd.Visible = false;
+            this.btAdd.Click += new System.EventHandler(this.btAdd_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 16);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Title:";
+            // 
+            // tbTitle
+            // 
+            this.tbTitle.Location = new System.Drawing.Point(46, 19);
+            this.tbTitle.Name = "tbTitle";
+            this.tbTitle.Size = new System.Drawing.Size(133, 22);
+            this.tbTitle.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(185, 22);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 16);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Description:";
+            // 
+            // tbDescription
+            // 
+            this.tbDescription.Location = new System.Drawing.Point(269, 20);
+            this.tbDescription.Name = "tbDescription";
+            this.tbDescription.Size = new System.Drawing.Size(131, 22);
+            this.tbDescription.TabIndex = 16;
+            // 
+            // gbAdd
+            // 
+            this.gbAdd.Controls.Add(this.btUploadFile);
+            this.gbAdd.Controls.Add(this.btPoster);
+            this.gbAdd.Controls.Add(this.cbTag);
+            this.gbAdd.Controls.Add(this.label5);
+            this.gbAdd.Controls.Add(this.tbTitle);
+            this.gbAdd.Controls.Add(this.tbDescription);
+            this.gbAdd.Controls.Add(this.label3);
+            this.gbAdd.Controls.Add(this.label4);
+            this.gbAdd.Location = new System.Drawing.Point(142, 386);
+            this.gbAdd.Name = "gbAdd";
+            this.gbAdd.Size = new System.Drawing.Size(858, 53);
+            this.gbAdd.TabIndex = 17;
+            this.gbAdd.TabStop = false;
+            this.gbAdd.Text = "Add Movies and Music";
+            this.gbAdd.Visible = false;
+            // 
+            // btUploadFile
+            // 
+            this.btUploadFile.Location = new System.Drawing.Point(743, 15);
+            this.btUploadFile.Name = "btUploadFile";
+            this.btUploadFile.Size = new System.Drawing.Size(107, 29);
+            this.btUploadFile.TabIndex = 20;
+            this.btUploadFile.Text = "Upload File";
+            this.btUploadFile.UseVisualStyleBackColor = true;
+            this.btUploadFile.Click += new System.EventHandler(this.btUploadFile_Click);
+            // 
+            // btPoster
+            // 
+            this.btPoster.Location = new System.Drawing.Point(573, 15);
+            this.btPoster.Name = "btPoster";
+            this.btPoster.Size = new System.Drawing.Size(164, 29);
+            this.btPoster.TabIndex = 19;
+            this.btPoster.Text = "Upload Poster";
+            this.btPoster.UseVisualStyleBackColor = true;
+            this.btPoster.Click += new System.EventHandler(this.btPoster_Click);
+            // 
+            // cbTag
+            // 
+            this.cbTag.FormattingEnabled = true;
+            this.cbTag.Items.AddRange(new object[] {
+            "Movie",
+            "Music"});
+            this.cbTag.Location = new System.Drawing.Point(446, 18);
+            this.cbTag.Name = "cbTag";
+            this.cbTag.Size = new System.Drawing.Size(121, 24);
+            this.cbTag.TabIndex = 18;
+            this.cbTag.SelectedIndexChanged += new System.EventHandler(this.cbTag_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(405, 23);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 16);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Tag:";
+            // 
+            // OFD
+            // 
+            this.OFD.FileName = "Open File";
             // 
             // Form_LAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 503);
+            this.Controls.Add(this.gbAdd);
+            this.Controls.Add(this.btAdd);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.cbUserAccount);
+            this.Controls.Add(this.cbUserandAdd);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbExistingUser);
@@ -179,6 +307,8 @@
             this.Text = "Server";
             this.Load += new System.EventHandler(this.Form_LAN_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.gbAdd.ResumeLayout(false);
+            this.gbAdd.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,8 +323,19 @@
         private System.Windows.Forms.TextBox tbExistingUser;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private Guna.UI2.WinForms.Guna2ComboBox cbUserAccount;
+        private Guna.UI2.WinForms.Guna2ComboBox cbUserandAdd;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private Guna.UI2.WinForms.Guna2Button btAdd;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbTitle;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tbDescription;
+        private System.Windows.Forms.GroupBox gbAdd;
+        private System.Windows.Forms.ComboBox cbTag;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btPoster;
+        private System.Windows.Forms.Button btUploadFile;
+        private System.Windows.Forms.OpenFileDialog OFD;
     }
 }

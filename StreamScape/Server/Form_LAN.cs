@@ -32,22 +32,44 @@ namespace Server
 
         private void Form_LAN_Load(object sender, EventArgs e)
         {
-            //Đổ dữ liệu từ DB vào form
-            SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password, Avatar FROM Users", connection);
-            var table = new DataTable();
-            dap.Fill(table);
-            cbUserAccount.DataSource = table;
+            cbUserandAdd.SelectedIndex = 0;
         }
 
         private void cbUserAccount_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Đổ dữ liệu từ DB vào form
-            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password, Avatar FROM Users", connection);
-            var table = new DataTable();
-            dap.Fill(table);
-            dataGridView1.DataSource = table;
+            string selected = cbUserandAdd.SelectedItem.ToString();
+            string query = "";
+
+            // Kiểm tra lựa chọn và xác định truy vấn SQL tương ứng
+            if (selected == "User Accounts")
+            {
+                btAdd.Visible = false;
+                gbAdd.Visible = false;
+                query = "SELECT Username, Emailphone, Password, Avatar FROM Users"; // Truy vấn từ bảng Account
+            }
+            else if (selected == "Movies and Musics")
+            {
+                btAdd.Visible = true;
+                gbAdd.Visible = true;
+                query = "SELECT ID, Title, Description, Tag FROM MoviesNMusics"; // Truy vấn từ bảng MoviesNMusics
+            }
+
+            // Thực hiện truy vấn SQL và đổ dữ liệu vào DataGridView
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                try
+                {
+                    connection.Open();
+                    SQLiteDataAdapter dap = new SQLiteDataAdapter(query, connection);
+                    DataTable table = new DataTable();
+                    dap.Fill(table);
+                    dataGridView1.DataSource = table;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
         }
 
 
@@ -55,7 +77,7 @@ namespace Server
         {
             try
             {
-                server = new TcpListener(IPAddress.Any, 5000); 
+                server = new TcpListener(IPAddress.Any, 5000);
                 server.Start();
                 isRunning = true;
                 while (isRunning)
@@ -111,7 +133,7 @@ namespace Server
 
                         bool registerSuccess = RegisterUser(username, password, emailphone);
                         writer.Write(registerSuccess ? "Đăng ký thành công!" : "Đăng ký thất bại. Tài khoản đã tồn tại.");
-                        if (registerSuccess) { UpdateDataGridView(); }
+                        if (registerSuccess) { LoadUserData(); }
                     }
                     else if (requestType == "login")
                     {
@@ -128,7 +150,7 @@ namespace Server
 
                         bool changeUsernameSuccess = ChangeUsername(newusername, oldusername);
                         writer.Write(changeUsernameSuccess ? "Đổi tên thành công!" : "Đổi tên thất bại.");
-                        if (changeUsernameSuccess) { UpdateDataGridView(); }
+                        if (changeUsernameSuccess) { LoadUserData(); }
                     }
                     else if (requestType == "changepassword")
                     {
@@ -137,7 +159,7 @@ namespace Server
 
                         bool changePasswordSuccess = ChangePassword(username, password);
                         writer.Write(changePasswordSuccess ? "Đổi mật khẩu thành công!" : "Đổi mật khẩu thất bại.");
-                        if (changePasswordSuccess) { UpdateDataGridView(); }
+                        if (changePasswordSuccess) { LoadUserData(); }
                     }
                     else if (requestType == "changeavatar")
                     {
@@ -248,7 +270,7 @@ namespace Server
                     }
                     catch (SQLiteException ex)
                     {
-                       return false;
+                        return false;
                     }
                 }
             }
@@ -294,7 +316,7 @@ namespace Server
                     {
                         command.Parameters.AddWithValue("@avatar", imageData);
                         command.Parameters.AddWithValue("@username", username);
-                        
+
                         int rowsAffected = command.ExecuteNonQuery();
                         LoadUserData();
                         return true;
@@ -310,23 +332,23 @@ namespace Server
         //Truy vấn ảnh đại diện từ DB
         private byte[] GetAvatarFromDB(string username)
         {
-                using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT Avatar FROM Users WHERE Username = @username";
+                using (var command = new SQLiteCommand(query, connection))
                 {
-                    connection.Open();
-                    string query = "SELECT Avatar FROM Users WHERE Username = @username";
-                    using (var command = new SQLiteCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@username", username);
 
-                        object result = command.ExecuteScalar();
-                        int rowsAffected = command.ExecuteNonQuery();
-                        // Kiểm tra kết quả và chuyển đổi sang mảng byte
-                        if (result != DBNull.Value && result != null)
-                        {
-                            return (byte[])result;
-                        }
+                    object result = command.ExecuteScalar();
+                    int rowsAffected = command.ExecuteNonQuery();
+                    // Kiểm tra kết quả và chuyển đổi sang mảng byte
+                    if (result != DBNull.Value && result != null)
+                    {
+                        return (byte[])result;
                     }
                 }
+            }
             return null;
         }
 
@@ -342,10 +364,6 @@ namespace Server
             Action updateAction = () =>
             {
                 dataGridView1.DataSource = table;
-                dataGridView1.Columns["Username"].HeaderText = "Username";
-                dataGridView1.Columns["Emailphone"].HeaderText = "EmailPhone";
-                dataGridView1.Columns["Password"].HeaderText = "Password";
-                dataGridView1.Columns["Avatar"].HeaderText = "Avatar";
             };
 
             if (dataGridView1.InvokeRequired)
@@ -355,22 +373,6 @@ namespace Server
             else
             {
                 updateAction();
-            }
-        }
-
-
-        private void UpdateDataGridView()
-        {
-            // Kiểm tra nếu cần gọi Invoke để cập nhật từ UI thread
-            if (dataGridView1.InvokeRequired)
-            {
-                // Sử dụng Invoke để gọi lại từ UI thread
-                dataGridView1.Invoke(new Action(UpdateDataGridView));
-            }
-            else
-            {
-                // Hàm cập nhật dữ liệu DataGridView
-                LoadUserData();
             }
         }
 
@@ -403,6 +405,117 @@ namespace Server
             {
                 MessageBox.Show("Server không hoạt động.");
             }
+        }
+
+        byte[] posterBytes;
+        private void btPoster_Click(object sender, EventArgs e)
+        {
+            OFD.Filter = "Image Files (*.png;*.jpg)|*.png;*.jpg";
+            DialogResult ofd = OFD.ShowDialog();
+            if (ofd == DialogResult.OK)
+            {
+                try
+                {
+                    // Chuyển đổi ảnh thành mảng byte
+                    using (FileStream fs = new FileStream(OFD.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        using (BinaryReader br = new BinaryReader(fs))
+                        {
+                            posterBytes = br.ReadBytes((int)fs.Length);
+                        }
+                    }
+                    MessageBox.Show("Đã upload poster thành công");
+                }
+                catch (Exception ex) { }
+
+            }
+        }
+
+        byte[] fileBytes;
+        private void btUploadFile_Click(object sender, EventArgs e)
+        {
+            OFD.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
+            DialogResult ofd = OFD.ShowDialog();
+            if (ofd == DialogResult.OK)
+            {
+                try
+                {
+                    // Chuyển đổi ảnh thành mảng byte
+                    using (FileStream fs = new FileStream(OFD.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        using (BinaryReader br = new BinaryReader(fs))
+                        {
+                            fileBytes = br.ReadBytes((int)fs.Length);
+                        }
+                    }
+                    MessageBox.Show("Đã upload file đính kèm thành công");
+                }
+                catch (Exception ex) { }
+            }
+        }
+
+        string tagname = "";
+        private void cbTag_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selected = cbTag.SelectedItem.ToString();
+            if (selected == "Movie")
+                tagname = "Movie";
+            else if (selected == "Music")
+                tagname = "Music";
+        }
+
+        private void btAdd_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbTitle.Text) || string.IsNullOrEmpty(tbDescription.Text) || string.IsNullOrEmpty(tagname) || posterBytes == null || fileBytes == null)
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin của file cần thêm");
+                return;
+            }
+
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+                {
+                    connection.Open();
+                    string query = "INSERT INTO MoviesNMusics (Title, Description, Tag, Poster, FileData) VALUES (@Title, @Description, @Tag, @Poster, @FileData)";
+                    using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Title", tbTitle.Text);
+                        command.Parameters.AddWithValue("@Description", tbDescription.Text);
+                        command.Parameters.AddWithValue("@Tag", tagname);
+                        command.Parameters.AddWithValue("@Poster", posterBytes);
+                        command.Parameters.AddWithValue("@FileData", fileBytes);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Đã thêm thành công!");
+                LoadFileData();
+            }
+            catch (Exception ex) { MessageBox.Show("Lỗi khi thêm dữ liệu: " + ex.Message); }
+        }
+
+        private void LoadFileData()
+        {
+            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            var dap = new SQLiteDataAdapter("SELECT ID, Title, Description, Tag FROM MoviesNMusics", connection);
+            var table = new DataTable();
+            dap.Fill(table); // Đổ dữ liệu vào table
+            Action updateAction = () =>
+            {
+                dataGridView1.DataSource = table;
+            };
+
+            if (dataGridView1.InvokeRequired)
+            {
+                dataGridView1.Invoke(updateAction);
+            }
+            else
+            {
+                updateAction();
+            }
+
         }
     }
 }
