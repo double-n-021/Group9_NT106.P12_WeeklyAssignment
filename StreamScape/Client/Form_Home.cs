@@ -50,6 +50,7 @@ namespace Client
             public byte[] Poster { get; set; }
         }
 
+        List<MovieNMusic> movieandmusic;
         public void LoadDataFromServer()
         {
             try
@@ -61,7 +62,7 @@ namespace Client
                 {
                     writer.Write("getdata");
                     // Đọc dữ liệu từ server
-                    List<MovieNMusic> movieandmusic = ReceiveMoviesFromServer(stream);
+                    movieandmusic = ReceiveMoviesFromServer(stream);
 
                     // Phân loại dữ liệu và hiển thị trên client form
                     DisplayData(movieandmusic);
@@ -111,6 +112,28 @@ namespace Client
             }
             return movieandmusic;
         }
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+            searchResult.Visible = true;
+            // Kiểm tra từ khóa tìm kiếm có trống hay không
+            if (string.IsNullOrEmpty(tbSearch.Text))
+            {
+                return;
+            }
+            else
+            {
+                // Lọc danh sách dựa trên từ khóa tìm kiếm (không phân biệt chữ hoa chữ thường)
+                var filteredList = movieandmusic
+                    .Where(m => m.Title.IndexOf(tbSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .Select(m => new { Title = m.Title })
+                    .ToList();
+
+                // Cập nhật DataSource của DataGridView với danh sách đã lọc
+                searchResult.DataSource = filteredList;
+            }
+        }
+
 
         List<MovieNMusic> movieList = new List<MovieNMusic>();
         List<MovieNMusic> musicList = new List<MovieNMusic>();
@@ -378,6 +401,34 @@ namespace Client
             Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[5]);
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
+        }
+
+        private void searchResult_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Kiểm tra xem chỉ số hàng có hợp lệ không
+            if (e.RowIndex >= 0)
+            {
+                // Lấy hàng được chọn
+                DataGridViewRow selectedRow = searchResult.Rows[e.RowIndex];
+
+                // Lấy giá trị của cột "Title" từ hàng được chọn
+                string title = selectedRow.Cells["Title"].Value.ToString();
+                this.Close();
+                Form_room formRoom = new Form_room(textconnect, Avatarconnect, title);
+                formRoom.Show();
+                formRoom.Location = new Point(this.Location.X, this.Location.Y);
+
+            }
+        }
+
+        private void pbBackgroundHome_MouseEnter(object sender, EventArgs e)
+        {
+            searchResult.Visible = false;
+        }
+
+        private void tbSearch_MouseEnter(object sender, EventArgs e)
+        {
+            searchResult.Visible = true;
         }
     }
 }
