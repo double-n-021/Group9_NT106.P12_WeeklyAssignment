@@ -193,6 +193,7 @@
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.pbBackgroundJoin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_Join";
             this.Text = "Form_Join";
             this.Load += new System.EventHandler(this.Form_Join_Load);

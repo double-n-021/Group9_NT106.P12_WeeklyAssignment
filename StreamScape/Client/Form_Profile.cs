@@ -134,7 +134,6 @@ namespace Client
             //Hide
             lbUsername.Visible = false;
             pbAvatar.Visible = false;
-            btShowall.Visible = false;
             btEditProfile.Visible = false;
 
             //Show
@@ -213,7 +212,6 @@ namespace Client
             //Show
             lbUsername.Visible = true;
             pbAvatar.Visible = true;
-            btShowall.Visible = true;
             btEditProfile.Visible = true;
 
             //Reset text trong 2 textbox changepass vs changeusername sau khi đã nhập thông tin vào

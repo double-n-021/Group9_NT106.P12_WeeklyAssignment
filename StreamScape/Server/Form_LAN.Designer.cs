@@ -60,9 +60,10 @@
             this.btStart.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btStart.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btStart.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btStart.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btStart.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btStart.ForeColor = System.Drawing.Color.White;
-            this.btStart.Location = new System.Drawing.Point(54, 12);
+            this.btStart.ForeColor = System.Drawing.Color.Black;
+            this.btStart.Location = new System.Drawing.Point(11, 15);
             this.btStart.Name = "btStart";
             this.btStart.Size = new System.Drawing.Size(180, 45);
             this.btStart.TabIndex = 1;
@@ -75,9 +76,10 @@
             this.btStop.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btStop.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btStop.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btStop.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btStop.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btStop.ForeColor = System.Drawing.Color.White;
-            this.btStop.Location = new System.Drawing.Point(54, 65);
+            this.btStop.ForeColor = System.Drawing.Color.Black;
+            this.btStop.Location = new System.Drawing.Point(11, 68);
             this.btStop.Name = "btStop";
             this.btStop.Size = new System.Drawing.Size(180, 45);
             this.btStop.TabIndex = 2;
@@ -90,9 +92,10 @@
             this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(54, 305);
+            this.guna2Button1.ForeColor = System.Drawing.Color.Black;
+            this.guna2Button1.Location = new System.Drawing.Point(11, 308);
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(180, 47);
             this.guna2Button1.TabIndex = 3;
@@ -100,21 +103,21 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(54, 358);
+            this.textBox2.Location = new System.Drawing.Point(11, 361);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(180, 22);
             this.textBox2.TabIndex = 4;
             // 
             // tbAvailableRoom
             // 
-            this.tbAvailableRoom.Location = new System.Drawing.Point(423, 459);
+            this.tbAvailableRoom.Location = new System.Drawing.Point(380, 462);
             this.tbAvailableRoom.Name = "tbAvailableRoom";
             this.tbAvailableRoom.Size = new System.Drawing.Size(100, 22);
             this.tbAvailableRoom.TabIndex = 5;
             // 
             // tbExistingUser
             // 
-            this.tbExistingUser.Location = new System.Drawing.Point(759, 459);
+            this.tbExistingUser.Location = new System.Drawing.Point(716, 462);
             this.tbExistingUser.Name = "tbExistingUser";
             this.tbExistingUser.Size = new System.Drawing.Size(100, 22);
             this.tbExistingUser.TabIndex = 6;
@@ -122,7 +125,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(298, 465);
+            this.label1.Location = new System.Drawing.Point(255, 468);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(111, 16);
             this.label1.TabIndex = 7;
@@ -131,7 +134,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(630, 465);
+            this.label2.Location = new System.Drawing.Point(587, 468);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(92, 16);
             this.label2.TabIndex = 8;
@@ -150,7 +153,7 @@
             this.cbUserandAdd.Items.AddRange(new object[] {
             "User Accounts",
             "Movies and Musics"});
-            this.cbUserandAdd.Location = new System.Drawing.Point(262, 12);
+            this.cbUserandAdd.Location = new System.Drawing.Point(219, 15);
             this.cbUserandAdd.Name = "cbUserandAdd";
             this.cbUserandAdd.Size = new System.Drawing.Size(738, 36);
             this.cbUserandAdd.TabIndex = 9;
@@ -159,7 +162,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(262, 65);
+            this.dataGridView1.Location = new System.Drawing.Point(219, 68);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -168,7 +171,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(262, 235);
+            this.richTextBox1.Location = new System.Drawing.Point(219, 238);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(738, 145);
             this.richTextBox1.TabIndex = 11;
@@ -180,9 +183,10 @@
             this.btAdd.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btAdd.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btAdd.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btAdd.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btAdd.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btAdd.ForeColor = System.Drawing.Color.White;
-            this.btAdd.Location = new System.Drawing.Point(52, 394);
+            this.btAdd.ForeColor = System.Drawing.Color.Black;
+            this.btAdd.Location = new System.Drawing.Point(9, 397);
             this.btAdd.Name = "btAdd";
             this.btAdd.Size = new System.Drawing.Size(84, 45);
             this.btAdd.TabIndex = 12;
@@ -232,7 +236,7 @@
             this.gbAdd.Controls.Add(this.tbDescription);
             this.gbAdd.Controls.Add(this.label3);
             this.gbAdd.Controls.Add(this.label4);
-            this.gbAdd.Location = new System.Drawing.Point(142, 386);
+            this.gbAdd.Location = new System.Drawing.Point(99, 389);
             this.gbAdd.Name = "gbAdd";
             this.gbAdd.Size = new System.Drawing.Size(858, 53);
             this.gbAdd.TabIndex = 17;
@@ -289,7 +293,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1012, 503);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(967, 503);
             this.Controls.Add(this.gbAdd);
             this.Controls.Add(this.btAdd);
             this.Controls.Add(this.richTextBox1);
@@ -303,6 +308,7 @@
             this.Controls.Add(this.guna2Button1);
             this.Controls.Add(this.btStop);
             this.Controls.Add(this.btStart);
+            this.ForeColor = System.Drawing.Color.Black;
             this.Name = "Form_LAN";
             this.Text = "Server";
             this.Load += new System.EventHandler(this.Form_LAN_Load);

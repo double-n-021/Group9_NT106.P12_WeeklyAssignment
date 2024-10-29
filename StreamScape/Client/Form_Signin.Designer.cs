@@ -221,6 +221,7 @@
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.pbBackgroundSignin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_Signin";
             this.Text = "Form_Signin";
             this.Load += new System.EventHandler(this.Form_Signin_Load);

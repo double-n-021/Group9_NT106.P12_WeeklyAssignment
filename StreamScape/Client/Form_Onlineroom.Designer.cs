@@ -60,9 +60,9 @@
             this.btBackTime = new Guna.UI2.WinForms.Guna2Button();
             this.btFowardTime = new Guna.UI2.WinForms.Guna2Button();
             this.tbSearch = new Guna.UI2.WinForms.Guna2TextBox();
+            this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
             this.pnHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFirstavatar)).BeginInit();
@@ -675,14 +675,6 @@
             this.tbSearch.TextOffset = new System.Drawing.Point(25, 0);
             this.tbSearch.Visible = false;
             // 
-            // OFD
-            // 
-            this.OFD.FileName = "Open File";
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // Videoplayer
             // 
             this.Videoplayer.Enabled = true;
@@ -691,6 +683,14 @@
             this.Videoplayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Videoplayer.OcxState")));
             this.Videoplayer.Size = new System.Drawing.Size(616, 395);
             this.Videoplayer.TabIndex = 32;
+            // 
+            // OFD
+            // 
+            this.OFD.FileName = "Open File";
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form_Onlineroom
             // 
@@ -713,6 +713,7 @@
             this.Controls.Add(this.pnHeader);
             this.Controls.Add(this.pbBackgroundONLR);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_Onlineroom";
             this.Text = "Form_Onlineroom";
             this.Load += new System.EventHandler(this.Form_Onlineroom_Load);

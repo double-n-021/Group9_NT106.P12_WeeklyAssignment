@@ -500,6 +500,7 @@
             this.Controls.Add(this.pnHeader);
             this.Controls.Add(this.pbBackgroundOFFR);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_room";
             this.Text = "Form_Offlineroom";
             this.Load += new System.EventHandler(this.Form_Offlineroom_Load);

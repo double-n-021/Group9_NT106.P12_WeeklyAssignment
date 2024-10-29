@@ -31,8 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Profile));
             this.pbBackgroundProfile = new System.Windows.Forms.PictureBox();
             this.pnHeader = new System.Windows.Forms.Panel();
-            this.btSearch = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
             this.btMinimized = new Guna.UI2.WinForms.Guna2Button();
             this.btMaximized = new Guna.UI2.WinForms.Guna2Button();
             this.btExit = new Guna.UI2.WinForms.Guna2Button();
@@ -44,7 +42,6 @@
             this.pbAvatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.btEditProfile = new Guna.UI2.WinForms.Guna2Button();
             this.lbUsername = new System.Windows.Forms.Label();
-            this.btShowall = new Guna.UI2.WinForms.Guna2Button();
             this.pbBackgroundProfiledetails = new System.Windows.Forms.PictureBox();
             this.pbAvatarofDetails = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.tbUsername = new Guna.UI2.WinForms.Guna2TextBox();
@@ -55,7 +52,6 @@
             this.btEditavatar = new Guna.UI2.WinForms.Guna2CircleButton();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundProfile)).BeginInit();
-            this.pnHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAvatar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundProfiledetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAvatarofDetails)).BeginInit();
@@ -76,57 +72,10 @@
             // pnHeader
             // 
             this.pnHeader.BackColor = System.Drawing.Color.Transparent;
-            this.pnHeader.Controls.Add(this.btSearch);
-            this.pnHeader.Controls.Add(this.guna2TextBox1);
             this.pnHeader.Location = new System.Drawing.Point(60, 0);
             this.pnHeader.Name = "pnHeader";
             this.pnHeader.Size = new System.Drawing.Size(798, 38);
             this.pnHeader.TabIndex = 17;
-            // 
-            // btSearch
-            // 
-            this.btSearch.BackColor = System.Drawing.Color.Black;
-            this.btSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btSearch.BackgroundImage")));
-            this.btSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btSearch.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btSearch.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btSearch.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btSearch.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btSearch.FillColor = System.Drawing.Color.Transparent;
-            this.btSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btSearch.ForeColor = System.Drawing.Color.White;
-            this.btSearch.Location = new System.Drawing.Point(258, 4);
-            this.btSearch.Name = "btSearch";
-            this.btSearch.Size = new System.Drawing.Size(25, 25);
-            this.btSearch.TabIndex = 13;
-            this.btSearch.Text = "guna2Button1";
-            // 
-            // guna2TextBox1
-            // 
-            this.guna2TextBox1.AutoRoundedCorners = true;
-            this.guna2TextBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.guna2TextBox1.BorderRadius = 15;
-            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox1.DefaultText = "";
-            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.FillColor = System.Drawing.Color.Black;
-            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Location = new System.Drawing.Point(245, 3);
-            this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.guna2TextBox1.Name = "guna2TextBox1";
-            this.guna2TextBox1.PasswordChar = '\0';
-            this.guna2TextBox1.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.guna2TextBox1.PlaceholderText = "What do you want to play?";
-            this.guna2TextBox1.SelectedText = "";
-            this.guna2TextBox1.Size = new System.Drawing.Size(452, 33);
-            this.guna2TextBox1.TabIndex = 13;
-            this.guna2TextBox1.TextOffset = new System.Drawing.Point(25, 0);
             // 
             // btMinimized
             // 
@@ -344,28 +293,6 @@
             this.lbUsername.Text = "user_name12345";
             this.lbUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btShowall
-            // 
-            this.btShowall.AutoRoundedCorners = true;
-            this.btShowall.BackColor = System.Drawing.Color.Transparent;
-            this.btShowall.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.btShowall.BorderRadius = 21;
-            this.btShowall.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btShowall.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btShowall.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btShowall.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btShowall.FillColor = System.Drawing.Color.Transparent;
-            this.btShowall.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold);
-            this.btShowall.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.btShowall.Location = new System.Drawing.Point(921, 296);
-            this.btShowall.Name = "btShowall";
-            this.btShowall.PressedColor = System.Drawing.Color.White;
-            this.btShowall.Size = new System.Drawing.Size(96, 44);
-            this.btShowall.TabIndex = 28;
-            this.btShowall.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.btShowall.TextOffset = new System.Drawing.Point(37, 0);
-            this.btShowall.UseTransparentBackground = true;
-            // 
             // pbBackgroundProfiledetails
             // 
             this.pbBackgroundProfiledetails.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundProfiledetails.Image")));
@@ -544,7 +471,6 @@
             this.Controls.Add(this.tbChangepassword);
             this.Controls.Add(this.tbUsername);
             this.Controls.Add(this.pbAvatarofDetails);
-            this.Controls.Add(this.btShowall);
             this.Controls.Add(this.btEditProfile);
             this.Controls.Add(this.pbAvatar);
             this.Controls.Add(this.btJoin);
@@ -556,11 +482,11 @@
             this.Controls.Add(this.pbBackgroundProfiledetails);
             this.Controls.Add(this.pbBackgroundProfile);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_Profile";
             this.Text = "Form_Profile";
             this.Load += new System.EventHandler(this.Form_Profile_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundProfile)).EndInit();
-            this.pnHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbAvatar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundProfiledetails)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAvatarofDetails)).EndInit();
@@ -572,8 +498,6 @@
 
         private System.Windows.Forms.PictureBox pbBackgroundProfile;
         private System.Windows.Forms.Panel pnHeader;
-        private Guna.UI2.WinForms.Guna2Button btSearch;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
         private Guna.UI2.WinForms.Guna2Button btMinimized;
         private Guna.UI2.WinForms.Guna2Button btMaximized;
         private Guna.UI2.WinForms.Guna2Button btExit;
@@ -585,7 +509,6 @@
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAvatar;
         private Guna.UI2.WinForms.Guna2Button btEditProfile;
         private System.Windows.Forms.Label lbUsername;
-        private Guna.UI2.WinForms.Guna2Button btShowall;
         private System.Windows.Forms.PictureBox pbBackgroundProfiledetails;
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAvatarofDetails;
         private Guna.UI2.WinForms.Guna2TextBox tbUsername;

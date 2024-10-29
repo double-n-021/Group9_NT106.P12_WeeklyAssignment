@@ -728,6 +728,7 @@
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.pbBackgroundHome);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_Home";
             this.Text = "Form_Home";
             this.Load += new System.EventHandler(this.Form_Home_Load);

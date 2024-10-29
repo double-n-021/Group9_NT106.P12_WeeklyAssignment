@@ -194,6 +194,7 @@
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.pbBackgroundCreate);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_Create";
             this.Text = "Form_Create";
             this.Load += new System.EventHandler(this.Form_Create_Load);

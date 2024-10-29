@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.Security.Policy;
 
 namespace Client
 {
@@ -129,6 +131,20 @@ namespace Client
             Form_Login formLogin = new Form_Login();
             formLogin.Show();
             formLogin.Location = new Point(this.Location.X, this.Location.Y);
+        }
+
+        private void btLowG_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Đường dẫn đến trình duyệt Chrome, điều chỉnh nếu cần thiết
+                string chromePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe";
+                Process.Start(chromePath, "https://github.com/double-n-021/Group9_NT106.P12_Project-and-Assignment");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error opening Chrome: " + ex.Message);
+            }
         }
     }
 }
