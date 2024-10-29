@@ -12,7 +12,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Threading;
 using System.Data.SqlClient;
-using System.Data.SQLite; // Cần thư viện SQLite
+using System.Data.SQLite;
 using System.Security.Cryptography;
 using Azure.Core;
 using System.Runtime.InteropServices.ComTypes;
@@ -51,7 +51,7 @@ namespace Server
             {
                 btAdd.Visible = true;
                 gbAdd.Visible = true;
-                query = "SELECT ID, Title, Description, Tag FROM MoviesNMusics"; // Truy vấn từ bảng MoviesNMusics
+                query = "SELECT ID, Title, Description, Tag, Poster FROM MoviesNMusics"; // Truy vấn từ bảng MoviesNMusics
             }
 
             // Thực hiện truy vấn SQL và đổ dữ liệu vào DataGridView
@@ -115,6 +115,7 @@ namespace Server
             }
         }
 
+        string tag = "";
         private void HandleClient(TcpClient client)
         {
             using (NetworkStream stream = client.GetStream())
@@ -182,6 +183,30 @@ namespace Server
                             writer.Write("Có dữ liệu ảnh");
                             writer.Write(sendAvatar.Length);
                             writer.Write(sendAvatar);
+                        }
+                    }
+                    else if (requestType == "getdata")
+                    {
+                        List<MovieNMusic> movieandmusic = GetMoviesNMusicsFromDB();
+                        byte[] data = SerializeMovieNMusic(movieandmusic);
+                        stream.Write(data, 0, data.Length);
+                    }
+                    else if (requestType == "getfile")
+                    {
+                        string titleofFile = reader.ReadString();
+                        byte[] sendFile = GetFileFromDB(titleofFile);
+                        if (sendFile != null)
+                        {
+                            if (tag == "Movie")
+                                writer.Write(".mp3");
+                            else
+                                writer.Write(".mp4");
+                            writer.Write(sendFile.Length);
+                            writer.Write(sendFile);
+                        }
+                        else
+                        {
+                            writer.Write(0); // Nếu không tìm thấy tệp, gửi độ dài là 0
                         }
                     }
                 }
@@ -434,13 +459,13 @@ namespace Server
         byte[] fileBytes;
         private void btUploadFile_Click(object sender, EventArgs e)
         {
-            OFD.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
+            OFD.Filter = "Media Files (*.mp3;*.mp4)|*.mp3;*.mp4";
             DialogResult ofd = OFD.ShowDialog();
             if (ofd == DialogResult.OK)
             {
                 try
                 {
-                    // Chuyển đổi ảnh thành mảng byte
+                    // Chuyển đổi file mp3 và mp4 và wav thành mảng byte
                     using (FileStream fs = new FileStream(OFD.FileName, FileMode.Open, FileAccess.Read))
                     {
                         using (BinaryReader br = new BinaryReader(fs))
@@ -492,6 +517,8 @@ namespace Server
 
                 MessageBox.Show("Đã thêm thành công!");
                 LoadFileData();
+                tbTitle.Clear();
+                tbDescription.Clear();
             }
             catch (Exception ex) { MessageBox.Show("Lỗi khi thêm dữ liệu: " + ex.Message); }
         }
@@ -499,7 +526,7 @@ namespace Server
         private void LoadFileData()
         {
             var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT ID, Title, Description, Tag FROM MoviesNMusics", connection);
+            var dap = new SQLiteDataAdapter("SELECT ID, Title, Description, Tag, Poster FROM MoviesNMusics", connection);
             var table = new DataTable();
             dap.Fill(table); // Đổ dữ liệu vào table
             Action updateAction = () =>
@@ -516,6 +543,89 @@ namespace Server
                 updateAction();
             }
 
+        }
+        public class MovieNMusic
+        {
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string Tag {  get; set; }
+            public byte[] Poster { get; set; }
+        }
+
+        private List<MovieNMusic> GetMoviesNMusicsFromDB()
+        {
+            // Lấy dữ liệu từ DataGridView và chuyển thành danh sách MovieNMusic
+            List<MovieNMusic> movieandmusic = new List<MovieNMusic>();
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT Title, Description, Tag, Poster FROM MoviesNMusics";
+
+                using (var command = new SQLiteCommand(query, connection))
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        movieandmusic.Add(new MovieNMusic
+                        {
+                            // Lấy dữ liệu từ cơ sở dữ liệu
+                            Title = reader["Title"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            Tag = reader["Tag"].ToString(),
+                            Poster = reader["Poster"] as byte[]
+                        });
+                    }
+                }
+            }
+            return movieandmusic;
+        }
+
+        public byte[] SerializeMovieNMusic(List<MovieNMusic> movieandmusic)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (BinaryWriter writer = new BinaryWriter(ms))
+                {
+                    writer.Write(movieandmusic.Count);
+                    foreach (var movie in movieandmusic)
+                    {
+                        writer.Write(movie.Title);
+                        writer.Write(movie.Description);
+                        writer.Write(movie.Tag);
+                        writer.Write(movie.Poster.Length);
+                        writer.Write(movie.Poster); // ghi byte array
+                    }
+                }
+                return ms.ToArray();
+            }
+        }
+
+        private byte[] GetFileFromDB(string titleofFile)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT FileData FROM MoviesNMusics WHERE Title = @title";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@title", titleofFile);
+
+                    object result = command.ExecuteScalar();
+                    // Kiểm tra kết quả và chuyển đổi sang mảng byte
+                    if (result != DBNull.Value && result != null)
+                    {
+                        return (byte[])result;
+                    }
+                }
+                query = "SELECT Tag FROM MoviesNMusics WHERE Title = @title";
+                using (var command = new SQLiteCommand(query, connection))
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                { 
+                    command.Parameters.AddWithValue("@title", titleofFile);
+                    tag = reader["Tag"].ToString();
+                }
+            }
+            return null;
         }
     }
 }

@@ -9,11 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Text.Json;
+using System.Net.Sockets;
 
 namespace Client
 {
     public partial class Form_Home : Form
     {
+        private string[] titleofFile = { "", "", "", "", "", "" };
         //3 biến này sử dụng cho chức năng panelHeader
         private bool dragging = false;
         private Point dragCursor;
@@ -23,6 +26,7 @@ namespace Client
         public Form_Home(string username, byte[] avatarconnect)
         {
             InitializeComponent();
+            LoadDataFromServer();
             Avatarconnect = avatarconnect;
             lbUsername.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
             textconnect = username; //gán dữ liệu bắc cầu form signin -> form home -> form tiếp theo
@@ -38,6 +42,148 @@ namespace Client
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
         }
 
+        public class MovieNMusic
+        {
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string Tag {  get; set; }
+            public byte[] Poster { get; set; }
+        }
+
+        public void LoadDataFromServer()
+        {
+            try
+            {
+                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+                using (NetworkStream stream = client.GetStream())
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    writer.Write("getdata");
+                    // Đọc dữ liệu từ server
+                    List<MovieNMusic> movieandmusic = ReceiveMoviesFromServer(stream);
+
+                    // Phân loại dữ liệu và hiển thị trên client form
+                    DisplayData(movieandmusic);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error connecting to server: " + ex.Message);
+            }
+        }
+
+        private List<MovieNMusic> ReceiveMoviesFromServer(NetworkStream stream)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, bytesRead);
+                }
+
+                return DeserializeMovieNMusic(ms.ToArray());
+            }
+        }
+
+        public List<MovieNMusic> DeserializeMovieNMusic(byte[] data)
+        {
+            List<MovieNMusic> movieandmusic = new List<MovieNMusic>();
+            using (MemoryStream ms = new MemoryStream(data))
+            {
+                using (BinaryReader reader = new BinaryReader(ms))
+                {
+                    int count = reader.ReadInt32();
+                    for (int i = 0; i < count; i++)
+                    {
+                        MovieNMusic mandm = new MovieNMusic
+                        {
+                            Title = reader.ReadString(),
+                            Description = reader.ReadString(),
+                            Tag = reader.ReadString(),
+                            Poster = reader.ReadBytes(reader.ReadInt32())
+                        };
+                        movieandmusic.Add(mandm);
+                    }
+                }
+            }
+            return movieandmusic;
+        }
+
+        List<MovieNMusic> movieList = new List<MovieNMusic>();
+        List<MovieNMusic> musicList = new List<MovieNMusic>();
+        private void DisplayData(List<MovieNMusic> movies)
+        {
+            // Phân loại dữ liệu
+            foreach (var item in movies)
+            {
+                if (item.Tag == "Movie")
+                    movieList.Add(item);
+                else if (item.Tag == "Music")
+                    musicList.Add(item);
+            }
+
+            // Hiển thị danh sách phim và nhạc
+            DisplayMovies(movieList);
+            DisplayMusics(musicList);
+        }
+
+        int somemovies = 0;
+        private void DisplayMovies(List<MovieNMusic> movies)
+        {
+            int seq_movie = 0;
+            foreach (var movie in movies.Skip(somemovies))
+            {
+                titleofFile[seq_movie] = movie.Title;
+                seq_movie++;
+                // Tìm Label cho Title
+                Label match_movieTitle = this.Controls.Find("lbTitleMV" + seq_movie, true).FirstOrDefault() as Label;
+                Label match_movieDes = this.Controls.Find("lbDesMV" + seq_movie, true).FirstOrDefault() as Label;
+                PictureBox match_moviePoster = this.Controls.Find("pbMV" + seq_movie, true).FirstOrDefault() as PictureBox;
+                match_movieTitle.Text = movie.Title;
+                match_movieDes.Text = movie.Description;
+                // Chuyển đổi byte array thành hình ảnh cho PictureBox
+                using (MemoryStream ms = new MemoryStream(movie.Poster))
+                {
+                    match_moviePoster.Image = Image.FromStream(ms);
+                }
+                match_movieTitle.Visible = true;
+                match_movieDes.Visible = true;
+                match_moviePoster.Visible = true;
+                if (seq_movie == 2) break;
+            }
+        }
+
+        int somemusics = 0;
+        private void DisplayMusics(List<MovieNMusic> musics)
+        {
+            int seq_music = 0;
+
+            foreach (var music in musics.Skip(somemusics))
+            {
+                titleofFile[seq_music + 2] = music.Title;
+                seq_music++;
+
+                // Tìm Label cho Title
+                Label match_musicTitle = this.Controls.Find("lbTitleS" + seq_music, true).FirstOrDefault() as Label;
+                Label match_musicDes = this.Controls.Find("lbDesS" + seq_music, true).FirstOrDefault() as Label;
+                PictureBox match_musicPoster = this.Controls.Find("pbS" + seq_music, true).FirstOrDefault() as PictureBox;
+                match_musicTitle.Text = music.Title;
+                match_musicDes.Text = music.Description;
+                // Chuyển đổi byte array thành hình ảnh cho PictureBox
+                using (MemoryStream ms = new MemoryStream(music.Poster))
+                {
+                     match_musicPoster.Image = Image.FromStream(ms);
+                }
+                match_musicTitle.Visible = true;
+                match_musicDes.Visible = true;
+                match_musicPoster.Visible = true;
+                if (seq_music == 4) break;
+            }
+        }
+
         private void Form_Home_Load(object sender, EventArgs e)
         {
             //tạo background trong suốt
@@ -46,6 +192,18 @@ namespace Client
             btMinimized.Parent = pbBackgroundHome;
             pnHeader.Parent = pbBackgroundHome;
             btSetting.Parent = pbBackgroundHome;
+            lbTitleMV1.Parent = pbBackgroundHome;
+            lbDesMV1.Parent = pbBackgroundHome;
+            lbTitleMV2.Parent = pbBackgroundHome;
+            lbDesMV2.Parent = pbBackgroundHome;
+            lbTitleS1.Parent = pbBackgroundHome;
+            lbDesS1.Parent = pbBackgroundHome;
+            lbTitleS2.Parent = pbBackgroundHome;
+            lbDesS2.Parent = pbBackgroundHome;
+            lbTitleS3.Parent = pbBackgroundHome;
+            lbDesS3.Parent = pbBackgroundHome;
+            lbTitleS4.Parent = pbBackgroundHome;
+            lbDesS4.Parent = pbBackgroundHome;
         }
 
         //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
@@ -124,139 +282,102 @@ namespace Client
         }
 
         //Phần dưới này liên quan tới bấm vào bt ở form home để xem phim và nghe nhạc
-        bool FlagNextMV = false, FlagNextMC = false;
-
         private void btBackofVideo_Click(object sender, EventArgs e)
         {
-            pbBackgroundNextMV.Visible = false;
-            FlagNextMV = false;
+            somemovies -= 2;
+            if (somemovies >= 0)
+                DisplayMovies(movieList);
+            else somemovies += 2;
         }
 
         private void btNextofVideo_Click(object sender, EventArgs e)
         {
-            pbBackgroundNextMV.Visible = !pbBackgroundNextMV.Visible;
-            FlagNextMV = true;
+            pbMV1.Visible = false;
+            lbTitleMV1.Visible = false;
+            lbDesMV1.Visible = false;
+            if (somemovies + 2 < movieList.Count)
+            {
+                somemovies += 2;
+                DisplayMovies(movieList);
+            }
         }
 
         private void btBackofSong_Click(object sender, EventArgs e)
         {
-            pbBackgroundNS.Visible = false;
-            FlagNextMC = false;
+            somemusics -= 4;
+            if (somemusics >= 0)
+                DisplayMusics(musicList);
+            else somemusics += 4;
         }
 
         private void btNextofSong_Click(object sender, EventArgs e)
         {
-            pbBackgroundNS.Visible = !pbBackgroundNS.Visible;
-            FlagNextMC = true;
+            pbS1.Visible = false;
+            lbTitleS1.Visible = false;
+            lbDesS1.Visible = false;
+            pbS2.Visible = false;
+            lbTitleS2.Visible = false;
+            lbDesS2.Visible = false;
+            pbS3.Visible = false;
+            lbTitleS3.Visible = false;
+            lbDesS3.Visible = false;
+            pbS4.Visible = false;
+            lbTitleS4.Visible = false;
+            lbDesS4.Visible = false;
+
+            if (somemusics + 4 < musicList.Count)
+            {
+                somemusics += 4;
+                DisplayMusics(musicList);
+            }
         }
 
-        private void btFirstMovie_Click(object sender, EventArgs e)
+        private void pbMV1_Click(object sender, EventArgs e)
         {
-            string videoPath = "";
-            if (FlagNextMV)
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "TraintoBusan.mp4");
-            }
-            else
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "Conan.mp4");
-            }
             this.Close();
-            Form_room formOfflineroom = new Form_room(textconnect, Avatarconnect);
-            formOfflineroom.Show();
-            formOfflineroom.PlayVideo(videoPath);
-            formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
-        }
-        /*
-        private void btFirstsong_Click(object sender, EventArgs e)
-        {
-            string videoPath = "";
-            if (FlagNextMC)
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "Regret.mp3");
-            }
-            else
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "SimpGai808.mp3");
-            }
-            this.Close();
-            Form_Offlineroom formOfflineroom = new Form_Offlineroom();
-            formOfflineroom.Show();
-            formOfflineroom.PlayVideo(videoPath);
-            formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
+            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[0]);
+            formRoom.Show();
+            formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
 
-        private void btSecondsong_Click(object sender, EventArgs e)
+        private void pbMV2_Click(object sender, EventArgs e)
         {
-            string videoPath = "";
-            if (FlagNextMC)
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "HaNoi.mp3");
-            }
-            else
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "DieWithASmile.mp3");
-            }
             this.Close();
-            Form_Offlineroom formOfflineroom = new Form_Offlineroom();
-            formOfflineroom.Show();
-            formOfflineroom.PlayVideo(videoPath);
-            formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
+            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[1]);
+            formRoom.Show();
+            formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
 
-        private void btThirdsong_Click(object sender, EventArgs e)
+        private void pbS1_Click(object sender, EventArgs e)
         {
-            string videoPath = "";
-            if (FlagNextMC)
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "TheSpectre.mp3");
-            }
-            else
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "KhongTheSay.mp3");
-            }
             this.Close();
-            Form_Offlineroom formOfflineroom = new Form_Offlineroom();
-            formOfflineroom.Show();
-            formOfflineroom.PlayVideo(videoPath);
-            formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
-
+            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[2]);
+            formRoom.Show();
+            formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
 
-        private void btFouthsong_Click(object sender, EventArgs e)
+        private void pbS2_Click(object sender, EventArgs e)
         {
-            string videoPath = "";
-            if (FlagNextMC)
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "Position.mp3");
-            }
-            else
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "Love Story.mp3");
-            }
             this.Close();
-            Form_Offlineroom formOfflineroom = new Form_Offlineroom();
-            formOfflineroom.Show();
-            formOfflineroom.PlayVideo(videoPath);
-            formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
+            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[3]);
+            formRoom.Show();
+            formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
 
-        private void btSecondMovie_Click(object sender, EventArgs e)
+        private void pbS3_Click(object sender, EventArgs e)
         {
-            string videoPath = "";
-            if (FlagNextMV)
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "MoDomDom.mp4");
-            }
-            else
-            {
-                videoPath = System.IO.Path.Combine(Application.StartupPath, "VideoNMusic", "101.mp4");
-            }
             this.Close();
-            Form_Offlineroom formOfflineroom = new Form_Offlineroom();
-            formOfflineroom.Show();
-            formOfflineroom.PlayVideo(videoPath);
-            formOfflineroom.Location = new Point(this.Location.X, this.Location.Y);
-        }*/
+            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[4]);
+            formRoom.Show();
+            formRoom.Location = new Point(this.Location.X, this.Location.Y);
+        }
+
+        private void pbS4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[5]);
+            formRoom.Show();
+            formRoom.Location = new Point(this.Location.X, this.Location.Y);
+        }
     }
 }

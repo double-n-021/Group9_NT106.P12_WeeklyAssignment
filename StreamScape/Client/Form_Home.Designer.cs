@@ -43,23 +43,37 @@
             this.btCreate = new Guna.UI2.WinForms.Guna2Button();
             this.btJoin = new Guna.UI2.WinForms.Guna2Button();
             this.lbUsername = new System.Windows.Forms.Label();
-            this.btFirstMovie = new Guna.UI2.WinForms.Guna2Button();
-            this.btSecondMovie = new Guna.UI2.WinForms.Guna2Button();
-            this.btFirstsong = new Guna.UI2.WinForms.Guna2Button();
-            this.btSecondsong = new Guna.UI2.WinForms.Guna2Button();
-            this.btThirdsong = new Guna.UI2.WinForms.Guna2Button();
-            this.btFouthsong = new Guna.UI2.WinForms.Guna2Button();
             this.btBackofVideo = new Guna.UI2.WinForms.Guna2Button();
             this.btNextofVideo = new Guna.UI2.WinForms.Guna2Button();
             this.btBackofSong = new Guna.UI2.WinForms.Guna2Button();
             this.btNextofSong = new Guna.UI2.WinForms.Guna2Button();
-            this.pbBackgroundNextMV = new System.Windows.Forms.PictureBox();
-            this.pbBackgroundNS = new System.Windows.Forms.PictureBox();
+            this.pbMV1 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.pbMV2 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.pbS1 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.pbS2 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.pbS3 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.pbS4 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.lbTitleMV1 = new System.Windows.Forms.Label();
+            this.lbDesMV1 = new System.Windows.Forms.Label();
+            this.lbTitleMV2 = new System.Windows.Forms.Label();
+            this.lbDesMV2 = new System.Windows.Forms.Label();
+            this.lbTitleS3 = new System.Windows.Forms.Label();
+            this.lbDesS3 = new System.Windows.Forms.Label();
+            this.lbTitleS1 = new System.Windows.Forms.Label();
+            this.lbTitleS2 = new System.Windows.Forms.Label();
+            this.lbTitleS4 = new System.Windows.Forms.Label();
+            this.lbDesS1 = new System.Windows.Forms.Label();
+            this.lbDesS2 = new System.Windows.Forms.Label();
+            this.lbDesS4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundHome)).BeginInit();
             this.pnHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btAvatar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundNextMV)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundNS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMV1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMV2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS4)).BeginInit();
             this.SuspendLayout();
             // 
             // pbBackgroundHome
@@ -325,145 +339,13 @@
             this.lbUsername.Text = "user_name12345";
             this.lbUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btFirstMovie
-            // 
-            this.btFirstMovie.BackColor = System.Drawing.Color.Transparent;
-            this.btFirstMovie.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.btFirstMovie.BorderRadius = 10;
-            this.btFirstMovie.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btFirstMovie.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btFirstMovie.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btFirstMovie.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btFirstMovie.FillColor = System.Drawing.Color.Transparent;
-            this.btFirstMovie.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold);
-            this.btFirstMovie.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.btFirstMovie.Location = new System.Drawing.Point(310, 93);
-            this.btFirstMovie.Name = "btFirstMovie";
-            this.btFirstMovie.PressedColor = System.Drawing.Color.Silver;
-            this.btFirstMovie.PressedDepth = 10;
-            this.btFirstMovie.Size = new System.Drawing.Size(326, 192);
-            this.btFirstMovie.TabIndex = 19;
-            this.btFirstMovie.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.btFirstMovie.TextOffset = new System.Drawing.Point(37, 0);
-            this.btFirstMovie.UseTransparentBackground = true;
-            this.btFirstMovie.Click += new System.EventHandler(this.btFirstMovie_Click);
-            // 
-            // btSecondMovie
-            // 
-            this.btSecondMovie.BackColor = System.Drawing.Color.Transparent;
-            this.btSecondMovie.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.btSecondMovie.BorderRadius = 10;
-            this.btSecondMovie.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btSecondMovie.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btSecondMovie.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btSecondMovie.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btSecondMovie.FillColor = System.Drawing.Color.Transparent;
-            this.btSecondMovie.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold);
-            this.btSecondMovie.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.btSecondMovie.Location = new System.Drawing.Point(653, 93);
-            this.btSecondMovie.Name = "btSecondMovie";
-            this.btSecondMovie.PressedColor = System.Drawing.Color.Silver;
-            this.btSecondMovie.PressedDepth = 10;
-            this.btSecondMovie.Size = new System.Drawing.Size(307, 192);
-            this.btSecondMovie.TabIndex = 20;
-            this.btSecondMovie.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.btSecondMovie.TextOffset = new System.Drawing.Point(37, 0);
-            this.btSecondMovie.UseTransparentBackground = true;
-            // 
-            // btFirstsong
-            // 
-            this.btFirstsong.BackColor = System.Drawing.Color.Transparent;
-            this.btFirstsong.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.btFirstsong.BorderRadius = 10;
-            this.btFirstsong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btFirstsong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btFirstsong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btFirstsong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btFirstsong.FillColor = System.Drawing.Color.Transparent;
-            this.btFirstsong.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold);
-            this.btFirstsong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.btFirstsong.Location = new System.Drawing.Point(310, 347);
-            this.btFirstsong.Name = "btFirstsong";
-            this.btFirstsong.PressedColor = System.Drawing.Color.Silver;
-            this.btFirstsong.PressedDepth = 10;
-            this.btFirstsong.Size = new System.Drawing.Size(143, 180);
-            this.btFirstsong.TabIndex = 21;
-            this.btFirstsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.btFirstsong.TextOffset = new System.Drawing.Point(37, 0);
-            this.btFirstsong.UseTransparentBackground = true;
-            // 
-            // btSecondsong
-            // 
-            this.btSecondsong.BackColor = System.Drawing.Color.Transparent;
-            this.btSecondsong.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.btSecondsong.BorderRadius = 10;
-            this.btSecondsong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btSecondsong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btSecondsong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btSecondsong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btSecondsong.FillColor = System.Drawing.Color.Transparent;
-            this.btSecondsong.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold);
-            this.btSecondsong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.btSecondsong.Location = new System.Drawing.Point(478, 348);
-            this.btSecondsong.Name = "btSecondsong";
-            this.btSecondsong.PressedColor = System.Drawing.Color.Silver;
-            this.btSecondsong.PressedDepth = 10;
-            this.btSecondsong.Size = new System.Drawing.Size(143, 180);
-            this.btSecondsong.TabIndex = 22;
-            this.btSecondsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.btSecondsong.TextOffset = new System.Drawing.Point(37, 0);
-            this.btSecondsong.UseTransparentBackground = true;
-            // 
-            // btThirdsong
-            // 
-            this.btThirdsong.BackColor = System.Drawing.Color.Transparent;
-            this.btThirdsong.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.btThirdsong.BorderRadius = 10;
-            this.btThirdsong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btThirdsong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btThirdsong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btThirdsong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btThirdsong.FillColor = System.Drawing.Color.Transparent;
-            this.btThirdsong.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold);
-            this.btThirdsong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.btThirdsong.Location = new System.Drawing.Point(653, 348);
-            this.btThirdsong.Name = "btThirdsong";
-            this.btThirdsong.PressedColor = System.Drawing.Color.Silver;
-            this.btThirdsong.PressedDepth = 10;
-            this.btThirdsong.Size = new System.Drawing.Size(143, 180);
-            this.btThirdsong.TabIndex = 23;
-            this.btThirdsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.btThirdsong.TextOffset = new System.Drawing.Point(37, 0);
-            this.btThirdsong.UseTransparentBackground = true;
-            // 
-            // btFouthsong
-            // 
-            this.btFouthsong.BackColor = System.Drawing.Color.Transparent;
-            this.btFouthsong.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.btFouthsong.BorderRadius = 10;
-            this.btFouthsong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btFouthsong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btFouthsong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btFouthsong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btFouthsong.FillColor = System.Drawing.Color.Transparent;
-            this.btFouthsong.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold);
-            this.btFouthsong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.btFouthsong.Location = new System.Drawing.Point(827, 348);
-            this.btFouthsong.Name = "btFouthsong";
-            this.btFouthsong.PressedColor = System.Drawing.Color.Silver;
-            this.btFouthsong.PressedDepth = 10;
-            this.btFouthsong.Size = new System.Drawing.Size(143, 180);
-            this.btFouthsong.TabIndex = 24;
-            this.btFouthsong.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.btFouthsong.TextOffset = new System.Drawing.Point(37, 0);
-            this.btFouthsong.UseTransparentBackground = true;
-            // 
             // btBackofVideo
             // 
             this.btBackofVideo.AutoRoundedCorners = true;
             this.btBackofVideo.BackColor = System.Drawing.Color.Transparent;
             this.btBackofVideo.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.btBackofVideo.BorderRadius = 14;
+            this.btBackofVideo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btBackofVideo.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btBackofVideo.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btBackofVideo.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -487,6 +369,7 @@
             this.btNextofVideo.BackColor = System.Drawing.Color.Transparent;
             this.btNextofVideo.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.btNextofVideo.BorderRadius = 14;
+            this.btNextofVideo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btNextofVideo.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btNextofVideo.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btNextofVideo.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -510,6 +393,7 @@
             this.btBackofSong.BackColor = System.Drawing.Color.Transparent;
             this.btBackofSong.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.btBackofSong.BorderRadius = 14;
+            this.btBackofSong.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btBackofSong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btBackofSong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btBackofSong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -533,6 +417,7 @@
             this.btNextofSong.BackColor = System.Drawing.Color.Transparent;
             this.btNextofSong.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.btNextofSong.BorderRadius = 14;
+            this.btNextofSong.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btNextofSong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btNextofSong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btNextofSong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -550,43 +435,286 @@
             this.btNextofSong.UseTransparentBackground = true;
             this.btNextofSong.Click += new System.EventHandler(this.btNextofSong_Click);
             // 
-            // pbBackgroundNextMV
+            // pbMV1
             // 
-            this.pbBackgroundNextMV.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundNextMV.Image")));
-            this.pbBackgroundNextMV.Location = new System.Drawing.Point(278, 38);
-            this.pbBackgroundNextMV.Name = "pbBackgroundNextMV";
-            this.pbBackgroundNextMV.Size = new System.Drawing.Size(749, 268);
-            this.pbBackgroundNextMV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbBackgroundNextMV.TabIndex = 29;
-            this.pbBackgroundNextMV.TabStop = false;
-            this.pbBackgroundNextMV.Visible = false;
+            this.pbMV1.BackColor = System.Drawing.Color.Transparent;
+            this.pbMV1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbMV1.BorderRadius = 15;
+            this.pbMV1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbMV1.FillColor = System.Drawing.Color.Black;
+            this.pbMV1.ImageRotate = 0F;
+            this.pbMV1.Location = new System.Drawing.Point(318, 90);
+            this.pbMV1.Name = "pbMV1";
+            this.pbMV1.Size = new System.Drawing.Size(146, 196);
+            this.pbMV1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbMV1.TabIndex = 29;
+            this.pbMV1.TabStop = false;
+            this.pbMV1.UseTransparentBackground = true;
+            this.pbMV1.Visible = false;
+            this.pbMV1.Click += new System.EventHandler(this.pbMV1_Click);
             // 
-            // pbBackgroundNS
+            // pbMV2
             // 
-            this.pbBackgroundNS.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundNS.Image")));
-            this.pbBackgroundNS.Location = new System.Drawing.Point(280, 300);
-            this.pbBackgroundNS.Name = "pbBackgroundNS";
-            this.pbBackgroundNS.Size = new System.Drawing.Size(749, 246);
-            this.pbBackgroundNS.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbBackgroundNS.TabIndex = 30;
-            this.pbBackgroundNS.TabStop = false;
-            this.pbBackgroundNS.Visible = false;
+            this.pbMV2.BackColor = System.Drawing.Color.Transparent;
+            this.pbMV2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbMV2.BorderRadius = 15;
+            this.pbMV2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbMV2.FillColor = System.Drawing.Color.Black;
+            this.pbMV2.ImageRotate = 0F;
+            this.pbMV2.Location = new System.Drawing.Point(660, 90);
+            this.pbMV2.Name = "pbMV2";
+            this.pbMV2.Size = new System.Drawing.Size(146, 196);
+            this.pbMV2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbMV2.TabIndex = 30;
+            this.pbMV2.TabStop = false;
+            this.pbMV2.UseTransparentBackground = true;
+            this.pbMV2.Visible = false;
+            this.pbMV2.Click += new System.EventHandler(this.pbMV2_Click);
+            // 
+            // pbS1
+            // 
+            this.pbS1.BackColor = System.Drawing.Color.Transparent;
+            this.pbS1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbS1.BorderRadius = 12;
+            this.pbS1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbS1.FillColor = System.Drawing.Color.Black;
+            this.pbS1.ImageRotate = 0F;
+            this.pbS1.Location = new System.Drawing.Point(318, 344);
+            this.pbS1.Name = "pbS1";
+            this.pbS1.Size = new System.Drawing.Size(125, 122);
+            this.pbS1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbS1.TabIndex = 31;
+            this.pbS1.TabStop = false;
+            this.pbS1.UseTransparentBackground = true;
+            this.pbS1.Visible = false;
+            this.pbS1.Click += new System.EventHandler(this.pbS1_Click);
+            // 
+            // pbS2
+            // 
+            this.pbS2.BackColor = System.Drawing.Color.Transparent;
+            this.pbS2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbS2.BorderRadius = 12;
+            this.pbS2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbS2.FillColor = System.Drawing.Color.Black;
+            this.pbS2.ImageRotate = 0F;
+            this.pbS2.Location = new System.Drawing.Point(488, 344);
+            this.pbS2.Name = "pbS2";
+            this.pbS2.Size = new System.Drawing.Size(125, 122);
+            this.pbS2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbS2.TabIndex = 32;
+            this.pbS2.TabStop = false;
+            this.pbS2.UseTransparentBackground = true;
+            this.pbS2.Visible = false;
+            this.pbS2.Click += new System.EventHandler(this.pbS2_Click);
+            // 
+            // pbS3
+            // 
+            this.pbS3.BackColor = System.Drawing.Color.Transparent;
+            this.pbS3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbS3.BorderRadius = 12;
+            this.pbS3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbS3.FillColor = System.Drawing.Color.Black;
+            this.pbS3.ImageRotate = 0F;
+            this.pbS3.Location = new System.Drawing.Point(660, 344);
+            this.pbS3.Name = "pbS3";
+            this.pbS3.Size = new System.Drawing.Size(125, 122);
+            this.pbS3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbS3.TabIndex = 33;
+            this.pbS3.TabStop = false;
+            this.pbS3.UseTransparentBackground = true;
+            this.pbS3.Visible = false;
+            this.pbS3.Click += new System.EventHandler(this.pbS3_Click);
+            // 
+            // pbS4
+            // 
+            this.pbS4.BackColor = System.Drawing.Color.Transparent;
+            this.pbS4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbS4.BorderRadius = 12;
+            this.pbS4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbS4.FillColor = System.Drawing.Color.Black;
+            this.pbS4.ImageRotate = 0F;
+            this.pbS4.Location = new System.Drawing.Point(835, 346);
+            this.pbS4.Name = "pbS4";
+            this.pbS4.Size = new System.Drawing.Size(125, 122);
+            this.pbS4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbS4.TabIndex = 34;
+            this.pbS4.TabStop = false;
+            this.pbS4.UseTransparentBackground = true;
+            this.pbS4.Visible = false;
+            this.pbS4.Click += new System.EventHandler(this.pbS4_Click);
+            // 
+            // lbTitleMV1
+            // 
+            this.lbTitleMV1.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitleMV1.Font = new System.Drawing.Font("Segoe UI", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitleMV1.ForeColor = System.Drawing.Color.White;
+            this.lbTitleMV1.Location = new System.Drawing.Point(470, 97);
+            this.lbTitleMV1.Name = "lbTitleMV1";
+            this.lbTitleMV1.Size = new System.Drawing.Size(170, 23);
+            this.lbTitleMV1.TabIndex = 35;
+            this.lbTitleMV1.Text = "label1";
+            this.lbTitleMV1.Visible = false;
+            // 
+            // lbDesMV1
+            // 
+            this.lbDesMV1.BackColor = System.Drawing.Color.Transparent;
+            this.lbDesMV1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lbDesMV1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.lbDesMV1.Location = new System.Drawing.Point(470, 134);
+            this.lbDesMV1.Name = "lbDesMV1";
+            this.lbDesMV1.Size = new System.Drawing.Size(170, 134);
+            this.lbDesMV1.TabIndex = 36;
+            this.lbDesMV1.Text = "label1";
+            this.lbDesMV1.Visible = false;
+            // 
+            // lbTitleMV2
+            // 
+            this.lbTitleMV2.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitleMV2.Font = new System.Drawing.Font("Segoe UI", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitleMV2.ForeColor = System.Drawing.Color.White;
+            this.lbTitleMV2.Location = new System.Drawing.Point(815, 97);
+            this.lbTitleMV2.Name = "lbTitleMV2";
+            this.lbTitleMV2.Size = new System.Drawing.Size(170, 23);
+            this.lbTitleMV2.TabIndex = 37;
+            this.lbTitleMV2.Text = "label1";
+            this.lbTitleMV2.Visible = false;
+            // 
+            // lbDesMV2
+            // 
+            this.lbDesMV2.BackColor = System.Drawing.Color.Transparent;
+            this.lbDesMV2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lbDesMV2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.lbDesMV2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lbDesMV2.Location = new System.Drawing.Point(815, 134);
+            this.lbDesMV2.Name = "lbDesMV2";
+            this.lbDesMV2.Size = new System.Drawing.Size(170, 134);
+            this.lbDesMV2.TabIndex = 38;
+            this.lbDesMV2.Text = "label1";
+            this.lbDesMV2.Visible = false;
+            // 
+            // lbTitleS3
+            // 
+            this.lbTitleS3.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitleS3.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Bold);
+            this.lbTitleS3.ForeColor = System.Drawing.Color.White;
+            this.lbTitleS3.Location = new System.Drawing.Point(656, 469);
+            this.lbTitleS3.Name = "lbTitleS3";
+            this.lbTitleS3.Size = new System.Drawing.Size(129, 17);
+            this.lbTitleS3.TabIndex = 39;
+            this.lbTitleS3.Text = "LABEL1";
+            this.lbTitleS3.Visible = false;
+            // 
+            // lbDesS3
+            // 
+            this.lbDesS3.BackColor = System.Drawing.Color.Transparent;
+            this.lbDesS3.Font = new System.Drawing.Font("Segoe UI Semibold", 7F, System.Drawing.FontStyle.Bold);
+            this.lbDesS3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.lbDesS3.Location = new System.Drawing.Point(656, 487);
+            this.lbDesS3.Name = "lbDesS3";
+            this.lbDesS3.Size = new System.Drawing.Size(129, 41);
+            this.lbDesS3.TabIndex = 40;
+            this.lbDesS3.Text = "LABEL1";
+            this.lbDesS3.Visible = false;
+            // 
+            // lbTitleS1
+            // 
+            this.lbTitleS1.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitleS1.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Bold);
+            this.lbTitleS1.ForeColor = System.Drawing.Color.White;
+            this.lbTitleS1.Location = new System.Drawing.Point(318, 469);
+            this.lbTitleS1.Name = "lbTitleS1";
+            this.lbTitleS1.Size = new System.Drawing.Size(129, 17);
+            this.lbTitleS1.TabIndex = 41;
+            this.lbTitleS1.Text = "LABEL1";
+            this.lbTitleS1.Visible = false;
+            // 
+            // lbTitleS2
+            // 
+            this.lbTitleS2.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitleS2.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Bold);
+            this.lbTitleS2.ForeColor = System.Drawing.Color.White;
+            this.lbTitleS2.Location = new System.Drawing.Point(488, 469);
+            this.lbTitleS2.Name = "lbTitleS2";
+            this.lbTitleS2.Size = new System.Drawing.Size(129, 17);
+            this.lbTitleS2.TabIndex = 42;
+            this.lbTitleS2.Text = "LABEL1";
+            this.lbTitleS2.Visible = false;
+            // 
+            // lbTitleS4
+            // 
+            this.lbTitleS4.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitleS4.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Bold);
+            this.lbTitleS4.ForeColor = System.Drawing.Color.White;
+            this.lbTitleS4.Location = new System.Drawing.Point(835, 469);
+            this.lbTitleS4.Name = "lbTitleS4";
+            this.lbTitleS4.Size = new System.Drawing.Size(129, 17);
+            this.lbTitleS4.TabIndex = 43;
+            this.lbTitleS4.Text = "LABEL1";
+            this.lbTitleS4.Visible = false;
+            // 
+            // lbDesS1
+            // 
+            this.lbDesS1.BackColor = System.Drawing.Color.Transparent;
+            this.lbDesS1.Font = new System.Drawing.Font("Segoe UI Semibold", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDesS1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.lbDesS1.Location = new System.Drawing.Point(318, 487);
+            this.lbDesS1.Name = "lbDesS1";
+            this.lbDesS1.Size = new System.Drawing.Size(129, 41);
+            this.lbDesS1.TabIndex = 0;
+            this.lbDesS1.Text = "LABEL1";
+            this.lbDesS1.Visible = false;
+            // 
+            // lbDesS2
+            // 
+            this.lbDesS2.BackColor = System.Drawing.Color.Transparent;
+            this.lbDesS2.Font = new System.Drawing.Font("Segoe UI Semibold", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDesS2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.lbDesS2.Location = new System.Drawing.Point(488, 487);
+            this.lbDesS2.Name = "lbDesS2";
+            this.lbDesS2.Size = new System.Drawing.Size(129, 41);
+            this.lbDesS2.TabIndex = 45;
+            this.lbDesS2.Text = "LABEL1";
+            this.lbDesS2.Visible = false;
+            // 
+            // lbDesS4
+            // 
+            this.lbDesS4.BackColor = System.Drawing.Color.Transparent;
+            this.lbDesS4.Font = new System.Drawing.Font("Segoe UI Semibold", 7F, System.Drawing.FontStyle.Bold);
+            this.lbDesS4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
+            this.lbDesS4.Location = new System.Drawing.Point(835, 487);
+            this.lbDesS4.Name = "lbDesS4";
+            this.lbDesS4.Size = new System.Drawing.Size(129, 41);
+            this.lbDesS4.TabIndex = 46;
+            this.lbDesS4.Text = "LABEL1";
+            this.lbDesS4.Visible = false;
             // 
             // Form_Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
+            this.Controls.Add(this.lbDesS4);
+            this.Controls.Add(this.lbDesS2);
+            this.Controls.Add(this.lbDesS1);
+            this.Controls.Add(this.lbTitleS4);
+            this.Controls.Add(this.lbTitleS2);
+            this.Controls.Add(this.lbTitleS1);
+            this.Controls.Add(this.lbDesS3);
+            this.Controls.Add(this.lbTitleS3);
+            this.Controls.Add(this.lbDesMV2);
+            this.Controls.Add(this.lbTitleMV2);
+            this.Controls.Add(this.lbDesMV1);
+            this.Controls.Add(this.lbTitleMV1);
+            this.Controls.Add(this.pbS4);
+            this.Controls.Add(this.pbS3);
+            this.Controls.Add(this.pbS2);
+            this.Controls.Add(this.pbS1);
+            this.Controls.Add(this.pbMV2);
+            this.Controls.Add(this.pbMV1);
             this.Controls.Add(this.btNextofSong);
             this.Controls.Add(this.btBackofSong);
             this.Controls.Add(this.btNextofVideo);
             this.Controls.Add(this.btBackofVideo);
-            this.Controls.Add(this.btFouthsong);
-            this.Controls.Add(this.btThirdsong);
-            this.Controls.Add(this.btSecondsong);
-            this.Controls.Add(this.btFirstsong);
-            this.Controls.Add(this.btSecondMovie);
-            this.Controls.Add(this.btFirstMovie);
             this.Controls.Add(this.lbUsername);
             this.Controls.Add(this.btJoin);
             this.Controls.Add(this.btCreate);
@@ -598,8 +726,6 @@
             this.Controls.Add(this.btMinimized);
             this.Controls.Add(this.btMaximized);
             this.Controls.Add(this.btExit);
-            this.Controls.Add(this.pbBackgroundNextMV);
-            this.Controls.Add(this.pbBackgroundNS);
             this.Controls.Add(this.pbBackgroundHome);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form_Home";
@@ -608,8 +734,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundHome)).EndInit();
             this.pnHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btAvatar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundNextMV)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundNS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMV1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMV2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbS4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -630,17 +760,27 @@
         private Guna.UI2.WinForms.Guna2Button btCreate;
         private Guna.UI2.WinForms.Guna2Button btJoin;
         private System.Windows.Forms.Label lbUsername;
-        private Guna.UI2.WinForms.Guna2Button btFirstMovie;
-        private Guna.UI2.WinForms.Guna2Button btSecondMovie;
-        private Guna.UI2.WinForms.Guna2Button btFirstsong;
-        private Guna.UI2.WinForms.Guna2Button btSecondsong;
-        private Guna.UI2.WinForms.Guna2Button btThirdsong;
-        private Guna.UI2.WinForms.Guna2Button btFouthsong;
         private Guna.UI2.WinForms.Guna2Button btBackofVideo;
         private Guna.UI2.WinForms.Guna2Button btNextofVideo;
         private Guna.UI2.WinForms.Guna2Button btBackofSong;
         private Guna.UI2.WinForms.Guna2Button btNextofSong;
-        private System.Windows.Forms.PictureBox pbBackgroundNextMV;
-        private System.Windows.Forms.PictureBox pbBackgroundNS;
+        private Guna.UI2.WinForms.Guna2PictureBox pbMV1;
+        private Guna.UI2.WinForms.Guna2PictureBox pbMV2;
+        private Guna.UI2.WinForms.Guna2PictureBox pbS1;
+        private Guna.UI2.WinForms.Guna2PictureBox pbS2;
+        private Guna.UI2.WinForms.Guna2PictureBox pbS3;
+        private Guna.UI2.WinForms.Guna2PictureBox pbS4;
+        private System.Windows.Forms.Label lbTitleMV1;
+        private System.Windows.Forms.Label lbDesMV1;
+        private System.Windows.Forms.Label lbTitleMV2;
+        private System.Windows.Forms.Label lbDesMV2;
+        private System.Windows.Forms.Label lbTitleS3;
+        private System.Windows.Forms.Label lbDesS3;
+        private System.Windows.Forms.Label lbTitleS1;
+        private System.Windows.Forms.Label lbTitleS2;
+        private System.Windows.Forms.Label lbTitleS4;
+        private System.Windows.Forms.Label lbDesS1;
+        private System.Windows.Forms.Label lbDesS2;
+        private System.Windows.Forms.Label lbDesS4;
     }
 }

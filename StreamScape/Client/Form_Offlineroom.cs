@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,9 +25,10 @@ namespace Client
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
 
-        public Form_room(string username, byte[] avatarconnect)
+        public Form_room(string username, byte[] avatarconnect, string titleofFile)
         {
             InitializeComponent();
+            PlayFile(titleofFile);
             textconnect = username;//gán dữ liệu vừa được truyền từ form home cho form create
             Avatarconnect = avatarconnect;//gán dữ liệu vừa được truyền từ form home cho form create
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
@@ -100,10 +103,54 @@ namespace Client
             timer1.Start();
         }
 
+        private void PlayFile(string titleofFile)
+        {
+            try
+            {
+                // Tạo kết nối TCP đến server
+                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+                using (NetworkStream stream = client.GetStream())
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    // Gửi yêu cầu lấy file mp3 và mp4 đến server
+                    writer.Write("getfile");       // Gửi yêu cầu "getfile"
+                    writer.Write(titleofFile);       // Gửi tên file
+
+                    // Đọc phản hồi từ server
+                    string tag = reader.ReadString();
+                    int fileSize = reader.ReadInt32();     // Đọc kích thước file
+                    if (fileSize > 0)
+                    {
+                        byte[] fileData = reader.ReadBytes(fileSize); // Đọc dữ liệu file
+
+                        // Đường dẫn tạm thời để lưu tệp
+                        string tempFilePath = Path.Combine(Path.GetTempPath(), titleofFile + tag);
+
+                        // Ghi dữ liệu vào tệp
+                        File.WriteAllBytes(tempFilePath, fileData);
+
+                        // Phát tệp bằng Videoplayer hoặc Audio player tùy thuộc vào loại tệp
+                        Videoplayer.URL = tempFilePath;
+                        timer1.Start();
+                        Videoplayer.Ctlcontrols.play();
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found on server." + titleofFile);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error connecting to server: " + ex.Message);
+            }
+        }
+
         //Chức năng up file mp3 và mp4 từ máy lên
         private void btUpload_Click(object sender, EventArgs e)
         {
-            OFD.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
+            OFD.Filter = "Media Files (*.mp3;*.mp4)|*.mp3;*.mp4";
             DialogResult ofd = OFD.ShowDialog();
             if (ofd == DialogResult.OK)
             {
