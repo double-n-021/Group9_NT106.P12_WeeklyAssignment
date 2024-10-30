@@ -315,12 +315,12 @@ namespace Client
 
         private void btNextofVideo_Click(object sender, EventArgs e)
         {
-            pbMV1.Visible = false;
-            lbTitleMV1.Visible = false;
-            lbDesMV1.Visible = false;
             if (somemovies + 2 < movieList.Count)
             {
                 somemovies += 2;
+                pbMV1.Visible = false;
+                lbTitleMV1.Visible = false;
+                lbDesMV1.Visible = false;
                 DisplayMovies(movieList);
             }
         }
@@ -335,22 +335,21 @@ namespace Client
 
         private void btNextofSong_Click(object sender, EventArgs e)
         {
-            pbS1.Visible = false;
-            lbTitleS1.Visible = false;
-            lbDesS1.Visible = false;
-            pbS2.Visible = false;
-            lbTitleS2.Visible = false;
-            lbDesS2.Visible = false;
-            pbS3.Visible = false;
-            lbTitleS3.Visible = false;
-            lbDesS3.Visible = false;
-            pbS4.Visible = false;
-            lbTitleS4.Visible = false;
-            lbDesS4.Visible = false;
-
             if (somemusics + 4 < musicList.Count)
             {
                 somemusics += 4;
+                pbS1.Visible = false;
+                lbTitleS1.Visible = false;
+                lbDesS1.Visible = false;
+                pbS2.Visible = false;
+                lbTitleS2.Visible = false;
+                lbDesS2.Visible = false;
+                pbS3.Visible = false;
+                lbTitleS3.Visible = false;
+                lbDesS3.Visible = false;
+                pbS4.Visible = false;
+                lbTitleS4.Visible = false;
+                lbDesS4.Visible = false;
                 DisplayMusics(musicList);
             }
         }

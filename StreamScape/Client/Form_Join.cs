@@ -18,6 +18,7 @@ namespace Client
         private Point dragForm;
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
+        private string idroomconnect;
         public Form_Join(string username, byte[] avatarconnect)
         {
             InitializeComponent();
@@ -89,10 +90,19 @@ namespace Client
         //Mở form join và đóng form hiện tại
         private void btJoin_Click(object sender, EventArgs e)
         {
-            this.Close();
-            Form_Onlineroom formOnlineroom = new Form_Onlineroom(textconnect, Avatarconnect);
-            formOnlineroom.Show();
-            formOnlineroom.Location = new Point(this.Location.X, this.Location.Y);
+            if (string.IsNullOrEmpty(tbIDofRoom.Text))
+            {
+                MessageBox.Show("Vui lòng nhập ID phòng trước khi tham gia");
+                return;
+            }
+            else
+            {
+                idroomconnect = tbIDofRoom.Text;
+                this.Close();
+                Form_Onlineroom formOnlineroom = new Form_Onlineroom(textconnect, Avatarconnect, "", idroomconnect);
+                formOnlineroom.Show();
+                formOnlineroom.Location = new Point(this.Location.X, this.Location.Y);
+            }
         }
     }
 }

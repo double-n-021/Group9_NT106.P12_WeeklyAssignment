@@ -107,11 +107,11 @@
     <Compile Include="Form_Login.Designer.cs">
       <DependentUpon>Form_Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Offlineroom.cs">
+    <Compile Include="Form_Room.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Offlineroom.Designer.cs">
-      <DependentUpon>Form_Offlineroom.cs</DependentUpon>
+    <Compile Include="Form_Room.Designer.cs">
+      <DependentUpon>Form_Room.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_Onlineroom.cs">
       <SubType>Form</SubType>
@@ -157,8 +157,8 @@
     <EmbeddedResource Include="Form_Login.resx">
       <DependentUpon>Form_Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_Offlineroom.resx">
-      <DependentUpon>Form_Offlineroom.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Room.resx">
+      <DependentUpon>Form_Room.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Onlineroom.resx">
       <DependentUpon>Form_Onlineroom.cs</DependentUpon>

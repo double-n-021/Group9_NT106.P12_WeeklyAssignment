@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.pnHeader = new System.Windows.Forms.Panel();
@@ -42,10 +43,9 @@
             this.tbEnterchat = new Guna.UI2.WinForms.Guna2TextBox();
             this.btReaction = new Guna.UI2.WinForms.Guna2Button();
             this.btUpload = new Guna.UI2.WinForms.Guna2Button();
-            this.pbFirstavatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            this.btSecondavatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            this.lbFirstusername = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.pbAV1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.pbAV2 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.lbUS1 = new System.Windows.Forms.Label();
             this.pnVideo = new System.Windows.Forms.Panel();
             this.btSearch = new Guna.UI2.WinForms.Guna2Button();
             this.pnTool = new System.Windows.Forms.Panel();
@@ -63,13 +63,25 @@
             this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.searchResult = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbUS3 = new System.Windows.Forms.Label();
+            this.pbAV3 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.lbUS4 = new System.Windows.Forms.Label();
+            this.pbAV4 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.lbUS5 = new System.Windows.Forms.Label();
+            this.pbAV5 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
             this.pnHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFirstavatar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btSecondavatar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV2)).BeginInit();
             this.pnVideo.SuspendLayout();
             this.pnTool.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Videoplayer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchResult)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV5)).BeginInit();
             this.SuspendLayout();
             // 
             // pbBackgroundONLR
@@ -125,6 +137,7 @@
             this.lbRoomname.Size = new System.Drawing.Size(154, 32);
             this.lbRoomname.TabIndex = 28;
             this.lbRoomname.Text = "Room_name";
+            this.lbRoomname.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lbID
             // 
@@ -277,64 +290,53 @@
             this.btUpload.UseTransparentBackground = true;
             this.btUpload.Click += new System.EventHandler(this.btUpload_Click);
             // 
-            // pbFirstavatar
+            // pbAV1
             // 
-            this.pbFirstavatar.BackColor = System.Drawing.Color.Transparent;
-            this.pbFirstavatar.Image = ((System.Drawing.Image)(resources.GetObject("pbFirstavatar.Image")));
-            this.pbFirstavatar.ImageRotate = 0F;
-            this.pbFirstavatar.InitialImage = null;
-            this.pbFirstavatar.Location = new System.Drawing.Point(123, 448);
-            this.pbFirstavatar.Name = "pbFirstavatar";
-            this.pbFirstavatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbFirstavatar.Size = new System.Drawing.Size(61, 56);
-            this.pbFirstavatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbFirstavatar.TabIndex = 23;
-            this.pbFirstavatar.TabStop = false;
-            this.pbFirstavatar.UseTransparentBackground = true;
-            this.pbFirstavatar.Click += new System.EventHandler(this.pbAvatar_Click);
+            this.pbAV1.BackColor = System.Drawing.Color.Transparent;
+            this.pbAV1.Image = ((System.Drawing.Image)(resources.GetObject("pbAV1.Image")));
+            this.pbAV1.ImageRotate = 0F;
+            this.pbAV1.InitialImage = null;
+            this.pbAV1.Location = new System.Drawing.Point(123, 448);
+            this.pbAV1.Name = "pbAV1";
+            this.pbAV1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.pbAV1.Size = new System.Drawing.Size(61, 56);
+            this.pbAV1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAV1.TabIndex = 23;
+            this.pbAV1.TabStop = false;
+            this.pbAV1.UseTransparentBackground = true;
+            this.pbAV1.Click += new System.EventHandler(this.pbAvatar_Click);
             // 
-            // btSecondavatar
+            // pbAV2
             // 
-            this.btSecondavatar.BackColor = System.Drawing.Color.Transparent;
-            this.btSecondavatar.Image = ((System.Drawing.Image)(resources.GetObject("btSecondavatar.Image")));
-            this.btSecondavatar.ImageRotate = 0F;
-            this.btSecondavatar.InitialImage = null;
-            this.btSecondavatar.Location = new System.Drawing.Point(225, 448);
-            this.btSecondavatar.Name = "btSecondavatar";
-            this.btSecondavatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.btSecondavatar.Size = new System.Drawing.Size(61, 56);
-            this.btSecondavatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btSecondavatar.TabIndex = 24;
-            this.btSecondavatar.TabStop = false;
-            this.btSecondavatar.UseTransparentBackground = true;
+            this.pbAV2.BackColor = System.Drawing.Color.Transparent;
+            this.pbAV2.Image = ((System.Drawing.Image)(resources.GetObject("pbAV2.Image")));
+            this.pbAV2.ImageRotate = 0F;
+            this.pbAV2.InitialImage = null;
+            this.pbAV2.Location = new System.Drawing.Point(225, 448);
+            this.pbAV2.Name = "pbAV2";
+            this.pbAV2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.pbAV2.Size = new System.Drawing.Size(61, 56);
+            this.pbAV2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAV2.TabIndex = 24;
+            this.pbAV2.TabStop = false;
+            this.pbAV2.UseTransparentBackground = true;
             // 
-            // lbFirstusername
+            // lbUS1
             // 
-            this.lbFirstusername.AutoSize = true;
-            this.lbFirstusername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.lbFirstusername.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.lbFirstusername.ForeColor = System.Drawing.Color.White;
-            this.lbFirstusername.Location = new System.Drawing.Point(128, 508);
-            this.lbFirstusername.Name = "lbFirstusername";
-            this.lbFirstusername.Size = new System.Drawing.Size(51, 19);
-            this.lbFirstusername.TabIndex = 25;
-            this.lbFirstusername.Text = "ovapil";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(224, 508);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 19);
-            this.label1.TabIndex = 26;
-            this.label1.Text = "miranee";
+            this.lbUS1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.lbUS1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.lbUS1.ForeColor = System.Drawing.Color.White;
+            this.lbUS1.Location = new System.Drawing.Point(113, 508);
+            this.lbUS1.Name = "lbUS1";
+            this.lbUS1.Size = new System.Drawing.Size(80, 19);
+            this.lbUS1.TabIndex = 25;
+            this.lbUS1.Text = "user_name12345";
+            this.lbUS1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // pnVideo
             // 
             this.pnVideo.BackColor = System.Drawing.Color.Black;
+            this.pnVideo.Controls.Add(this.searchResult);
             this.pnVideo.Controls.Add(this.btSearch);
             this.pnVideo.Controls.Add(this.pnTool);
             this.pnVideo.Controls.Add(this.tbSearch);
@@ -674,6 +676,7 @@
             this.tbSearch.TabIndex = 38;
             this.tbSearch.TextOffset = new System.Drawing.Point(25, 0);
             this.tbSearch.Visible = false;
+            this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             // 
             // Videoplayer
             // 
@@ -692,16 +695,142 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // searchResult
+            // 
+            this.searchResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.searchResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            this.searchResult.BackgroundColor = System.Drawing.Color.Black;
+            this.searchResult.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.searchResult.ColumnHeadersVisible = false;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.searchResult.DefaultCellStyle = dataGridViewCellStyle3;
+            this.searchResult.Location = new System.Drawing.Point(157, 55);
+            this.searchResult.Name = "searchResult";
+            this.searchResult.RowHeadersVisible = false;
+            this.searchResult.RowHeadersWidth = 51;
+            this.searchResult.RowTemplate.Height = 40;
+            this.searchResult.Size = new System.Drawing.Size(452, 72);
+            this.searchResult.TabIndex = 48;
+            this.searchResult.Visible = false;
+            this.searchResult.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.searchResult_CellClick);
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(216, 508);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 19);
+            this.label1.TabIndex = 37;
+            this.label1.Text = "user_name12345";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbUS3
+            // 
+            this.lbUS3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.lbUS3.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.lbUS3.ForeColor = System.Drawing.Color.White;
+            this.lbUS3.Location = new System.Drawing.Point(319, 508);
+            this.lbUS3.Name = "lbUS3";
+            this.lbUS3.Size = new System.Drawing.Size(80, 19);
+            this.lbUS3.TabIndex = 39;
+            this.lbUS3.Text = "user_name12345";
+            this.lbUS3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // pbAV3
+            // 
+            this.pbAV3.BackColor = System.Drawing.Color.Transparent;
+            this.pbAV3.Image = ((System.Drawing.Image)(resources.GetObject("pbAV3.Image")));
+            this.pbAV3.ImageRotate = 0F;
+            this.pbAV3.InitialImage = null;
+            this.pbAV3.Location = new System.Drawing.Point(328, 448);
+            this.pbAV3.Name = "pbAV3";
+            this.pbAV3.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.pbAV3.Size = new System.Drawing.Size(61, 56);
+            this.pbAV3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAV3.TabIndex = 38;
+            this.pbAV3.TabStop = false;
+            this.pbAV3.UseTransparentBackground = true;
+            // 
+            // lbUS4
+            // 
+            this.lbUS4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.lbUS4.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.lbUS4.ForeColor = System.Drawing.Color.White;
+            this.lbUS4.Location = new System.Drawing.Point(420, 508);
+            this.lbUS4.Name = "lbUS4";
+            this.lbUS4.Size = new System.Drawing.Size(80, 19);
+            this.lbUS4.TabIndex = 41;
+            this.lbUS4.Text = "user_name12345";
+            this.lbUS4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // pbAV4
+            // 
+            this.pbAV4.BackColor = System.Drawing.Color.Transparent;
+            this.pbAV4.Image = ((System.Drawing.Image)(resources.GetObject("pbAV4.Image")));
+            this.pbAV4.ImageRotate = 0F;
+            this.pbAV4.InitialImage = null;
+            this.pbAV4.Location = new System.Drawing.Point(429, 448);
+            this.pbAV4.Name = "pbAV4";
+            this.pbAV4.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.pbAV4.Size = new System.Drawing.Size(61, 56);
+            this.pbAV4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAV4.TabIndex = 40;
+            this.pbAV4.TabStop = false;
+            this.pbAV4.UseTransparentBackground = true;
+            // 
+            // lbUS5
+            // 
+            this.lbUS5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.lbUS5.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.lbUS5.ForeColor = System.Drawing.Color.White;
+            this.lbUS5.Location = new System.Drawing.Point(522, 508);
+            this.lbUS5.Name = "lbUS5";
+            this.lbUS5.Size = new System.Drawing.Size(80, 19);
+            this.lbUS5.TabIndex = 43;
+            this.lbUS5.Text = "user_name12345";
+            this.lbUS5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // pbAV5
+            // 
+            this.pbAV5.BackColor = System.Drawing.Color.Transparent;
+            this.pbAV5.Image = ((System.Drawing.Image)(resources.GetObject("pbAV5.Image")));
+            this.pbAV5.ImageRotate = 0F;
+            this.pbAV5.InitialImage = null;
+            this.pbAV5.Location = new System.Drawing.Point(531, 448);
+            this.pbAV5.Name = "pbAV5";
+            this.pbAV5.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.pbAV5.Size = new System.Drawing.Size(61, 56);
+            this.pbAV5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAV5.TabIndex = 42;
+            this.pbAV5.TabStop = false;
+            this.pbAV5.UseTransparentBackground = true;
+            // 
             // Form_Onlineroom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
-            this.Controls.Add(this.pnVideo);
+            this.Controls.Add(this.lbUS5);
+            this.Controls.Add(this.pbAV5);
+            this.Controls.Add(this.lbUS4);
+            this.Controls.Add(this.pbAV4);
+            this.Controls.Add(this.lbUS3);
+            this.Controls.Add(this.pbAV3);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.lbFirstusername);
-            this.Controls.Add(this.btSecondavatar);
-            this.Controls.Add(this.pbFirstavatar);
+            this.Controls.Add(this.pnVideo);
+            this.Controls.Add(this.lbUS1);
+            this.Controls.Add(this.pbAV2);
+            this.Controls.Add(this.pbAV1);
             this.Controls.Add(this.btUpload);
             this.Controls.Add(this.btReaction);
             this.Controls.Add(this.tbEnterchat);
@@ -720,14 +849,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).EndInit();
             this.pnHeader.ResumeLayout(false);
             this.pnHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFirstavatar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btSecondavatar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV2)).EndInit();
             this.pnVideo.ResumeLayout(false);
             this.pnTool.ResumeLayout(false);
             this.pnTool.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Videoplayer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchResult)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAV5)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -743,10 +875,9 @@
         private Guna.UI2.WinForms.Guna2TextBox tbEnterchat;
         private Guna.UI2.WinForms.Guna2Button btReaction;
         private Guna.UI2.WinForms.Guna2Button btUpload;
-        private Guna.UI2.WinForms.Guna2CirclePictureBox pbFirstavatar;
-        private Guna.UI2.WinForms.Guna2CirclePictureBox btSecondavatar;
-        private System.Windows.Forms.Label lbFirstusername;
-        private System.Windows.Forms.Label label1;
+        private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV1;
+        private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV2;
+        private System.Windows.Forms.Label lbUS1;
         private System.Windows.Forms.Label lbID;
         private System.Windows.Forms.Label lbRoomname;
         private System.Windows.Forms.Panel pnVideo;
@@ -766,5 +897,13 @@
         private System.Windows.Forms.Timer timer1;
         private Guna.UI2.WinForms.Guna2Button btSearch;
         private Guna.UI2.WinForms.Guna2TextBox tbSearch;
+        private System.Windows.Forms.DataGridView searchResult;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbUS3;
+        private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV3;
+        private System.Windows.Forms.Label lbUS4;
+        private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV4;
+        private System.Windows.Forms.Label lbUS5;
+        private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV5;
     }
 }

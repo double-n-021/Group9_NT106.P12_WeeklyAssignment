@@ -268,6 +268,7 @@
             this.btLowG.BackColor = System.Drawing.Color.Transparent;
             this.btLowG.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.btLowG.BorderRadius = 10;
+            this.btLowG.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btLowG.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btLowG.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btLowG.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
