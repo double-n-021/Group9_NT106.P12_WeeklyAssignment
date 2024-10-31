@@ -11,11 +11,13 @@ namespace Client
     {
         ListView List;
         TextBox RoomID;
+        TextBox RoomName;
 
-        public Manager(ListView list, TextBox roomID)
+        public Manager(ListView list, TextBox roomID, TextBox roomName)
         {
             List = list;
             RoomID = roomID;
+            RoomName = roomName;
         }
 
         public void AddToUserListView(string line)
@@ -74,18 +76,20 @@ namespace Client
             }
         }
 
-        public void UpdateRoomID(string roomID)
+        public void UpdateRoomIDNRoomName(string roomID, string roomName)
         {
             if (RoomID.InvokeRequired)
             {
                 RoomID.Invoke(new Action(() =>
                 {
                     RoomID.Text = roomID;
+                    RoomName.Text = roomName;
                 }));
             }
             else
             {
                 RoomID.Text = roomID;
+                RoomName.Text = roomName;
             }
         }
 

@@ -50,11 +50,12 @@ namespace Client
             {
                 Username = username,
                 Code = code,
+                RoomName = nameconnect,
                 RoomID = idconnect,
             };
 
             //Khởi tạo class manager để cập nhật list người tham gia phòng và mã id của phòng ở phía user
-            Manager = new Manager(listView_room_users, tbRoomID);
+            Manager = new Manager(listView_room_users, tbRoomID, tbRoomName);
         }
 
         TcpClient client;
@@ -81,7 +82,7 @@ namespace Client
                 {
                     writer.Write("onlineroom");
                     sendToServer(this_client_info); //gửi được rồi
-                    Manager.UpdateRoomID(this_client_info.RoomID);
+                    Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
                     Manager.AddToUserListView(this_client_info.Username + " (you)");
                     Thread listen = new Thread(Receive);
                     listen.IsBackground = true;
@@ -142,7 +143,7 @@ namespace Client
         void generate_room_status(Packet response)
         {
             this_client_info.RoomID = response.RoomID;
-            Manager.UpdateRoomID(this_client_info.RoomID);
+            Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
             isNew = false;
         }
 
@@ -187,6 +188,7 @@ namespace Client
                     Manager.AddToUserListView(username);
                 }
             }
+            Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
         }
 
 

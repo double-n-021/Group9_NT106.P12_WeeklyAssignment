@@ -245,6 +245,7 @@ namespace Server
             Room newRoom = new Room(); //Tạo phòng mới thuộc lớp Room
             newRoom.roomID = roomID; //Gán ID ngẫu nhiên vừa tạo cho thuộc tính roomID của đối tượng newRoom 
 
+            newRoom.roomName = request.RoomName;
             newRoom.userList.Add(user); //Thêm user vào thuộc tính userList có kiểu List
             roomList.Add(newRoom); //Thêm đối tượng newRoom vào List roomList
 

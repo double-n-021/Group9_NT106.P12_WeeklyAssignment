@@ -9,6 +9,7 @@ namespace Server
     internal class Room
     {
         public int roomID;
+        public string roomName;
         public List<User> userList = new List<User>();
 
         public string GetUsernameListInString()

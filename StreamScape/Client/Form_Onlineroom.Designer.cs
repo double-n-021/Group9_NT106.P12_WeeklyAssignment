@@ -69,7 +69,7 @@
             this.pbAV4 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.lbUS5 = new System.Windows.Forms.Label();
             this.pbAV5 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbRoomName = new System.Windows.Forms.TextBox();
             this.tbRoomID = new System.Windows.Forms.TextBox();
             this.listView_room_users = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
@@ -788,19 +788,19 @@
             this.pbAV5.TabStop = false;
             this.pbAV5.UseTransparentBackground = true;
             // 
-            // textBox1
+            // tbRoomName
             // 
-            this.textBox1.BackColor = System.Drawing.Color.Black;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(286, 3);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 32);
-            this.textBox1.TabIndex = 53;
-            this.textBox1.Text = "Room_name";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbRoomName.BackColor = System.Drawing.Color.Black;
+            this.tbRoomName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbRoomName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbRoomName.ForeColor = System.Drawing.Color.White;
+            this.tbRoomName.Location = new System.Drawing.Point(286, 3);
+            this.tbRoomName.Multiline = true;
+            this.tbRoomName.Name = "tbRoomName";
+            this.tbRoomName.Size = new System.Drawing.Size(152, 32);
+            this.tbRoomName.TabIndex = 53;
+            this.tbRoomName.Text = "Room_name";
+            this.tbRoomName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tbRoomID
             // 
@@ -829,7 +829,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbRoomName);
             this.Controls.Add(this.lbUS5);
             this.Controls.Add(this.tbRoomID);
             this.Controls.Add(this.pbAV5);
@@ -914,7 +914,7 @@
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV4;
         private System.Windows.Forms.Label lbUS5;
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbRoomName;
         private System.Windows.Forms.TextBox tbRoomID;
         private System.Windows.Forms.ListView listView_room_users;
     }

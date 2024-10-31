@@ -10,6 +10,7 @@ namespace Client
     {
         public string Username { get; set; }
         public int Code { get; set; }
+        public string RoomName { get; set; }
         public string RoomID { get; set; }
 
     }
