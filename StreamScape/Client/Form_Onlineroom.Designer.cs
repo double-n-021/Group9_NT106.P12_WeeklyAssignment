@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.pnHeader = new System.Windows.Forms.Panel();
@@ -328,14 +328,14 @@
             this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.searchResult.ColumnHeadersVisible = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.searchResult.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.searchResult.DefaultCellStyle = dataGridViewCellStyle3;
             this.searchResult.Location = new System.Drawing.Point(157, 55);
             this.searchResult.Name = "searchResult";
             this.searchResult.RowHeadersVisible = false;
@@ -818,11 +818,12 @@
             // listView_room_users
             // 
             this.listView_room_users.HideSelection = false;
-            this.listView_room_users.Location = new System.Drawing.Point(897, 167);
+            this.listView_room_users.Location = new System.Drawing.Point(846, 164);
             this.listView_room_users.Name = "listView_room_users";
             this.listView_room_users.Size = new System.Drawing.Size(121, 158);
             this.listView_room_users.TabIndex = 51;
             this.listView_room_users.UseCompatibleStateImageBehavior = false;
+            this.listView_room_users.View = System.Windows.Forms.View.List;
             // 
             // Form_Onlineroom
             // 

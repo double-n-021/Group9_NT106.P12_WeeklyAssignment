@@ -246,6 +246,7 @@ namespace Server
             newRoom.roomID = roomID; //Gán ID ngẫu nhiên vừa tạo cho thuộc tính roomID của đối tượng newRoom 
 
             newRoom.roomName = request.RoomName;
+
             newRoom.userList.Add(user); //Thêm user vào thuộc tính userList có kiểu List
             roomList.Add(newRoom); //Thêm đối tượng newRoom vào List roomList
 
@@ -279,6 +280,7 @@ namespace Server
                 if (room.roomID == id)
                 {
                     requestingRoom = room;
+                    request.RoomName = room.roomName;
                     roomExist = true;
                     break;
                 }

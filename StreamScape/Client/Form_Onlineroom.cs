@@ -157,13 +157,13 @@ namespace Client
                     RoomID = response.RoomID,
                 });
                 isNew = false;
+                tbRoomName.Text = response.RoomName;
             }
 
             if (response.Username == "err:thisroomdoesnotexist")
             {
                 Manager.ShowError("The room you requested does not exist");
                 client.Close();
-                this.Close();
                 return;
             }
 
@@ -188,7 +188,6 @@ namespace Client
                     Manager.AddToUserListView(username);
                 }
             }
-            Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
         }
 
 
