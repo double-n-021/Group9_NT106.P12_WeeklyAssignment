@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.pnHeader = new System.Windows.Forms.Panel();
@@ -62,7 +62,7 @@
             this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbUS2 = new System.Windows.Forms.Label();
             this.lbUS3 = new System.Windows.Forms.Label();
             this.pbAV3 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.lbUS4 = new System.Windows.Forms.Label();
@@ -185,6 +185,7 @@
             this.btMenu.BackColor = System.Drawing.Color.Transparent;
             this.btMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btMenu.BackgroundImage")));
             this.btMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btMenu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btMenu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btMenu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -192,11 +193,12 @@
             this.btMenu.FillColor = System.Drawing.Color.Transparent;
             this.btMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btMenu.ForeColor = System.Drawing.Color.White;
-            this.btMenu.Location = new System.Drawing.Point(56, 472);
+            this.btMenu.Location = new System.Drawing.Point(56, 468);
             this.btMenu.Name = "btMenu";
             this.btMenu.Size = new System.Drawing.Size(32, 32);
             this.btMenu.TabIndex = 15;
             this.btMenu.Text = "guna2Button1";
+            this.btMenu.Click += new System.EventHandler(this.btMenu_Click);
             // 
             // tbEnterchat
             // 
@@ -328,14 +330,14 @@
             this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.searchResult.ColumnHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.searchResult.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.searchResult.DefaultCellStyle = dataGridViewCellStyle4;
             this.searchResult.Location = new System.Drawing.Point(157, 55);
             this.searchResult.Name = "searchResult";
             this.searchResult.RowHeadersVisible = false;
@@ -695,17 +697,17 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label1
+            // lbUS2
             // 
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(216, 508);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 19);
-            this.label1.TabIndex = 37;
-            this.label1.Text = "user_name12345";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbUS2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.lbUS2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.lbUS2.ForeColor = System.Drawing.Color.White;
+            this.lbUS2.Location = new System.Drawing.Point(216, 508);
+            this.lbUS2.Name = "lbUS2";
+            this.lbUS2.Size = new System.Drawing.Size(80, 19);
+            this.lbUS2.TabIndex = 37;
+            this.lbUS2.Text = "user_name12345";
+            this.lbUS2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lbUS3
             // 
@@ -794,10 +796,10 @@
             this.tbRoomName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbRoomName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRoomName.ForeColor = System.Drawing.Color.White;
-            this.tbRoomName.Location = new System.Drawing.Point(286, 3);
+            this.tbRoomName.Location = new System.Drawing.Point(323, 4);
             this.tbRoomName.Multiline = true;
             this.tbRoomName.Name = "tbRoomName";
-            this.tbRoomName.Size = new System.Drawing.Size(152, 32);
+            this.tbRoomName.Size = new System.Drawing.Size(146, 32);
             this.tbRoomName.TabIndex = 53;
             this.tbRoomName.Text = "Room_name";
             this.tbRoomName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -806,40 +808,44 @@
             // 
             this.tbRoomID.BackColor = System.Drawing.Color.Black;
             this.tbRoomID.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbRoomID.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.tbRoomID.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRoomID.ForeColor = System.Drawing.Color.White;
-            this.tbRoomID.Location = new System.Drawing.Point(539, 13);
+            this.tbRoomID.Location = new System.Drawing.Point(522, 14);
             this.tbRoomID.Name = "tbRoomID";
-            this.tbRoomID.Size = new System.Drawing.Size(49, 19);
+            this.tbRoomID.Size = new System.Drawing.Size(49, 20);
             this.tbRoomID.TabIndex = 52;
             this.tbRoomID.Text = "1234";
             this.tbRoomID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // listView_room_users
             // 
+            this.listView_room_users.BackColor = System.Drawing.Color.Black;
+            this.listView_room_users.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listView_room_users.ForeColor = System.Drawing.Color.White;
             this.listView_room_users.HideSelection = false;
-            this.listView_room_users.Location = new System.Drawing.Point(846, 164);
+            this.listView_room_users.Location = new System.Drawing.Point(105, 374);
             this.listView_room_users.Name = "listView_room_users";
-            this.listView_room_users.Size = new System.Drawing.Size(121, 158);
+            this.listView_room_users.Size = new System.Drawing.Size(121, 153);
             this.listView_room_users.TabIndex = 51;
             this.listView_room_users.UseCompatibleStateImageBehavior = false;
             this.listView_room_users.View = System.Windows.Forms.View.List;
+            this.listView_room_users.Visible = false;
             // 
             // Form_Onlineroom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
+            this.Controls.Add(this.listView_room_users);
             this.Controls.Add(this.tbRoomName);
             this.Controls.Add(this.lbUS5);
             this.Controls.Add(this.tbRoomID);
             this.Controls.Add(this.pbAV5);
-            this.Controls.Add(this.listView_room_users);
             this.Controls.Add(this.lbUS4);
             this.Controls.Add(this.pbAV4);
             this.Controls.Add(this.lbUS3);
             this.Controls.Add(this.pbAV3);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbUS2);
             this.Controls.Add(this.pnVideo);
             this.Controls.Add(this.lbUS1);
             this.Controls.Add(this.pbAV2);
@@ -908,7 +914,7 @@
         private Guna.UI2.WinForms.Guna2Button btSearch;
         private Guna.UI2.WinForms.Guna2TextBox tbSearch;
         private System.Windows.Forms.DataGridView searchResult;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbUS2;
         private System.Windows.Forms.Label lbUS3;
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV3;
         private System.Windows.Forms.Label lbUS4;

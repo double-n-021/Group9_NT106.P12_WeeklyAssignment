@@ -291,7 +291,7 @@
             this.listView_log.Size = new System.Drawing.Size(738, 138);
             this.listView_log.TabIndex = 21;
             this.listView_log.UseCompatibleStateImageBehavior = false;
-            this.listView_log.View = System.Windows.Forms.View.Details;
+            this.listView_log.View = System.Windows.Forms.View.List;
             // 
             // Form_LAN
             // 

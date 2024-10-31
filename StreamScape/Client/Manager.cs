@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
 using System.Windows.Forms;
+using System.Drawing;
+
+
 
 namespace Client
 {
@@ -20,20 +22,48 @@ namespace Client
             RoomName = roomName;
         }
 
-        public void AddToUserListView(string line)
+        public void AddToUserListView(string line, Form_Onlineroom formonlineroom)
         {
             if (List.InvokeRequired)
             {
                 List.Invoke(new Action(() =>
                 {
                     List.Items.Add(line);
+                    ConvertListViewToPB(List, formonlineroom);
                 }));
             }
             else
             {
                 List.Items.Add(line);
+                ConvertListViewToPB(List, formonlineroom);
             }
         }
+        private void ConvertListViewToPB(ListView list, Form_Onlineroom formonlineroom)
+        {
+            int seq_user = 0;
+            foreach (ListViewItem item in list.Items)//0 -> cuối list
+            {
+                if (seq_user >= 5) break;
+
+                string username = item.Text;
+
+                // Tìm Label cho tên người dùng hiện tại
+                Label match_username = formonlineroom.Controls.Find("lbUS" + (seq_user + 1), true).FirstOrDefault() as Label;
+
+                if (match_username != null)
+                {
+                    match_username.Text = username;
+                    match_username.Visible = true;
+                }
+                else
+                {
+                    match_username.Visible = false;
+                }
+
+                seq_user++;
+            }
+        }
+
 
         public void RemoveFromUserListView(string line)
         {

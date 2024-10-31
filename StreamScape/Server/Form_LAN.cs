@@ -263,6 +263,7 @@ namespace Server
             {
                 Code = 0,
                 Username = request.Username,
+                Avatar = request.Avatar,
                 RoomID = roomID.ToString()
             };
 

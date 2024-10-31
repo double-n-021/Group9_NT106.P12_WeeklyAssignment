@@ -49,6 +49,7 @@ namespace Client
             this_client_info = new Packet()
             {
                 Username = username,
+                Avatar = avatarconnect,
                 Code = code,
                 RoomName = nameconnect,
                 RoomID = idconnect,
@@ -83,7 +84,7 @@ namespace Client
                     writer.Write("onlineroom");
                     sendToServer(this_client_info); //gửi được rồi
                     Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
-                    Manager.AddToUserListView(this_client_info.Username + " (you)");
+                    Manager.AddToUserListView(this_client_info.Username + "(you)", this);
                     Thread listen = new Thread(Receive);
                     listen.IsBackground = true;
                     listen.Start();
@@ -153,7 +154,7 @@ namespace Client
             {
                 sendToServer(new Packet
                 {
-                    Code = 1,
+                    Code = 2,
                     RoomID = response.RoomID,
                 });
                 isNew = false;
@@ -182,10 +183,12 @@ namespace Client
                         break;
                     }
                 }
+
                 Manager.ClearUserListView();
+
                 foreach (string username in list)
                 {
-                    Manager.AddToUserListView(username);
+                    Manager.AddToUserListView(username, this);
                 }
             }
         }
@@ -301,6 +304,7 @@ namespace Client
         //Quay lại form home và đóng form hiện tại (Rời phòng)
         private void btBack_Click(object sender, EventArgs e)
         {
+            client.Close();
             this.Close();
             Form_Home formHome = new Form_Home(textconnect, Avatarconnect);
             formHome.Show();
@@ -502,6 +506,16 @@ namespace Client
             {
                 MessageBox.Show("Error connecting to server: " + ex.Message);
             }
+        }
+
+        int count = 0;
+        private void btMenu_Click(object sender, EventArgs e)
+        {
+            count++;
+            if (count%2==0)
+                listView_room_users.Visible = false;
+            else
+                listView_room_users.Visible = true;
         }
     }
 }
