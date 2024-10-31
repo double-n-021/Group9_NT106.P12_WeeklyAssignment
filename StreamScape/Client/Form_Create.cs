@@ -99,7 +99,7 @@ namespace Client
             {
                 nameroomconnect = tbNameofRoom.Text;
                 this.Close();
-                Form_Onlineroom formOnlineroom = new Form_Onlineroom(textconnect, Avatarconnect, nameroomconnect, "");//truyền cho form onlinerooom username và avatar
+                Form_Onlineroom formOnlineroom = new Form_Onlineroom(textconnect, Avatarconnect, 0, nameroomconnect, "");//0 là code create room
                 formOnlineroom.Show();
                 formOnlineroom.Location = new Point(this.Location.X, this.Location.Y);
             }

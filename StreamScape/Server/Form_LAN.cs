@@ -16,18 +16,22 @@ using System.Data.SQLite;
 using System.Security.Cryptography;
 using Azure.Core;
 using System.Runtime.InteropServices.ComTypes;
+using Newtonsoft.Json;
 
 namespace Server
 {
     public partial class Form_LAN : Form
     {
         private TcpListener server;
-        private Thread listenerThread;
-        private bool isRunning;
         private string dbPath = "DBSS.db"; // Đường dẫn file database
+        private List<Room> roomList = new List<Room>();
+        private List<User> userList = new List<User>();
+        private Manager ManagerOBJ;
+
         public Form_LAN()
         {
             InitializeComponent();
+            ManagerOBJ = new Manager(listView_log, tbAvailableRoom, tbExistingUser);
         }
 
         private void Form_LAN_Load(object sender, EventArgs e)
@@ -73,51 +77,31 @@ namespace Server
         }
 
 
-        private void StartServer()
+
+        private void Listen()
         {
             try
+            {
+                while (true)
+                {
+                    TcpClient client = server.AcceptTcpClient();
+                    Thread clientThread = new Thread(HandleClient);
+                    clientThread.IsBackground = true;
+                    clientThread.Start(client);
+                }
+            }
+            catch
             {
                 server = new TcpListener(IPAddress.Any, 5000);
                 server.Start();
-                isRunning = true;
-                while (isRunning)
-                {
-                    // Chấp nhận kết nối từ client
-                    TcpClient client = server.AcceptTcpClient();
-                    Thread clientThread = new Thread(() => HandleClient(client));
-                    clientThread.IsBackground = true;
-                    clientThread.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi khởi động server: " + ex.Message);
             }
         }
 
-        private void StopServer()
-        {
-            try
-            {
-                isRunning = false;
-                if (server != null)
-                {
-                    server.Stop();
-                }
-                if (listenerThread != null && listenerThread.IsAlive)
-                {
-                    listenerThread.Join(); // Dừng thread server
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi dừng server: " + ex.Message);
-            }
-        }
 
         string tag = "";
-        private void HandleClient(TcpClient client)
+        private void HandleClient(object obj)
         {
+            TcpClient client = obj as TcpClient;
             using (NetworkStream stream = client.GetStream())
             using (BinaryReader reader = new BinaryReader(stream))
             using (BinaryWriter writer = new BinaryWriter(stream))
@@ -209,6 +193,36 @@ namespace Server
                             writer.Write(0); // Nếu không tìm thấy tệp, gửi độ dài là 0
                         }
                     }
+                    else if (requestType == "onlineroom")
+                    {
+                        User user = new User(client);
+                        userList.Add(user);
+
+                        try
+                        {
+                            string requestInJson = string.Empty;
+                            while (true)
+                            {
+                                requestInJson = user.Reader.ReadString();
+
+                                Packet request = JsonConvert.DeserializeObject<Packet>(requestInJson);
+
+                                switch (request.Code)
+                                {
+                                    case 0:
+                                        generate_room_handler(user, request);
+                                        break;
+                                    case 1:
+                                        join_room_handler(user, request);
+                                        break;
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            close_client(user);
+                        }
+                    }
                 }
                 catch (IOException ex)
                 {
@@ -218,6 +232,143 @@ namespace Server
                 {
                     MessageBox.Show($"Lỗi: {ex.Message}");
                 }
+            }
+        }
+
+        private void generate_room_handler(User user, Packet request)
+        {
+            user.Username = request.Username;
+
+            //Tạo ID phòng ngẫu nhiên trong khoảng [1000,9999]
+            Random r = new Random();
+            int roomID = r.Next(1000, 9999);
+            Room newRoom = new Room(); //Tạo phòng mới thuộc lớp Room
+            newRoom.roomID = roomID; //Gán ID ngẫu nhiên vừa tạo cho thuộc tính roomID của đối tượng newRoom 
+
+            newRoom.userList.Add(user); //Thêm user vào thuộc tính userList có kiểu List
+            roomList.Add(newRoom); //Thêm đối tượng newRoom vào List roomList
+
+            //Hiển thị ở listview của Form_LAN thông báo phòng mới vừa được tạo kèm với ID của phòng đó
+            ManagerOBJ.WriteToLog(user.Username + " created new room. Room code: " + newRoom.roomID);
+
+            //Cập nhật số phòng hiện tại
+            ManagerOBJ.UpdateRoomCount(roomList.Count);
+
+            //Cập nhật số user đang tham gia ở chế độ phòng online
+            ManagerOBJ.UpdateUserCount(userList.Count);
+
+            Packet message = new Packet
+            {
+                Code = 0,
+                Username = request.Username,
+                RoomID = roomID.ToString()
+            };
+
+            sendSpecific(user, message);
+        }
+
+        private void join_room_handler(User user, Packet request)
+        {
+            bool roomExist = false;
+
+            int id = int.Parse(request.RoomID.ToString());
+            Room requestingRoom = new Room();
+            foreach (Room room in roomList)
+            {
+                if (room.roomID == id)
+                {
+                    requestingRoom = room;
+                    roomExist = true;
+                    break;
+                }
+            }
+            if (!roomExist)
+            {
+                request.Username = "err:thisroomdoesnotexist";
+                sendSpecific(user, request);
+                return;
+            }
+
+            // thêm user mới vào phòng
+            user.Username = request.Username;
+            requestingRoom.userList.Add(user);
+
+            // gửi danh sách user sau khi thêm user mới cho các user cũ trong phòng
+            request.Username = requestingRoom.GetUsernameListInString();
+            foreach (User _user in requestingRoom.userList)
+            {
+                sendSpecific(_user, request);
+            }
+
+            ManagerOBJ.WriteToLog("Room " + request.RoomID + ": " + user.Username + " joined");
+            ManagerOBJ.UpdateUserCount(userList.Count);
+        }
+
+        private void close_client(User user)
+        {
+            Room requestingRoom = new Room();
+
+            // xoá client khỏi cách list client và close client
+            foreach (Room room in roomList)
+            {
+                if (room.userList.Contains(user))
+                {
+                    requestingRoom = room;
+                    room.userList.Remove(user);
+                    break;
+                }
+            }
+            userList.Remove(user);
+            user.Client.Close();
+
+            if (user.Username != string.Empty)
+            {
+                ManagerOBJ.WriteToLog(user.Username + " disconnected.");
+            }
+
+            // gửi thông báo về client vừa ngắt kết nối đến client khác trong phòng
+            Packet message = new Packet()
+            {
+                Code = 1,
+                Username = "!" + user.Username
+            };
+            if (requestingRoom.userList.Count == 0)
+            {
+                if (roomList.Contains(requestingRoom))
+                {
+                    roomList.Remove(requestingRoom);
+                    ManagerOBJ.WriteToLog("Deleted room: " + requestingRoom.roomID + " - No user here.");
+                }
+            }
+            else
+            {
+                foreach (User _user in requestingRoom.userList)
+                {
+                    sendSpecific(_user, message);
+                }
+            }
+            ManagerOBJ.UpdateRoomCount(roomList.Count);
+            ManagerOBJ.UpdateUserCount(userList.Count);
+        }
+
+        private void sendSpecific(User user, Object message)
+        {
+            if (user.Client.Connected)
+            {
+                string messageInJson = JsonConvert.SerializeObject(message);
+                try
+                {
+                    user.Writer.Write(messageInJson);
+                    user.Writer.Flush();
+                }
+                catch (Exception ex)
+                {
+                    ManagerOBJ.ShowError($"Cannot send data to user: {user.Username}\nError: {ex.Message}");
+                }
+            }
+            else
+            {
+                ManagerOBJ.ShowError("Connection is closed.");
             }
         }
 
@@ -403,32 +554,43 @@ namespace Server
 
         private void btStart_Click(object sender, EventArgs e)
         {
-            if (!isRunning)
+            try
             {
-                // Khởi động server
-                listenerThread = new Thread(StartServer);
-                listenerThread.IsBackground = true;
-                listenerThread.Start();
-                isRunning = true;
-                MessageBox.Show("Server đã khởi động.");
+                server = new TcpListener(IPAddress.Any, 5000);
+                server.Start();
+
+                Thread clientListener = new Thread(Listen);
+                clientListener.IsBackground = true;
+                clientListener.Start();
+
+                ManagerOBJ.WriteToLog("Start listening for incoming requests...");
+
+                btStart.Enabled = false;
+                btStop.Enabled = true;
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Server đang chạy.");
+                MessageBox.Show("Lỗi khi khởi động server: " + ex.Message);
             }
         }
 
         private void btStop_Click(object sender, EventArgs e)
         {
-            if (isRunning)
+            try
             {
-                // Dừng server
-                StopServer();
-                MessageBox.Show("Server đã dừng.");
+                ManagerOBJ.WriteToLog("Stop listening for incoming requests");
+                foreach (User user in userList)
+                {
+                    user.Client.Close();
+                }
+                server.Stop();
+
+                btStop.Enabled = false;
+                btStart.Enabled = true;
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Server không hoạt động.");
+                MessageBox.Show("Lỗi khi dừng server: " + ex.Message);
             }
         }
 

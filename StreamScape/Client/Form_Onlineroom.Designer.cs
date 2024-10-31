@@ -30,12 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.pnHeader = new System.Windows.Forms.Panel();
-            this.lbRoomname = new System.Windows.Forms.Label();
-            this.lbID = new System.Windows.Forms.Label();
             this.btMinimized = new Guna.UI2.WinForms.Guna2Button();
             this.btMaximized = new Guna.UI2.WinForms.Guna2Button();
             this.btExit = new Guna.UI2.WinForms.Guna2Button();
@@ -47,6 +45,7 @@
             this.pbAV2 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.lbUS1 = new System.Windows.Forms.Label();
             this.pnVideo = new System.Windows.Forms.Panel();
+            this.searchResult = new System.Windows.Forms.DataGridView();
             this.btSearch = new Guna.UI2.WinForms.Guna2Button();
             this.pnTool = new System.Windows.Forms.Panel();
             this.csVideo = new ColorSlider.ColorSlider();
@@ -63,7 +62,6 @@
             this.Videoplayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.searchResult = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.lbUS3 = new System.Windows.Forms.Label();
             this.pbAV3 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
@@ -71,14 +69,16 @@
             this.pbAV4 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.lbUS5 = new System.Windows.Forms.Label();
             this.pbAV5 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbRoomID = new System.Windows.Forms.TextBox();
+            this.listView_room_users = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
-            this.pnHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV2)).BeginInit();
             this.pnVideo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.searchResult)).BeginInit();
             this.pnTool.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Videoplayer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV5)).BeginInit();
@@ -119,37 +119,10 @@
             // pnHeader
             // 
             this.pnHeader.BackColor = System.Drawing.Color.Transparent;
-            this.pnHeader.Controls.Add(this.lbRoomname);
-            this.pnHeader.Controls.Add(this.lbID);
             this.pnHeader.Location = new System.Drawing.Point(56, 0);
             this.pnHeader.Name = "pnHeader";
             this.pnHeader.Size = new System.Drawing.Size(798, 45);
             this.pnHeader.TabIndex = 13;
-            // 
-            // lbRoomname
-            // 
-            this.lbRoomname.AutoSize = true;
-            this.lbRoomname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.lbRoomname.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lbRoomname.ForeColor = System.Drawing.Color.White;
-            this.lbRoomname.Location = new System.Drawing.Point(249, 6);
-            this.lbRoomname.Name = "lbRoomname";
-            this.lbRoomname.Size = new System.Drawing.Size(154, 32);
-            this.lbRoomname.TabIndex = 28;
-            this.lbRoomname.Text = "Room_name";
-            this.lbRoomname.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lbID
-            // 
-            this.lbID.AutoSize = true;
-            this.lbID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.lbID.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Bold);
-            this.lbID.ForeColor = System.Drawing.Color.White;
-            this.lbID.Location = new System.Drawing.Point(465, 14);
-            this.lbID.Name = "lbID";
-            this.lbID.Size = new System.Drawing.Size(49, 15);
-            this.lbID.TabIndex = 27;
-            this.lbID.Text = "123456";
             // 
             // btMinimized
             // 
@@ -345,6 +318,33 @@
             this.pnVideo.Name = "pnVideo";
             this.pnVideo.Size = new System.Drawing.Size(778, 392);
             this.pnVideo.TabIndex = 36;
+            // 
+            // searchResult
+            // 
+            this.searchResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.searchResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            this.searchResult.BackgroundColor = System.Drawing.Color.Black;
+            this.searchResult.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.searchResult.ColumnHeadersVisible = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.searchResult.DefaultCellStyle = dataGridViewCellStyle1;
+            this.searchResult.Location = new System.Drawing.Point(157, 55);
+            this.searchResult.Name = "searchResult";
+            this.searchResult.RowHeadersVisible = false;
+            this.searchResult.RowHeadersWidth = 51;
+            this.searchResult.RowTemplate.Height = 40;
+            this.searchResult.Size = new System.Drawing.Size(452, 72);
+            this.searchResult.TabIndex = 48;
+            this.searchResult.Visible = false;
+            this.searchResult.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.searchResult_CellClick);
             // 
             // btSearch
             // 
@@ -695,33 +695,6 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // searchResult
-            // 
-            this.searchResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.searchResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            this.searchResult.BackgroundColor = System.Drawing.Color.Black;
-            this.searchResult.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.searchResult.ColumnHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.searchResult.DefaultCellStyle = dataGridViewCellStyle3;
-            this.searchResult.Location = new System.Drawing.Point(157, 55);
-            this.searchResult.Name = "searchResult";
-            this.searchResult.RowHeadersVisible = false;
-            this.searchResult.RowHeadersWidth = 51;
-            this.searchResult.RowTemplate.Height = 40;
-            this.searchResult.Size = new System.Drawing.Size(452, 72);
-            this.searchResult.TabIndex = 48;
-            this.searchResult.Visible = false;
-            this.searchResult.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.searchResult_CellClick);
-            // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
@@ -815,13 +788,52 @@
             this.pbAV5.TabStop = false;
             this.pbAV5.UseTransparentBackground = true;
             // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.Black;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.ForeColor = System.Drawing.Color.White;
+            this.textBox1.Location = new System.Drawing.Point(286, 3);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(152, 32);
+            this.textBox1.TabIndex = 53;
+            this.textBox1.Text = "Room_name";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tbRoomID
+            // 
+            this.tbRoomID.BackColor = System.Drawing.Color.Black;
+            this.tbRoomID.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbRoomID.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.tbRoomID.ForeColor = System.Drawing.Color.White;
+            this.tbRoomID.Location = new System.Drawing.Point(539, 13);
+            this.tbRoomID.Name = "tbRoomID";
+            this.tbRoomID.Size = new System.Drawing.Size(49, 19);
+            this.tbRoomID.TabIndex = 52;
+            this.tbRoomID.Text = "1234";
+            this.tbRoomID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // listView_room_users
+            // 
+            this.listView_room_users.HideSelection = false;
+            this.listView_room_users.Location = new System.Drawing.Point(897, 167);
+            this.listView_room_users.Name = "listView_room_users";
+            this.listView_room_users.Size = new System.Drawing.Size(121, 158);
+            this.listView_room_users.TabIndex = 51;
+            this.listView_room_users.UseCompatibleStateImageBehavior = false;
+            // 
             // Form_Onlineroom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lbUS5);
+            this.Controls.Add(this.tbRoomID);
             this.Controls.Add(this.pbAV5);
+            this.Controls.Add(this.listView_room_users);
             this.Controls.Add(this.lbUS4);
             this.Controls.Add(this.pbAV4);
             this.Controls.Add(this.lbUS3);
@@ -847,19 +859,18 @@
             this.Text = "Form_Onlineroom";
             this.Load += new System.EventHandler(this.Form_Onlineroom_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).EndInit();
-            this.pnHeader.ResumeLayout(false);
-            this.pnHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV2)).EndInit();
             this.pnVideo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.searchResult)).EndInit();
             this.pnTool.ResumeLayout(false);
             this.pnTool.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Videoplayer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchResult)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV5)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -878,8 +889,6 @@
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV1;
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV2;
         private System.Windows.Forms.Label lbUS1;
-        private System.Windows.Forms.Label lbID;
-        private System.Windows.Forms.Label lbRoomname;
         private System.Windows.Forms.Panel pnVideo;
         private System.Windows.Forms.Panel pnTool;
         private ColorSlider.ColorSlider csVideo;
@@ -905,5 +914,8 @@
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV4;
         private System.Windows.Forms.Label lbUS5;
         private Guna.UI2.WinForms.Guna2CirclePictureBox pbAV5;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbRoomID;
+        private System.Windows.Forms.ListView listView_room_users;
     }
 }

@@ -38,7 +38,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cbUserandAdd = new Guna.UI2.WinForms.Guna2ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btAdd = new Guna.UI2.WinForms.Guna2Button();
             this.label3 = new System.Windows.Forms.Label();
             this.tbTitle = new System.Windows.Forms.TextBox();
@@ -50,6 +49,7 @@
             this.cbTag = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.OFD = new System.Windows.Forms.OpenFileDialog();
+            this.listView_log = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.gbAdd.SuspendLayout();
             this.SuspendLayout();
@@ -169,14 +169,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(738, 164);
             this.dataGridView1.TabIndex = 10;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(219, 238);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(738, 145);
-            this.richTextBox1.TabIndex = 11;
-            this.richTextBox1.Text = "";
-            // 
             // btAdd
             // 
             this.btAdd.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
@@ -289,15 +281,27 @@
             // 
             this.OFD.FileName = "Open File";
             // 
+            // listView_log
+            // 
+            this.listView_log.Font = new System.Drawing.Font("Yu Gothic UI Semibold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView_log.HideSelection = false;
+            this.listView_log.Location = new System.Drawing.Point(219, 239);
+            this.listView_log.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.listView_log.Name = "listView_log";
+            this.listView_log.Size = new System.Drawing.Size(738, 138);
+            this.listView_log.TabIndex = 21;
+            this.listView_log.UseCompatibleStateImageBehavior = false;
+            this.listView_log.View = System.Windows.Forms.View.List;
+            // 
             // Form_LAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(967, 503);
+            this.Controls.Add(this.listView_log);
             this.Controls.Add(this.gbAdd);
             this.Controls.Add(this.btAdd);
-            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.cbUserandAdd);
             this.Controls.Add(this.label2);
@@ -331,7 +335,6 @@
         private System.Windows.Forms.Label label2;
         private Guna.UI2.WinForms.Guna2ComboBox cbUserandAdd;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private Guna.UI2.WinForms.Guna2Button btAdd;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbTitle;
@@ -343,5 +346,6 @@
         private System.Windows.Forms.Button btPoster;
         private System.Windows.Forms.Button btUploadFile;
         private System.Windows.Forms.OpenFileDialog OFD;
+        private System.Windows.Forms.ListView listView_log;
     }
 }

@@ -8,9 +8,12 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using Newtonsoft.Json;
 
 namespace Client
 {
@@ -20,27 +23,173 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
+
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
-        public Form_Onlineroom(string username, byte[] avatarconnect, string nameconnect, string idconnect)
+
+        private Packet this_client_info;
+        private Manager Manager;
+        private bool isNew;
+
+        public Form_Onlineroom(string username, byte[] avatarconnect, int code, string nameconnect, string idconnect)
         {
             InitializeComponent();
             LoadDataFromServer();
             textconnect = username;//gán dữ liệu vừa được truyền từ form home cho form create
             Avatarconnect = avatarconnect;//gán dữ liệu vừa được truyền từ form home cho form create
-            lbRoomname.Text = nameconnect;
-            if (avatarconnect != null && avatarconnect.Length > 0)
-            {
-                using (MemoryStream ms = new MemoryStream(avatarconnect))
-                {
-                    pbAV1.Image = Image.FromStream(ms); //load avatar vừa được truyền lên giao diện
-                }
-            }
-            lbUS1.Text = textconnect;
+
+            //Chức năng panel_header
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
+
+            isNew = true;
+
+            //Lưu thông tin user vừa click vào nút create hoặc join vào class Packet để gửi đến server
+            this_client_info = new Packet()
+            {
+                Username = username,
+                Code = code,
+                RoomID = idconnect,
+            };
+
+            //Khởi tạo class manager để cập nhật list người tham gia phòng và mã id của phòng ở phía user
+            Manager = new Manager(listView_room_users, tbRoomID);
         }
+
+        TcpClient client;
+        private BinaryReader reader;
+        private BinaryWriter writer;
+
+        private void Form_Onlineroom_Load(object sender, EventArgs e)
+        {
+            //tạo background trong suốt
+            btExit.Parent = pbBackgroundONLR;
+            btMaximized.Parent = pbBackgroundONLR;
+            btMinimized.Parent = pbBackgroundONLR;
+            pnHeader.Parent = pbBackgroundONLR;
+            btBack.Parent = pbBackgroundONLR;
+            btMenu.Parent = pbBackgroundONLR;
+            tbEnterchat.Parent = pbBackgroundONLR;
+
+            try
+            {
+                client = new TcpClient("127.0.0.1", 5000); // Sửa địa chỉ IP và port nếu cần
+                NetworkStream stream = client.GetStream();
+                writer = new BinaryWriter(stream);
+                reader = new BinaryReader(stream); // Reader để đọc phản hồi
+                {
+                    writer.Write("onlineroom");
+                    sendToServer(this_client_info); //gửi được rồi
+                    Manager.UpdateRoomID(this_client_info.RoomID);
+                    Manager.AddToUserListView(this_client_info.Username + " (you)");
+                    Thread listen = new Thread(Receive);
+                    listen.IsBackground = true;
+                    listen.Start();
+                }
+            }
+            catch
+            {
+                Manager.ShowError("Can not connect to the server!");
+                this.Close();
+                return;
+            }
+        }
+
+        //Gửi cho server gói tin
+        private void sendToServer(Packet message)
+        {
+            string messageInJson = JsonConvert.SerializeObject(message);
+            try
+            {
+                writer.Write(messageInJson);
+                writer.Flush();
+            }
+            catch
+            {
+                Manager.ShowError("Failed to send data to server!");
+            }
+        }
+
+        private void Receive()
+        {
+            try
+            {
+                string responseInJson = string.Empty;
+                while (true)
+                {
+                    responseInJson = reader.ReadString();
+
+                    Packet response = JsonConvert.DeserializeObject<Packet>(responseInJson);
+
+                    switch (response.Code)
+                    {
+                        case 0:
+                            generate_room_status(response);
+                            break;
+                        case 1:
+                            join_room_status(response);
+                            break;
+                    }
+                }
+            }
+            catch
+            {
+                client.Close();
+            }
+        }
+
+        void generate_room_status(Packet response)
+        {
+            this_client_info.RoomID = response.RoomID;
+            Manager.UpdateRoomID(this_client_info.RoomID);
+            isNew = false;
+        }
+
+        void join_room_status(Packet response)
+        {
+            if (isNew)
+            {
+                sendToServer(new Packet
+                {
+                    Code = 1,
+                    RoomID = response.RoomID,
+                });
+                isNew = false;
+            }
+
+            if (response.Username == "err:thisroomdoesnotexist")
+            {
+                Manager.ShowError("The room you requested does not exist");
+                client.Close();
+                this.Close();
+                return;
+            }
+
+            if (response.Username.Contains('!'))
+            {
+                Manager.RemoveFromUserListView(response.Username.Substring(1));
+            }
+            else
+            {
+                List<string> list = response.Username.Split(',').ToList();
+                foreach (string username in list)
+                {
+                    if (username == this_client_info.Username)
+                    {
+                        list.Remove(username);
+                        break;
+                    }
+                }
+                Manager.ClearUserListView();
+                foreach (string username in list)
+                {
+                    Manager.AddToUserListView(username);
+                }
+            }
+        }
+
+
         public class MovieNMusic
         {
             public string Title { get; set; }
@@ -107,18 +256,6 @@ namespace Client
                 }
             }
             return movieandmusic;
-        }
-
-        private void Form_Onlineroom_Load(object sender, EventArgs e)
-        {
-            //tạo background trong suốt
-            btExit.Parent = pbBackgroundONLR;
-            btMaximized.Parent = pbBackgroundONLR;
-            btMinimized.Parent = pbBackgroundONLR;
-            pnHeader.Parent = pbBackgroundONLR;
-            btBack.Parent = pbBackgroundONLR;
-            btMenu.Parent = pbBackgroundONLR;
-            tbEnterchat.Parent = pbBackgroundONLR;
         }
 
         //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
