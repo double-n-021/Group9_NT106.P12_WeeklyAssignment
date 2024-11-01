@@ -200,7 +200,7 @@ namespace Server
 
                         try
                         {
-                            string requestInJson = string.Empty;
+                            string requestInJson = string.Empty; //Tạo chuỗi requestInJson là kí tự trống
                             while (true)
                             {
                                 requestInJson = user.Reader.ReadString();
@@ -278,7 +278,7 @@ namespace Server
             Room requestingRoom = new Room();
             foreach (Room room in roomList)
             {
-                if (room.roomID == id)
+                if (room.roomID == id) //Kiểm tra xem phòng mà client tham gia có tồn tại không
                 {
                     requestingRoom = room;
                     request.RoomName = room.roomName;
@@ -293,12 +293,15 @@ namespace Server
                 return;
             }
 
-            // thêm user mới vào phòng
+            //Nếu có tồn tại thì...
+            // thêm user mới vào phòng tương ứng
             user.Username = request.Username;
-            requestingRoom.userList.Add(user);
+            user.Avatar = request.Avatar;
+            requestingRoom.userList.Add(user); //thêm user vào userList của phòng tương ứng
 
-            // gửi danh sách user sau khi thêm user mới cho các user cũ trong phòng
+            // gửi danh sách user sau khi thêm user mới cho các user cũ trong phòng tương ứng
             request.Username = requestingRoom.GetUsernameListInString();
+            request.Avatar = requestingRoom.GetAvatarList();
             foreach (User _user in requestingRoom.userList)
             {
                 sendSpecific(_user, request);

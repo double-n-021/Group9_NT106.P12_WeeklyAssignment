@@ -24,5 +24,21 @@ namespace Server
 
             return res;
         }
+
+        public byte[] GetAvatarList()
+        {
+            List<byte> avatarList = new List<byte>();
+            foreach (User user in userList)
+            {
+                if (user.Avatar != null)
+                {
+                    int avatarSize = user.Avatar.Length;
+                    byte[] avatarSizeBytes = BitConverter.GetBytes(avatarSize);
+                    avatarList.AddRange(avatarSizeBytes);
+                    avatarList.AddRange(user.Avatar);
+                }
+            }
+            return avatarList.ToArray();
+        }
     }
 }

@@ -84,7 +84,7 @@ namespace Client
                     writer.Write("onlineroom");
                     sendToServer(this_client_info); //gửi được rồi
                     Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
-                    Manager.AddToUserListView(this_client_info.Username + "(you)", this);
+                    Manager.AddToUserListView(this_client_info.Username, this_client_info.Avatar, this);
                     Thread listen = new Thread(Receive);
                     listen.IsBackground = true;
                     listen.Start();
@@ -147,7 +147,7 @@ namespace Client
             Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
             isNew = false;
         }
-
+        
         void join_room_status(Packet response)
         {
             if (isNew)
@@ -170,7 +170,7 @@ namespace Client
 
             if (response.Username.Contains('!'))
             {
-                Manager.RemoveFromUserListView(response.Username.Substring(1));
+                Manager.RemoveFromUserListView(response.Username.Substring(1), response.Avatar, this);
             }
             else
             {
@@ -184,14 +184,15 @@ namespace Client
                     }
                 }
 
-                Manager.ClearUserListView();
+                Manager.ClearUserListView(this);
 
                 foreach (string username in list)
                 {
-                    Manager.AddToUserListView(username, this);
+                    Manager.AddToUserListView(username, null, this);
                 }
             }
         }
+
 
 
         public class MovieNMusic
