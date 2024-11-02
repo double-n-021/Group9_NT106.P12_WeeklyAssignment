@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace Server
 {
@@ -27,18 +30,19 @@ namespace Server
 
         public byte[] GetAvatarList()
         {
-            List<byte> avatarList = new List<byte>();
+            List<byte> listAvatar = new List<byte>();
+
             foreach (User user in userList)
             {
-                if (user.Avatar != null)
-                {
-                    int avatarSize = user.Avatar.Length;
-                    byte[] avatarSizeBytes = BitConverter.GetBytes(avatarSize);
-                    avatarList.AddRange(avatarSizeBytes);
-                    avatarList.AddRange(user.Avatar);
-                }
+                // Lưu kích thước ảnh (4 byte đầu tiên của mỗi ảnh)
+                byte[] sizeBytes = BitConverter.GetBytes(user.Avatar.Length);
+                listAvatar.AddRange(sizeBytes);
+
+                // Lưu nội dung ảnh
+                listAvatar.AddRange(user.Avatar);
             }
-            return avatarList.ToArray();
+
+            return listAvatar.ToArray();
         }
     }
 }

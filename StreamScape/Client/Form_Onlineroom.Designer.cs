@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.pnHeader = new System.Windows.Forms.Panel();
@@ -72,6 +72,7 @@
             this.tbRoomName = new System.Windows.Forms.TextBox();
             this.tbRoomID = new System.Windows.Forms.TextBox();
             this.listView_room_users = new System.Windows.Forms.ListView();
+            this.btSendMessage = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV2)).BeginInit();
@@ -217,7 +218,7 @@
             this.tbEnterchat.Font = new System.Drawing.Font("Segoe UI Black", 9F, System.Drawing.FontStyle.Bold);
             this.tbEnterchat.ForeColor = System.Drawing.Color.White;
             this.tbEnterchat.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbEnterchat.Location = new System.Drawing.Point(810, 461);
+            this.tbEnterchat.Location = new System.Drawing.Point(810, 476);
             this.tbEnterchat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbEnterchat.Name = "tbEnterchat";
             this.tbEnterchat.PasswordChar = '\0';
@@ -233,6 +234,7 @@
             this.btReaction.BackColor = System.Drawing.Color.Black;
             this.btReaction.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btReaction.BackgroundImage")));
             this.btReaction.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btReaction.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btReaction.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btReaction.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btReaction.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -240,7 +242,7 @@
             this.btReaction.FillColor = System.Drawing.Color.Transparent;
             this.btReaction.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btReaction.ForeColor = System.Drawing.Color.White;
-            this.btReaction.Location = new System.Drawing.Point(817, 467);
+            this.btReaction.Location = new System.Drawing.Point(817, 482);
             this.btReaction.Name = "btReaction";
             this.btReaction.Size = new System.Drawing.Size(36, 32);
             this.btReaction.TabIndex = 17;
@@ -279,6 +281,7 @@
             this.pbAV1.TabIndex = 23;
             this.pbAV1.TabStop = false;
             this.pbAV1.UseTransparentBackground = true;
+            this.pbAV1.Visible = false;
             this.pbAV1.Click += new System.EventHandler(this.pbAvatar_Click);
             // 
             // pbAV2
@@ -295,6 +298,7 @@
             this.pbAV2.TabIndex = 24;
             this.pbAV2.TabStop = false;
             this.pbAV2.UseTransparentBackground = true;
+            this.pbAV2.Visible = false;
             // 
             // lbUS1
             // 
@@ -307,6 +311,7 @@
             this.lbUS1.TabIndex = 25;
             this.lbUS1.Text = "user_name12345";
             this.lbUS1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbUS1.Visible = false;
             // 
             // pnVideo
             // 
@@ -330,14 +335,14 @@
             this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.searchResult.ColumnHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.searchResult.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.searchResult.DefaultCellStyle = dataGridViewCellStyle2;
             this.searchResult.Location = new System.Drawing.Point(157, 55);
             this.searchResult.Name = "searchResult";
             this.searchResult.RowHeadersVisible = false;
@@ -708,6 +713,7 @@
             this.lbUS2.TabIndex = 37;
             this.lbUS2.Text = "user_name12345";
             this.lbUS2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbUS2.Visible = false;
             // 
             // lbUS3
             // 
@@ -720,6 +726,7 @@
             this.lbUS3.TabIndex = 39;
             this.lbUS3.Text = "user_name12345";
             this.lbUS3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbUS3.Visible = false;
             // 
             // pbAV3
             // 
@@ -735,6 +742,7 @@
             this.pbAV3.TabIndex = 38;
             this.pbAV3.TabStop = false;
             this.pbAV3.UseTransparentBackground = true;
+            this.pbAV3.Visible = false;
             // 
             // lbUS4
             // 
@@ -747,6 +755,7 @@
             this.lbUS4.TabIndex = 41;
             this.lbUS4.Text = "user_name12345";
             this.lbUS4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbUS4.Visible = false;
             // 
             // pbAV4
             // 
@@ -762,6 +771,7 @@
             this.pbAV4.TabIndex = 40;
             this.pbAV4.TabStop = false;
             this.pbAV4.UseTransparentBackground = true;
+            this.pbAV4.Visible = false;
             // 
             // lbUS5
             // 
@@ -774,6 +784,7 @@
             this.lbUS5.TabIndex = 43;
             this.lbUS5.Text = "user_name12345";
             this.lbUS5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbUS5.Visible = false;
             // 
             // pbAV5
             // 
@@ -789,6 +800,7 @@
             this.pbAV5.TabIndex = 42;
             this.pbAV5.TabStop = false;
             this.pbAV5.UseTransparentBackground = true;
+            this.pbAV5.Visible = false;
             // 
             // tbRoomName
             // 
@@ -799,6 +811,7 @@
             this.tbRoomName.Location = new System.Drawing.Point(323, 4);
             this.tbRoomName.Multiline = true;
             this.tbRoomName.Name = "tbRoomName";
+            this.tbRoomName.ReadOnly = true;
             this.tbRoomName.Size = new System.Drawing.Size(146, 32);
             this.tbRoomName.TabIndex = 53;
             this.tbRoomName.Text = "Room_name";
@@ -812,6 +825,7 @@
             this.tbRoomID.ForeColor = System.Drawing.Color.White;
             this.tbRoomID.Location = new System.Drawing.Point(522, 14);
             this.tbRoomID.Name = "tbRoomID";
+            this.tbRoomID.ReadOnly = true;
             this.tbRoomID.Size = new System.Drawing.Size(49, 20);
             this.tbRoomID.TabIndex = 52;
             this.tbRoomID.Text = "1234";
@@ -819,9 +833,10 @@
             // 
             // listView_room_users
             // 
-            this.listView_room_users.BackColor = System.Drawing.Color.Black;
+            this.listView_room_users.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.listView_room_users.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView_room_users.ForeColor = System.Drawing.Color.White;
+            this.listView_room_users.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView_room_users.ForeColor = System.Drawing.Color.Black;
             this.listView_room_users.HideSelection = false;
             this.listView_room_users.Location = new System.Drawing.Point(105, 374);
             this.listView_room_users.Name = "listView_room_users";
@@ -831,11 +846,30 @@
             this.listView_room_users.View = System.Windows.Forms.View.List;
             this.listView_room_users.Visible = false;
             // 
+            // btSendMessage
+            // 
+            this.btSendMessage.BackColor = System.Drawing.Color.Black;
+            this.btSendMessage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btSendMessage.BackgroundImage")));
+            this.btSendMessage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btSendMessage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btSendMessage.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btSendMessage.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btSendMessage.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btSendMessage.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btSendMessage.FillColor = System.Drawing.Color.Transparent;
+            this.btSendMessage.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btSendMessage.ForeColor = System.Drawing.Color.White;
+            this.btSendMessage.Location = new System.Drawing.Point(966, 486);
+            this.btSendMessage.Name = "btSendMessage";
+            this.btSendMessage.Size = new System.Drawing.Size(26, 22);
+            this.btSendMessage.TabIndex = 54;
+            // 
             // Form_Onlineroom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
+            this.Controls.Add(this.btSendMessage);
             this.Controls.Add(this.listView_room_users);
             this.Controls.Add(this.tbRoomName);
             this.Controls.Add(this.lbUS5);
@@ -924,5 +958,6 @@
         private System.Windows.Forms.TextBox tbRoomName;
         private System.Windows.Forms.TextBox tbRoomID;
         private System.Windows.Forms.ListView listView_room_users;
+        private Guna.UI2.WinForms.Guna2Button btSendMessage;
     }
 }

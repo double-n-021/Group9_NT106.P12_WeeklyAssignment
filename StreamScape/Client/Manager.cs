@@ -43,9 +43,20 @@ namespace Client
                 ConvertListViewToPB(List, formonlineroom);
             }
         }
+
         private void ConvertListViewToPB(ListView list, Form_Onlineroom formonlineroom)
         {
             int seq_user = 0;
+            while(seq_user<5)
+            {
+                Label match_username = formonlineroom.Controls.Find("lbUS" + (seq_user + 1), true).FirstOrDefault() as Label;
+                match_username.Visible = false;
+                PictureBox match_avataruser = formonlineroom.Controls.Find("pbAV" + (seq_user + 1), true).FirstOrDefault() as PictureBox;
+                match_avataruser.Visible = false;
+                seq_user++;
+            }
+
+            seq_user = 0;
             foreach (ListViewItem item in list.Items)//0 -> cuối list
             {
                 if (seq_user >= 5) break;
@@ -65,35 +76,42 @@ namespace Client
             {
                 if (seq_user >= 5) break;
 
-                if (data != null)
-                {
                     byte[] imageavatar = data;
                     // Tìm Picturebox cho tên người dùng hiện tại
                     PictureBox match_avataruser = formonlineroom.Controls.Find("pbAV" + (seq_user + 1), true).FirstOrDefault() as PictureBox;
-                    using (MemoryStream ms = new MemoryStream(imageavatar))
+
+                    if (imageavatar != null && imageavatar.Length > 0)
                     {
-                        match_avataruser.Image = Image.FromStream(ms);
+                        using (MemoryStream ms = new MemoryStream(imageavatar))
+                        {
+                            match_avataruser.Image = Image.FromStream(ms);
+                        }
                     }
+                    else
+                    {
+                        MessageBox.Show("Dữ liệu hình ảnh không hợp lệ hoặc rỗng.");
+                    }
+                    match_avataruser.Visible = true;
                     seq_user++;
-                }
-                else MessageBox.Show("Ảnh là null");
             }
         }
 
 
-        public void RemoveFromUserListView(string line, byte[] image, Form_Onlineroom formonlineroom)
+        public void RemoveFromUserListView(string line, Form_Onlineroom formonlineroom)
         {
             Action action = () =>
             {
-                for (int i = 0; i < List.Items.Count; i++)
+                int seq = 0;
+                foreach (ListViewItem item in List.Items)
                 {
-                    if (List.Items[i].Text == line)
+                    if (item.Text == line)
                     {
-                        List.Items.RemoveAt(i);
-                        avatar.RemoveAt(i);
+                        List.Items.Remove(item);
+                        avatar.Remove(avatar[seq]);
                         ConvertListViewToPB(List, formonlineroom);
                         break;
                     }
+                    seq++;
                 }
             };
             if (List.InvokeRequired)

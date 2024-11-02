@@ -82,9 +82,9 @@ namespace Client
                 reader = new BinaryReader(stream); // Reader để đọc phản hồi
                 {
                     writer.Write("onlineroom");
-                    sendToServer(this_client_info); //gửi được rồi
+                    sendToServer(this_client_info); //gửi gói tin chứa thông tin của you cho server
                     Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
-                    Manager.AddToUserListView(this_client_info.Username, this_client_info.Avatar, this);
+                    Manager.AddToUserListView(this_client_info.Username, this_client_info.Avatar, this); //cập nhật tên của you vào listview
                     Thread listen = new Thread(Receive);
                     listen.IsBackground = true;
                     listen.Start();
@@ -170,30 +170,59 @@ namespace Client
 
             if (response.Username.Contains('!'))
             {
-                Manager.RemoveFromUserListView(response.Username.Substring(1), response.Avatar, this);
+                Manager.RemoveFromUserListView(response.Username.Substring(1), this);
             }
             else
             {
-                List<string> list = response.Username.Split(',').ToList();
-                foreach (string username in list)
+                List<string> listusername = response.Username.Split(',').ToList();
+                List<byte[]> listavatar = SplitAvatars(response.Avatar);
+
+                int seq = 0;
+                foreach (string username in listusername)
                 {
                     if (username == this_client_info.Username)
                     {
-                        list.Remove(username);
+                        listusername.Remove(username);
                         break;
                     }
+                    seq++;
                 }
+
+                listavatar.Remove(listavatar[seq]);
 
                 Manager.ClearUserListView(this);
 
-                foreach (string username in list)
+                seq = 0;
+                foreach (string username in listusername)
                 {
-                    Manager.AddToUserListView(username, null, this);
+                    Manager.AddToUserListView(username, listavatar[seq], this);
+                    seq++;
                 }
             }
         }
 
+        public List<byte[]> SplitAvatars(byte[] listAvatar)
+        {
+            List<byte[]> avatars = new List<byte[]>();
+            int index = 0;
 
+            while (index < listAvatar.Length)
+            {
+                // Lấy kích thước ảnh
+                int avatarSize = BitConverter.ToInt32(listAvatar, index);
+                index += 4;
+
+                // Tạo mảng byte cho ảnh và sao chép nội dung từ listAvatar
+                byte[] avatar = new byte[avatarSize];
+                Array.Copy(listAvatar, index, avatar, 0, avatarSize);
+                avatars.Add(avatar);
+
+                // Di chuyển index tới vị trí ảnh kế tiếp
+                index += avatarSize;
+            }
+
+            return avatars;
+        }
 
         public class MovieNMusic
         {

@@ -238,6 +238,7 @@ namespace Server
         private void generate_room_handler(User user, Packet request)
         {
             user.Username = request.Username;
+            user.Avatar = request.Avatar;
 
             //Tạo ID phòng ngẫu nhiên trong khoảng [1000,9999]
             Random r = new Random();
@@ -294,7 +295,6 @@ namespace Server
             }
 
             //Nếu có tồn tại thì...
-            // thêm user mới vào phòng tương ứng
             user.Username = request.Username;
             user.Avatar = request.Avatar;
             requestingRoom.userList.Add(user); //thêm user vào userList của phòng tương ứng
@@ -302,6 +302,7 @@ namespace Server
             // gửi danh sách user sau khi thêm user mới cho các user cũ trong phòng tương ứng
             request.Username = requestingRoom.GetUsernameListInString();
             request.Avatar = requestingRoom.GetAvatarList();
+
             foreach (User _user in requestingRoom.userList)
             {
                 sendSpecific(_user, request);
@@ -337,8 +338,10 @@ namespace Server
             Packet message = new Packet()
             {
                 Code = 1,
-                Username = "!" + user.Username
+                Username = "!" + user.Username,
+                Avatar = user.Avatar
             };
+
             if (requestingRoom.userList.Count == 0)
             {
                 if (roomList.Contains(requestingRoom))
