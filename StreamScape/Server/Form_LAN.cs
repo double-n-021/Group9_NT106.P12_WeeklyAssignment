@@ -17,6 +17,7 @@ using System.Security.Cryptography;
 using Azure.Core;
 using System.Runtime.InteropServices.ComTypes;
 using Newtonsoft.Json;
+using System.Net.NetworkInformation;
 
 namespace Server
 {
@@ -215,6 +216,27 @@ namespace Server
                                     case 1:
                                         join_room_handler(user, request);
                                         break;
+                                    case 2:
+                                        send_message_handler(user, request);
+                                        break;
+                                    case 3:
+                                        send_icon_handler(user, request);
+                                        break;
+                                    case 4:
+                                        send_video_handler(user, request);
+                                        break;
+                                    case 5:
+                                        stop_video_handler(user, request);
+                                        break;
+                                    case 6:
+                                        continue_video_handler(user, request);
+                                        break;
+                                    case 7:
+                                        rewind_video_handler(user, request);
+                                        break;
+                                    case 8:
+                                        next_video_handler(user, request);
+                                        break;
                                 }
                             }
                         }
@@ -238,6 +260,7 @@ namespace Server
         private void generate_room_handler(User user, Packet request)
         {
             user.Username = request.Username;
+            user.isHost = 1;
             user.Avatar = request.Avatar;
 
             //Tạo ID phòng ngẫu nhiên trong khoảng [1000,9999]
@@ -265,7 +288,8 @@ namespace Server
                 Code = 0,
                 Username = request.Username,
                 Avatar = request.Avatar,
-                RoomID = roomID.ToString()
+                RoomID = roomID.ToString(),
+                isHost = 1
             };
 
             sendSpecific(user, message);
@@ -308,8 +332,181 @@ namespace Server
                 sendSpecific(_user, request);
             }
 
+            if (requestingRoom.CurrentVideoData != null && requestingRoom.CurrentVideoData.Length > 0)
+            {
+                // Gửi thông tin video cho user mới
+                Packet videoInfoPacket = new Packet
+                {
+                    Code = 4, // Gửi video thông tin
+                    RoomID = requestingRoom.roomID.ToString(),
+                    isHost = 0,
+                    VideoData = requestingRoom.CurrentVideoData, // Gửi dữ liệu video
+                };
+                sendSpecific(user, videoInfoPacket); // Gửi cho user mới
+            }
+
             ManagerOBJ.WriteToLog("Room " + request.RoomID + ": " + user.Username + " joined");
             ManagerOBJ.UpdateUserCount(userList.Count);
+        }
+
+        private void send_icon_handler(User user, Packet request)
+        {
+            // Tìm phòng mà user đang tham gia
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            // Chuẩn bị gói tin chứa icon để gửi cho các user trong phòng
+            Packet iconPacket = new Packet
+            {
+                Code = 3, // Mã dành riêng cho icon (giả sử Code 3 là code dành cho icon)
+                Username = user.Username,
+                Icon = request.Icon // IconData chứa dữ liệu icon (có thể là đường dẫn hoặc mã byte)
+            };
+
+            // Gửi icon tới tất cả các người dùng trong phòng
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    sendSpecific(roomUser, iconPacket);
+                }
+            }
+
+            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} sent an icon.");
+        }
+
+        private void send_message_handler(User user, Packet request)
+        {
+            // Find the room that the user is in
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            // Prepare the message packet to be sent to all users in the room
+            Packet messagePacket = new Packet
+            {
+                Code = 2, // Code for a chat message
+                Username = user.Username,
+                Message = request.Message // Assuming `Message` property holds the text content
+            };
+
+            // Send the message to each user in the room
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Bỏ qua người gửi
+                {
+                    sendSpecific(roomUser, messagePacket);
+                }
+            }
+
+            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} sent a message.");
+        }
+
+        private void send_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            // VideoData đã được nén
+            byte[] videoData = request.VideoData;
+            userRoom.CurrentVideoData = videoData;
+
+            // Gửi video nén tới tất cả các user trong phòng
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 4,
+                        Username = user.Username,
+                        VideoData = videoData, // Gửi video nén
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+
+
+            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} uploaded a video.");
+        }
+
+        private void rewind_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 7,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+
+        private void next_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 8,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+
+        private void continue_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 6,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition,
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+
+        private void stop_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 5,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
         }
 
         private void close_client(User user)
@@ -798,6 +995,11 @@ namespace Server
                 }
             }
             return null;
+        }
+
+        private void btnGetLocalIP_Click(object sender, EventArgs e)
+        {
+            tbLocalIP.Text = ManagerOBJ.GetLocalIPv4(NetworkInterfaceType.Wireless80211);
         }
     }
 }

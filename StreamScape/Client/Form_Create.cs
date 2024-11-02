@@ -19,6 +19,8 @@ namespace Client
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
         private string nameroomconnect;
+        private int isHost;
+
         public Form_Create(string username, byte[] avatarconnect)
         {
             InitializeComponent();
@@ -99,7 +101,7 @@ namespace Client
             {
                 nameroomconnect = tbNameofRoom.Text;
                 this.Close();
-                Form_Onlineroom formOnlineroom = new Form_Onlineroom(textconnect, Avatarconnect, 0, nameroomconnect, "");//0 là code create room
+                Form_Onlineroom formOnlineroom = new Form_Onlineroom(1, textconnect, Avatarconnect, 0, nameroomconnect, "");//0 là code create room
                 formOnlineroom.Show();
                 formOnlineroom.Location = new Point(this.Location.X, this.Location.Y);
             }

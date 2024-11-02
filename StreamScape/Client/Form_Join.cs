@@ -99,7 +99,7 @@ namespace Client
             {
                 idroomconnect = tbIDofRoom.Text;
                 this.Close();
-                Form_Onlineroom formOnlineroom = new Form_Onlineroom(textconnect, Avatarconnect, 1, "", idroomconnect); //1 là code join room
+                Form_Onlineroom formOnlineroom = new Form_Onlineroom(0, textconnect, Avatarconnect, 1, "", idroomconnect); //1 là code join room
                 formOnlineroom.Show();
                 formOnlineroom.Location = new Point(this.Location.X, this.Location.Y);
             }

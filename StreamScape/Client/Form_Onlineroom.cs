@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using Newtonsoft.Json;
+using System.IO.Compression;
 
 namespace Client
 {
@@ -30,8 +31,9 @@ namespace Client
         private Packet this_client_info;
         private Manager Manager;
         private bool isNew;
+        private int isHost;
 
-        public Form_Onlineroom(string username, byte[] avatarconnect, int code, string nameconnect, string idconnect)
+        public Form_Onlineroom(int isHost, string username, byte[] avatarconnect, int code, string nameconnect, string idconnect)
         {
             InitializeComponent();
             LoadDataFromServer();
@@ -132,6 +134,27 @@ namespace Client
                         case 1:
                             join_room_status(response);
                             break;
+                        case 2:
+                            displayChatMessage(response.Username, response.Message);
+                            break;
+                        case 3:
+                            displayIcon(response.Username, response.Icon);
+                            break;
+                        case 4:
+                            displayVideo(response.Username, response.VideoData);
+                            break;
+                        case 5:
+                            stop_video(response);
+                            break;
+                        case 6:
+                            continue_video(response);
+                            break;
+                        case 7:
+                            rewind_video(response);
+                            break;
+                        case 8:
+                            next_video(response);
+                            break;
                     }
                 }
             }
@@ -146,21 +169,20 @@ namespace Client
             this_client_info.RoomID = response.RoomID;
             Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
             isNew = false;
+
+            if (response.isHost == 1)
+            {
+                // Gọi lại phương thức này trên luồng UI
+                btUpload.Invoke(new MethodInvoker(() => btUpload.Enabled = true));
+                btFowardTime.Invoke(new MethodInvoker(() => btFowardTime.Enabled = true));
+                btPause.Invoke(new MethodInvoker(() => btPause.Enabled = true));
+                btBackTime.Invoke(new MethodInvoker(() => btBackTime.Enabled = true));
+                btPlaying.Invoke(new MethodInvoker(() => btPlaying.Enabled = true));
+            }
         }
         
         void join_room_status(Packet response)
         {
-            if (isNew)
-            {
-                sendToServer(new Packet
-                {
-                    Code = 2,
-                    RoomID = response.RoomID,
-                });
-                isNew = false;
-                tbRoomName.Text = response.RoomName;
-            }
-
             if (response.Username == "err:thisroomdoesnotexist")
             {
                 Manager.ShowError("The room you requested does not exist");
@@ -199,6 +221,128 @@ namespace Client
                     seq++;
                 }
             }
+        }
+
+        private void displayChatMessage(string username, string message)
+        {
+
+            flowLayoutPanel.Invoke((MethodInvoker)delegate
+            {
+                FlowLayoutPanel frame = new FlowLayoutPanel
+                {
+                    FlowDirection = FlowDirection.TopDown, // Đặt chiều hướng từ trên xuống dưới
+                    AutoSize = true,
+                    Margin = new Padding(0, 0, 0, 0) // Giảm khoảng cách bên ngoài nếu cần
+                };
+                Label lbu = new Label
+                {
+                    Text = username,
+                    Font = new Font("Segoe UI", 8, FontStyle.Bold), // Phông chữ "Segoe UI", cỡ 10, in đậm
+                    Margin = new Padding(0, 0, 5, -1) 
+                };
+                RounderLabel messageLabel = new RounderLabel
+                {
+                    Text = message,
+                    AutoSize = true,
+                    Padding = new Padding(10),
+                    Margin = new Padding(0),
+                    BackColor = System.Drawing.Color.White, // Rõ ràng là Color từ System.Drawing
+                    ForeColor = System.Drawing.Color.Black  // Rõ ràng là Color từ System.Drawing
+                };
+
+                frame.Controls.Add(lbu);                 // Thêm Label vào Frame
+                frame.Controls.Add(messageLabel);       //Thêm messageLabel vào Frame
+
+                flowLayoutPanel.Controls.Add(frame);
+                flowLayoutPanel.ScrollControlIntoView(frame);
+            });
+        }
+
+        private void displayIcon(string username, string icon)
+        {
+            string iconPath = Path.Combine("Icons", icon);
+
+            if (File.Exists(iconPath))
+            {
+                flowLayoutPanel.Invoke((MethodInvoker)delegate
+                {
+                    FlowLayoutPanel Frame = new FlowLayoutPanel
+                    {
+                        FlowDirection = FlowDirection.TopDown, // Đặt chiều hướng từ trên xuống dưới
+                        AutoSize = true, // Tự động điều chỉnh kích thước
+                        Margin = new Padding(0), // Khoảng cách bên ngoài
+                        WrapContents = false // Không bọc nội dung
+                    };
+
+                    PictureBox iconPictureBox = new PictureBox
+                    {
+                        Image = Image.FromFile(iconPath),
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Width = 60,
+                        Height = 60,
+                        Margin = new Padding(0, 0, 0, 0),
+                    };
+
+                    Label usernameLabel = new Label
+                    {
+                        Text = username,
+                        Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                        AutoSize = true,
+                        Padding = new Padding(1),
+                        Margin = new Padding(5, 0, 0, 0),
+                    };
+
+                    // Thêm PictureBox và Label vào Frame
+                    Frame.Controls.Add(usernameLabel);
+                    Frame.Controls.Add(iconPictureBox);
+
+                    // Thêm Frame chứa PictureBox và Label vào FlowLayoutPanel chính
+                    flowLayoutPanel.Controls.Add(Frame);
+                    // Cuộn xuống cuối cùng của FlowLayoutPanel
+                    flowLayoutPanel.ScrollControlIntoView(Frame);// Cuộn xuống cuối cùng của FlowLayoutPanel
+                });
+            }
+            else
+            {
+                displayChatMessage(username, "[Icon not found]");
+            }
+        }
+
+        private byte[] CompressVideo(byte[] videoData) //Nén video
+        {
+            using (var outputStream = new MemoryStream())
+            {
+                using (var gzipStream = new GZipStream(outputStream, CompressionMode.Compress))
+                {
+                    gzipStream.Write(videoData, 0, videoData.Length);
+                }
+                return outputStream.ToArray();
+            }
+        }
+
+        private byte[] DecompressVideo(byte[] compressedData) //Giải nén
+        {
+            using (var inputStream = new MemoryStream(compressedData))
+            using (var gzipStream = new GZipStream(inputStream, CompressionMode.Decompress))
+            using (var outputStream = new MemoryStream())
+            {
+                gzipStream.CopyTo(outputStream);
+                return outputStream.ToArray();
+            }
+        }
+
+        private void displayVideo(string username, byte[] videoData)
+        {
+            // Giải nén dữ liệu video
+            byte[] compressedData = DecompressVideo(videoData);
+
+            // Lưu video vào file tạm
+            string tempFilePath = Path.Combine(Path.GetTempPath(), $"{username}_video_{Guid.NewGuid()}.mp4");
+            File.WriteAllBytes(tempFilePath, compressedData);
+
+            // Phát video trong Windows Media Player
+            Videoplayer.URL = tempFilePath;
+            Videoplayer.Ctlcontrols.play();
         }
 
         public List<byte[]> SplitAvatars(byte[] listAvatar)
@@ -351,15 +495,52 @@ namespace Client
         //Chức năng up file mp3 và mp4 từ máy lên
         private void btUpload_Click(object sender, EventArgs e)
         {
-            OFD.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
+            /*OFD.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
             DialogResult ofd = OFD.ShowDialog();
             if (ofd == DialogResult.OK)
             {
                 timer1.Start();
                 try { Videoplayer.URL = OFD.FileName; }
                 catch (Exception) { }
+            }*/
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Đọc dữ liệu video từ file
+                        byte[] videoData = File.ReadAllBytes(openFileDialog.FileName);
+
+                        // Nén dữ liệu video
+                        byte[] compressedData = CompressVideo(videoData);
+
+                        // Tạo gói tin video để gửi lên server
+                        Packet videoPacket = new Packet
+                        {
+                            Code = 4, // Mã cho video
+                            RoomID = this_client_info.RoomID,
+                            Username = this_client_info.Username,
+                            VideoData = compressedData,
+                        };
+
+                        // Gửi dữ liệu nén tới server
+                        sendToServer(videoPacket);
+
+                        // Hiển thị video
+                        displayVideo(this_client_info.Username, compressedData);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error uploading video: " + ex.Message);
+                    }
+                }
             }
         }
+
+        private double lastPosition = 0; // Khởi tạo biến lưu vị trí cuối cùng
 
         private void btUnmute_Click(object sender, EventArgs e)
         {
@@ -377,26 +558,85 @@ namespace Client
 
         private void btPlaying_Click(object sender, EventArgs e)
         {
-            btPause.Visible = true;
             btPlaying.Visible = false;
-            Videoplayer.Ctlcontrols.pause();
+            btPause.Visible = true;
+
+            lastPosition = Videoplayer.Ctlcontrols.currentPosition; // Lưu vị trí hiện tại
+            Videoplayer.Ctlcontrols.stop();
+            Packet stopPacket = new Packet
+            {
+                Code = 5,
+                Username = this_client_info.Username,
+                RoomID = this_client_info.RoomID,
+                CurrentPosition = lastPosition // Gửi vị trí đã dừng
+            };
+            sendToServer(stopPacket);
+        }
+
+        private void continue_video(Packet continuePacket)
+        {
+            Videoplayer.Ctlcontrols.currentPosition = continuePacket.CurrentPosition; // Đặt vị trí
+            Videoplayer.Ctlcontrols.play();
         }
 
         private void btPause_Click(object sender, EventArgs e)
         {
-            btPlaying.Visible = true;
             btPause.Visible = false;
+            btPlaying.Visible = true;
+            Videoplayer.Ctlcontrols.currentPosition = lastPosition; // Đặt lại vị trí
             Videoplayer.Ctlcontrols.play();
+            Packet continuePacket = new Packet
+            {
+                Code = 6,
+                Username = this_client_info.Username,
+                RoomID = this_client_info.RoomID,
+                CurrentPosition = lastPosition // Gửi vị trí để phát tiếp
+            };
+            sendToServer(continuePacket);
+        }
+
+        private void stop_video(Packet stopPacket)
+        {
+                Videoplayer.Ctlcontrols.stop();
         }
 
         private void btFowardTime_Click(object sender, EventArgs e)
         {
-            Videoplayer.Ctlcontrols.currentPosition += 10;
+            double currentTime = Videoplayer.Ctlcontrols.currentPosition;
+            double newTime = Math.Max(currentTime + 10, 0); // Tua ngược 10 giây
+            Videoplayer.Ctlcontrols.currentPosition = newTime; // Cập nhật vị trí local
+
+            Packet _nextPacket = new Packet
+            {
+                Code = 8, // Mã cho việc cập nhật video
+                Username = this_client_info.Username,
+                RoomID = this_client_info.RoomID,
+                CurrentPosition = newTime // Vị trí video sau khi tua
+            };
+            sendToServer(_nextPacket);
+        }
+        private void rewind_video(Packet rewindPacket)
+        {
+            Videoplayer.Ctlcontrols.currentPosition = rewindPacket.CurrentPosition;
         }
 
         private void btBackTime_Click(object sender, EventArgs e)
         {
-            Videoplayer.Ctlcontrols.currentPosition -= 10;
+            double currentTime = Videoplayer.Ctlcontrols.currentPosition;
+            double newTime = currentTime - 10; 
+            Videoplayer.Ctlcontrols.currentPosition = newTime; // Cập nhật vị trí local
+            Packet _nextPacket = new Packet
+            {
+                Code = 8, // Mã cho việc cập nhật video
+                Username = this_client_info.Username,
+                RoomID = this_client_info.RoomID,
+                CurrentPosition = newTime // Vị trí video sau khi tua
+            };
+            sendToServer(_nextPacket);
+        }
+        private void next_video(Packet nextPacket)
+        {
+            Videoplayer.Ctlcontrols.currentPosition = nextPacket.CurrentPosition;
         }
 
         private void csSound_Scroll(object sender, ScrollEventArgs e)
@@ -460,7 +700,7 @@ namespace Client
 
         private void tbSearch_TextChanged(object sender, EventArgs e)
         {
-            searchResult.Visible = true;
+             searchResult.Visible = true;
             // Kiểm tra từ khóa tìm kiếm có trống hay không
             if (string.IsNullOrEmpty(tbSearch.Text))
             {
@@ -496,6 +736,9 @@ namespace Client
 
         private void PlayFile(string titleofFile)
         {
+            string username = this_client_info.Username;
+            string roomId = this_client_info.RoomID;
+
             try
             {
                 // Tạo kết nối TCP đến server
@@ -506,7 +749,8 @@ namespace Client
                 {
                     // Gửi yêu cầu lấy file mp3 và mp4 đến server
                     writer.Write("getfile");       // Gửi yêu cầu "getfile"
-                    writer.Write(titleofFile);       // Gửi tên file
+                    writer.Write(titleofFile);
+                    writer.Write(username);       // Gửi tên file
 
                     // Đọc phản hồi từ server
                     string tag = reader.ReadString();
@@ -547,5 +791,138 @@ namespace Client
             else
                 listView_room_users.Visible = true;
         }
+
+        private void btSendMessage_Click(object sender, EventArgs e)
+        {
+            string message = tbEnterchat.Text;
+
+            string roomId = this_client_info.RoomID;
+            string username = this_client_info.Username;
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                // Tạo một Label mới cho tin nhắn
+                RounderLabel lblMessage = new RounderLabel
+                {
+                    Text = message, // Nội dung của Label
+                    AutoSize = true, // Tự động điều chỉnh kích thước
+                    Padding = new Padding(10), // Khoảng cách bên trong
+                    Margin = new Padding(0, 3, 5, 5), // Khoảng cách bên ngoài
+                    BackColor = System.Drawing.Color.Black, // Rõ ràng là Color từ System.Drawing
+                    ForeColor = System.Drawing.Color.Azure,  // Rõ ràng là Color từ System.Drawing
+                    BorderRadius = 20, // Độ bo góc của Label
+                };
+
+                // Thêm Label vào FlowLayoutPanel
+                flowLayoutPanel.Controls.Add(lblMessage);
+
+                // Cuộn xuống cuối cùng của FlowLayoutPanel
+                flowLayoutPanel.ScrollControlIntoView(lblMessage);
+
+                // Tạo gói tin nhắn Packet để gửi tới server
+                Packet chatPacket = new Packet
+                {
+                    Code = 2,
+                    RoomID = roomId,
+                    Username = username,
+                    Message = message
+                };
+
+                // Gửi tin nhắn đến server
+                sendToServer(chatPacket);
+                tbEnterchat.Clear();
+
+            }
+        }
+
+        private void btReaction_Click(object sender, EventArgs e)
+        {
+            Form iconPicker = new Form();
+            iconPicker.Size = new Size(200, 200);
+            iconPicker.Text = "Icons"; // Đặt tên form là "Icons"
+            iconPicker.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            iconPicker.StartPosition = FormStartPosition.Manual;
+            iconPicker.Location = this.PointToScreen(new Point(btReaction.Left, btReaction.Bottom));
+
+            // Tạo bảng 3x3 icon
+            TableLayoutPanel iconTable = new TableLayoutPanel();
+            iconTable.RowCount = 3;
+            iconTable.ColumnCount = 3;
+            iconTable.Dock = DockStyle.Fill;
+            iconPicker.Controls.Add(iconTable);
+
+            // Thiết lập kích thước cột và hàng cho đều
+            for (int i = 0; i < 3; i++)
+            {
+                iconTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                iconTable.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33F));
+            }
+
+            string[] icons = { "icon1.png", "icon2.png", "icon3.png", "icon4.png", "icon5.png", "icon6.png", "icon7.png", "icon8.png", "icon9.png" };
+            foreach (string icon in icons)
+            {
+                Button iconButton = new Button();
+                iconButton.Dock = DockStyle.Fill;
+                iconButton.BackgroundImage = Image.FromFile(Path.Combine("Icons", icon));
+                iconButton.BackgroundImageLayout = ImageLayout.Stretch;
+                iconButton.Click += (s, args) => IconButton_Click(s, args, iconPicker, icon);
+                iconTable.Controls.Add(iconButton);
+            }
+            iconPicker.ShowDialog();
+        }
+
+        private void IconButton_Click(object sender, EventArgs e, Form iconPicker, string icon)
+        {
+            iconPicker.Close();
+
+            // Đường dẫn tới icon
+            string iconPath = Path.Combine("Icons", icon);
+            Console.WriteLine($"Đường dẫn icon: {iconPath}"); // Kiểm tra đường dẫn
+
+            // Kiểm tra nếu icon tồn tại
+            if (File.Exists(iconPath))
+            {
+                // Thông tin phòng và tên người dùng
+                string roomId = this_client_info.RoomID;
+                string username = this_client_info.Username;
+
+                // Tạo PictureBox để hiển thị icon
+                using (Image img = Image.FromFile(iconPath))
+                {
+                    // Kích thước icon mong muốn
+                    int iconWidth = 60; // Chiều rộng
+                    int iconHeight = 60; // Chiều cao
+
+                    // Lấy hình ảnh thu nhỏ
+                    Image thumbnailImg = img.GetThumbnailImage(iconWidth, iconHeight, null, IntPtr.Zero);
+                    PictureBox iconPictureBox = new PictureBox
+                    {
+                        Image = thumbnailImg,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Width = iconWidth,
+                        Height = iconHeight,
+                        Margin = new Padding(0, 0, 0, 3)
+                    };
+
+                    flowLayoutPanel.Controls.Add(iconPictureBox);
+                    // Cuộn xuống cuối cùng của FlowLayoutPanel
+                    flowLayoutPanel.ScrollControlIntoView(iconPictureBox);
+
+                    // Tạo gói tin nhắn Packet để gửi tới server
+                    Packet iconPacket = new Packet
+                    {
+                        Code = 3, // Mã cho icon
+                        RoomID = roomId,
+                        Username = username,
+                        Icon = icon // Thêm icon vào gói tin
+                    };
+
+                    // Gửi icon tới server
+                    sendToServer(iconPacket);
+                }
+            }
+        }
     }
+
+
 }

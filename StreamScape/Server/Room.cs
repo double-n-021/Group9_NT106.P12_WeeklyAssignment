@@ -14,6 +14,7 @@ namespace Server
         public int roomID;
         public string roomName;
         public List<User> userList = new List<User>();
+        public byte[] CurrentVideoData { get; set; } // Dữ liệu video dưới dạng byte
 
         public string GetUsernameListInString()
         {
