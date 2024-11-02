@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.pnHeader = new System.Windows.Forms.Panel();
@@ -258,7 +258,6 @@
             this.btUpload.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btUpload.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btUpload.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btUpload.Enabled = false;
             this.btUpload.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btUpload.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.btUpload.ForeColor = System.Drawing.Color.Black;
@@ -268,6 +267,7 @@
             this.btUpload.TabIndex = 22;
             this.btUpload.Text = "Upload";
             this.btUpload.UseTransparentBackground = true;
+            this.btUpload.Visible = false;
             this.btUpload.Click += new System.EventHandler(this.btUpload_Click);
             // 
             // pbAV1
@@ -338,14 +338,14 @@
             this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.searchResult.ColumnHeadersVisible = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.searchResult.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.searchResult.DefaultCellStyle = dataGridViewCellStyle3;
             this.searchResult.Location = new System.Drawing.Point(157, 55);
             this.searchResult.Name = "searchResult";
             this.searchResult.RowHeadersVisible = false;
@@ -469,7 +469,6 @@
             this.btPause.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btPause.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btPause.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btPause.Enabled = false;
             this.btPause.FillColor = System.Drawing.Color.Transparent;
             this.btPause.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btPause.ForeColor = System.Drawing.Color.White;
@@ -574,7 +573,6 @@
             this.btPlaying.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btPlaying.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btPlaying.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btPlaying.Enabled = false;
             this.btPlaying.FillColor = System.Drawing.Color.Transparent;
             this.btPlaying.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btPlaying.ForeColor = System.Drawing.Color.White;
@@ -582,6 +580,7 @@
             this.btPlaying.Name = "btPlaying";
             this.btPlaying.Size = new System.Drawing.Size(33, 33);
             this.btPlaying.TabIndex = 41;
+            this.btPlaying.Visible = false;
             this.btPlaying.Click += new System.EventHandler(this.btPlaying_Click);
             // 
             // lbMaxTime
@@ -632,7 +631,6 @@
             this.btBackTime.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btBackTime.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btBackTime.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btBackTime.Enabled = false;
             this.btBackTime.FillColor = System.Drawing.Color.Transparent;
             this.btBackTime.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btBackTime.ForeColor = System.Drawing.Color.White;
@@ -641,6 +639,7 @@
             this.btBackTime.Size = new System.Drawing.Size(30, 30);
             this.btBackTime.TabIndex = 2;
             this.btBackTime.UseTransparentBackground = true;
+            this.btBackTime.Visible = false;
             this.btBackTime.Click += new System.EventHandler(this.btBackTime_Click);
             // 
             // btFowardTime
@@ -652,7 +651,6 @@
             this.btFowardTime.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btFowardTime.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btFowardTime.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btFowardTime.Enabled = false;
             this.btFowardTime.FillColor = System.Drawing.Color.Transparent;
             this.btFowardTime.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btFowardTime.ForeColor = System.Drawing.Color.White;
@@ -661,6 +659,7 @@
             this.btFowardTime.Size = new System.Drawing.Size(30, 30);
             this.btFowardTime.TabIndex = 1;
             this.btFowardTime.UseTransparentBackground = true;
+            this.btFowardTime.Visible = false;
             this.btFowardTime.Click += new System.EventHandler(this.btFowardTime_Click);
             // 
             // tbSearch
@@ -877,11 +876,11 @@
             this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.flowLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel.Location = new System.Drawing.Point(811, 83);
-            this.flowLayoutPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel.Location = new System.Drawing.Point(802, 83);
+            this.flowLayoutPanel.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
             this.flowLayoutPanel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.flowLayoutPanel.Size = new System.Drawing.Size(190, 381);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(203, 381);
             this.flowLayoutPanel.TabIndex = 55;
             this.flowLayoutPanel.WrapContents = false;
             // 

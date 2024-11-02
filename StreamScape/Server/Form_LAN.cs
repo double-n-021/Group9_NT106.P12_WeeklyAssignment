@@ -424,8 +424,6 @@ namespace Server
                     sendSpecific(roomUser, videoPacket);
                 }
             }
-
-
             ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} uploaded a video.");
         }
 

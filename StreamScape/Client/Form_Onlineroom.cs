@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using Newtonsoft.Json;
 using System.IO.Compression;
 
@@ -170,19 +165,31 @@ namespace Client
             Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
             isNew = false;
 
+            
             if (response.isHost == 1)
             {
-                // Gọi lại phương thức này trên luồng UI
-                btUpload.Invoke(new MethodInvoker(() => btUpload.Enabled = true));
-                btFowardTime.Invoke(new MethodInvoker(() => btFowardTime.Enabled = true));
-                btPause.Invoke(new MethodInvoker(() => btPause.Enabled = true));
-                btBackTime.Invoke(new MethodInvoker(() => btBackTime.Enabled = true));
-                btPlaying.Invoke(new MethodInvoker(() => btPlaying.Enabled = true));
+                //Gọi lại phương thức này trên luồng UI
+                btUpload.Invoke(new MethodInvoker(() => btUpload.Visible = true));
+                btFowardTime.Invoke(new MethodInvoker(() => btFowardTime.Visible = true));
+                btBackTime.Invoke(new MethodInvoker(() => btBackTime.Visible = true));
+                btPlaying.Invoke(new MethodInvoker(() => btPlaying.Visible = true));
+                btPause.Invoke(new MethodInvoker(() => btPause.Visible = true));
             }
         }
         
         void join_room_status(Packet response)
         {
+            if (isNew)
+            {
+                sendToServer(new Packet
+                {
+                    Code = 9, //Không thực hiện thêm hành động khác
+                    RoomID = response.RoomID,
+                });
+                isNew = false;
+                tbRoomName.Text = response.RoomName;
+            }
+
             if (response.Username == "err:thisroomdoesnotexist")
             {
                 Manager.ShowError("The room you requested does not exist");
@@ -225,7 +232,6 @@ namespace Client
 
         private void displayChatMessage(string username, string message)
         {
-
             flowLayoutPanel.Invoke((MethodInvoker)delegate
             {
                 FlowLayoutPanel frame = new FlowLayoutPanel
@@ -238,7 +244,7 @@ namespace Client
                 {
                     Text = username,
                     Font = new Font("Segoe UI", 8, FontStyle.Bold), // Phông chữ "Segoe UI", cỡ 10, in đậm
-                    Margin = new Padding(0, 0, 5, -1) 
+                    Margin = new Padding(0, 0, 5, -1),
                 };
                 RounderLabel messageLabel = new RounderLabel
                 {
@@ -247,7 +253,7 @@ namespace Client
                     Padding = new Padding(10),
                     Margin = new Padding(0),
                     BackColor = System.Drawing.Color.White, // Rõ ràng là Color từ System.Drawing
-                    ForeColor = System.Drawing.Color.Black  // Rõ ràng là Color từ System.Drawing
+                    ForeColor = System.Drawing.Color.Black,  // Rõ ràng là Color từ System.Drawing
                 };
 
                 frame.Controls.Add(lbu);                 // Thêm Label vào Frame
@@ -278,15 +284,15 @@ namespace Client
                     {
                         Image = Image.FromFile(iconPath),
                         SizeMode = PictureBoxSizeMode.StretchImage,
-                        Width = 60,
-                        Height = 60,
+                        Width = 50,
+                        Height = 50,
                         Margin = new Padding(0, 0, 0, 0),
                     };
 
                     Label usernameLabel = new Label
                     {
                         Text = username,
-                        Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                        Font = new Font("Segoe UI", 9, FontStyle.Bold),
                         AutoSize = true,
                         Padding = new Padding(1),
                         Margin = new Padding(5, 0, 0, 0),
@@ -342,7 +348,9 @@ namespace Client
 
             // Phát video trong Windows Media Player
             Videoplayer.URL = tempFilePath;
+            timer1.Start();
             Videoplayer.Ctlcontrols.play();
+            btPause.Visible = false;
         }
 
         public List<byte[]> SplitAvatars(byte[] listAvatar)
@@ -505,12 +513,13 @@ namespace Client
             }*/
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
+                openFileDialog.Filter = "Media Files (*.mp3;*.mp4)|*.mp3;*.mp4";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
+                        timer1.Start();
                         // Đọc dữ liệu video từ file
                         byte[] videoData = File.ReadAllBytes(openFileDialog.FileName);
 
@@ -558,11 +567,11 @@ namespace Client
 
         private void btPlaying_Click(object sender, EventArgs e)
         {
-            btPlaying.Visible = false;
             btPause.Visible = true;
+            btPlaying.Visible = false;
 
             lastPosition = Videoplayer.Ctlcontrols.currentPosition; // Lưu vị trí hiện tại
-            Videoplayer.Ctlcontrols.stop();
+            Videoplayer.Ctlcontrols.pause();
             Packet stopPacket = new Packet
             {
                 Code = 5,
@@ -581,8 +590,8 @@ namespace Client
 
         private void btPause_Click(object sender, EventArgs e)
         {
-            btPause.Visible = false;
             btPlaying.Visible = true;
+            btPause.Visible = false;
             Videoplayer.Ctlcontrols.currentPosition = lastPosition; // Đặt lại vị trí
             Videoplayer.Ctlcontrols.play();
             Packet continuePacket = new Packet
@@ -597,7 +606,7 @@ namespace Client
 
         private void stop_video(Packet stopPacket)
         {
-                Videoplayer.Ctlcontrols.stop();
+                Videoplayer.Ctlcontrols.pause();
         }
 
         private void btFowardTime_Click(object sender, EventArgs e)
@@ -801,6 +810,18 @@ namespace Client
 
             if (!string.IsNullOrEmpty(message))
             {
+                Label usernameLabel = new Label
+                {
+                    Text = "You",
+                    Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                    AutoSize = true,
+                    Padding = new Padding(1),
+                    Margin = new Padding(5, 0, 0, 0),
+                };
+
+                flowLayoutPanel.Controls.Add(usernameLabel);
+
+
                 // Tạo một Label mới cho tin nhắn
                 RounderLabel lblMessage = new RounderLabel
                 {
@@ -831,7 +852,6 @@ namespace Client
                 // Gửi tin nhắn đến server
                 sendToServer(chatPacket);
                 tbEnterchat.Clear();
-
             }
         }
 
@@ -842,7 +862,7 @@ namespace Client
             iconPicker.Text = "Icons"; // Đặt tên form là "Icons"
             iconPicker.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             iconPicker.StartPosition = FormStartPosition.Manual;
-            iconPicker.Location = this.PointToScreen(new Point(btReaction.Left, btReaction.Bottom));
+            iconPicker.Location = this.PointToScreen(new Point(btUpload.Left, btUpload.Top));
 
             // Tạo bảng 3x3 icon
             TableLayoutPanel iconTable = new TableLayoutPanel();
@@ -877,7 +897,6 @@ namespace Client
 
             // Đường dẫn tới icon
             string iconPath = Path.Combine("Icons", icon);
-            Console.WriteLine($"Đường dẫn icon: {iconPath}"); // Kiểm tra đường dẫn
 
             // Kiểm tra nếu icon tồn tại
             if (File.Exists(iconPath))
@@ -886,12 +905,23 @@ namespace Client
                 string roomId = this_client_info.RoomID;
                 string username = this_client_info.Username;
 
+                Label usernameLabel = new Label
+                {
+                    Text = "You",
+                    Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                    AutoSize = true,
+                    Padding = new Padding(1),
+                    Margin = new Padding(5, 0, 0, 0),
+                };
+
+                flowLayoutPanel.Controls.Add(usernameLabel);
+
                 // Tạo PictureBox để hiển thị icon
                 using (Image img = Image.FromFile(iconPath))
                 {
                     // Kích thước icon mong muốn
-                    int iconWidth = 60; // Chiều rộng
-                    int iconHeight = 60; // Chiều cao
+                    int iconWidth = 50; // Chiều rộng
+                    int iconHeight = 50; // Chiều cao
 
                     // Lấy hình ảnh thu nhỏ
                     Image thumbnailImg = img.GetThumbnailImage(iconWidth, iconHeight, null, IntPtr.Zero);
@@ -901,7 +931,7 @@ namespace Client
                         SizeMode = PictureBoxSizeMode.StretchImage,
                         Width = iconWidth,
                         Height = iconHeight,
-                        Margin = new Padding(0, 0, 0, 3)
+                        Margin = new Padding(0, 0, 0, 3),
                     };
 
                     flowLayoutPanel.Controls.Add(iconPictureBox);
@@ -923,6 +953,4 @@ namespace Client
             }
         }
     }
-
-
 }
