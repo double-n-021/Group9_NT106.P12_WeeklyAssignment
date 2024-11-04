@@ -23,9 +23,11 @@ namespace Client
         private Point dragForm;
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
-        public Form_Home(string username, byte[] avatarconnect)
+        private string serverIP;
+        public Form_Home(string _serverIP, string username, byte[] avatarconnect)
         {
             InitializeComponent();
+            serverIP = _serverIP;
             LoadDataFromServer();
             Avatarconnect = avatarconnect;
             lbUsername.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
@@ -55,7 +57,7 @@ namespace Client
         {
             try
             {
-                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+                using (TcpClient client = new TcpClient(serverIP, 5000)) // Sửa địa chỉ IP và port nếu cần
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -272,7 +274,7 @@ namespace Client
         private void btSetting_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Setting formSetting = new Form_Setting(textconnect, Avatarconnect);//truyền cho form setting username và avatar
+            Form_Setting formSetting = new Form_Setting(serverIP, textconnect, Avatarconnect);//truyền cho form setting username và avatar
             formSetting.Show();
             formSetting.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -281,7 +283,7 @@ namespace Client
         private void btProfile_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Profile formProfile = new Form_Profile(textconnect, Avatarconnect);//truyền cho form profile username và avatar
+            Form_Profile formProfile = new Form_Profile(serverIP, textconnect, Avatarconnect);//truyền cho form profile username và avatar
             formProfile.Show();
             formProfile.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -290,7 +292,7 @@ namespace Client
         private void btCreate_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Create formCreate = new Form_Create(textconnect, Avatarconnect);//truyền cho form create username và avatar
+            Form_Create formCreate = new Form_Create(serverIP, textconnect, Avatarconnect);//truyền cho form create username và avatar
             formCreate.Show();
             formCreate.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -299,7 +301,7 @@ namespace Client
         private void btJoin_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Join formJoin = new Form_Join(textconnect, Avatarconnect);//truyền cho form join username và avatar
+            Form_Join formJoin = new Form_Join(serverIP, textconnect, Avatarconnect);//truyền cho form join username và avatar
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -357,7 +359,7 @@ namespace Client
         private void pbMV1_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[0]);
+            Form_room formRoom = new Form_room(serverIP, textconnect, Avatarconnect, titleofFile[0]);
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -365,7 +367,7 @@ namespace Client
         private void pbMV2_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[1]);
+            Form_room formRoom = new Form_room(serverIP, textconnect, Avatarconnect, titleofFile[1]);
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -373,7 +375,7 @@ namespace Client
         private void pbS1_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[2]);
+            Form_room formRoom = new Form_room(serverIP, textconnect, Avatarconnect, titleofFile[2]);
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -381,7 +383,7 @@ namespace Client
         private void pbS2_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[3]);
+            Form_room formRoom = new Form_room(serverIP, textconnect, Avatarconnect, titleofFile[3]);
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -389,7 +391,7 @@ namespace Client
         private void pbS3_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[4]);
+            Form_room formRoom = new Form_room(serverIP, textconnect, Avatarconnect, titleofFile[4]);
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -397,7 +399,7 @@ namespace Client
         private void pbS4_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_room formRoom = new Form_room(textconnect, Avatarconnect, titleofFile[5]);
+            Form_room formRoom = new Form_room(serverIP, textconnect, Avatarconnect, titleofFile[5]);
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -413,7 +415,7 @@ namespace Client
                 // Lấy giá trị của cột "Title" từ hàng được chọn
                 string title = selectedRow.Cells["Title"].Value.ToString();
                 this.Close();
-                Form_room formRoom = new Form_room(textconnect, Avatarconnect, title);
+                Form_room formRoom = new Form_room(serverIP, textconnect, Avatarconnect, title);
                 formRoom.Show();
                 formRoom.Location = new Point(this.Location.X, this.Location.Y);
 

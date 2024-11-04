@@ -18,6 +18,7 @@ using Azure.Core;
 using System.Runtime.InteropServices.ComTypes;
 using Newtonsoft.Json;
 using System.Net.NetworkInformation;
+using System.IO.Compression;
 
 namespace Server
 {
@@ -238,7 +239,7 @@ namespace Server
                                         next_video_handler(user, request);
                                         break;
                                     case 9:
-                                        sync_video_handler(user, request);
+                                        send_file_handler(user, request);
                                         break;
                                 }
                             }
@@ -259,6 +260,45 @@ namespace Server
                 }
             }
         }
+
+        private void send_file_handler(User user,  Packet request)
+        {
+            byte[] sendFile = GetFileFromDB(request.Message);
+            if (sendFile != null)
+            {
+                Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+                if (userRoom == null) return;
+
+                // VideoData đã được nén
+                byte[] videoData = CompressVideo(sendFile);
+                userRoom.CurrentVideoData = videoData;
+
+                // Gửi video nén tới tất cả các user trong phòng
+                foreach (User roomUser in userRoom.userList)
+                {
+                        Packet videoPacket = new Packet
+                        {
+                            Code = 4,
+                            Username = user.Username,
+                            VideoData = videoData, // Gửi video nén
+                        };
+                        sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+
+        private byte[] CompressVideo(byte[] videoData) //Nén video
+        {
+            using (var outputStream = new MemoryStream())
+            {
+                using (var gzipStream = new GZipStream(outputStream, CompressionMode.Compress))
+                {
+                    gzipStream.Write(videoData, 0, videoData.Length);
+                }
+                return outputStream.ToArray();
+            }
+        }
+
 
         private void generate_room_handler(User user, Packet request)
         {
@@ -502,26 +542,6 @@ namespace Server
                     Packet videoPacket = new Packet
                     {
                         Code = 5,
-                        Username = user.Username,
-                        CurrentPosition = request.CurrentPosition
-                    };
-                    sendSpecific(roomUser, videoPacket);
-                }
-            }
-        }
-
-        private void sync_video_handler(User user, Packet request)
-        {
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Không gửi lại cho chính người gửi
-                {
-                    Packet videoPacket = new Packet
-                    {
-                        Code = 9,
                         Username = user.Username,
                         CurrentPosition = request.CurrentPosition
                     };
@@ -1016,11 +1036,6 @@ namespace Server
                 }
             }
             return null;
-        }
-
-        private void btnGetLocalIP_Click(object sender, EventArgs e)
-        {
-            tbLocalIP.Text = ManagerOBJ.GetLocalIPv4(NetworkInterfaceType.Wireless80211);
         }
     }
 }

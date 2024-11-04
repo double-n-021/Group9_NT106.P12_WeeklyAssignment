@@ -72,23 +72,5 @@ namespace Server
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public string GetLocalIPv4(NetworkInterfaceType type)
-        {
-            string localIPv4 = string.Empty;
-            foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
-            {
-                if (item.NetworkInterfaceType == type && item.OperationalStatus == OperationalStatus.Up)
-                {
-                    foreach (UnicastIPAddressInformation ip in item.GetIPProperties().UnicastAddresses)
-                    {
-                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            localIPv4 = ip.Address.ToString();
-                        }
-                    }
-                }
-            }
-            return localIPv4;
-        }
     }
 }

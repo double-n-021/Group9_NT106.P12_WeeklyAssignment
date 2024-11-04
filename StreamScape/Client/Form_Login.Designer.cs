@@ -38,6 +38,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lbSignup = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.tbEnterIP = new Guna.UI2.WinForms.Guna2TextBox();
+            this.lbEnterIP = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundlogin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -174,11 +176,53 @@
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
             // 
+            // tbEnterIP
+            // 
+            this.tbEnterIP.BackColor = System.Drawing.Color.Transparent;
+            this.tbEnterIP.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(32)))), ((int)(((byte)(33)))));
+            this.tbEnterIP.BorderRadius = 10;
+            this.tbEnterIP.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbEnterIP.DefaultText = "127.0.0.1";
+            this.tbEnterIP.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.tbEnterIP.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.tbEnterIP.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbEnterIP.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbEnterIP.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(32)))), ((int)(((byte)(33)))));
+            this.tbEnterIP.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbEnterIP.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.tbEnterIP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
+            this.tbEnterIP.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbEnterIP.Location = new System.Drawing.Point(37, 487);
+            this.tbEnterIP.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.tbEnterIP.Name = "tbEnterIP";
+            this.tbEnterIP.PasswordChar = '\0';
+            this.tbEnterIP.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
+            this.tbEnterIP.PlaceholderText = "";
+            this.tbEnterIP.SelectedText = "";
+            this.tbEnterIP.Size = new System.Drawing.Size(153, 39);
+            this.tbEnterIP.TabIndex = 14;
+            // 
+            // lbEnterIP
+            // 
+            this.lbEnterIP.AutoSize = true;
+            this.lbEnterIP.BackColor = System.Drawing.Color.Transparent;
+            this.lbEnterIP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbEnterIP.Font = new System.Drawing.Font("Segoe UI Black", 7F, System.Drawing.FontStyle.Bold);
+            this.lbEnterIP.ForeColor = System.Drawing.Color.White;
+            this.lbEnterIP.Location = new System.Drawing.Point(36, 465);
+            this.lbEnterIP.Name = "lbEnterIP";
+            this.lbEnterIP.Size = new System.Drawing.Size(154, 15);
+            this.lbEnterIP.TabIndex = 15;
+            this.lbEnterIP.Text = "Enter server\'s IP address";
+            this.lbEnterIP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Form_Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 550);
+            this.Controls.Add(this.lbEnterIP);
+            this.Controls.Add(this.tbEnterIP);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.lbSignup);
             this.Controls.Add(this.pictureBox1);
@@ -212,6 +256,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lbSignup;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private Guna.UI2.WinForms.Guna2TextBox tbEnterIP;
+        private System.Windows.Forms.Label lbEnterIP;
     }
 }
 

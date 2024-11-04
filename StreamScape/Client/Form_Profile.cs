@@ -21,9 +21,12 @@ namespace Client
         private Point dragForm;
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
-        public Form_Profile(string username, byte[] avatarconnect)
+        private string serverIP;
+
+        public Form_Profile(string _serverIP, string username, byte[] avatarconnect)
         {
             InitializeComponent();
+            serverIP = _serverIP;
             Avatarconnect = avatarconnect;
             lbUsername.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
             lbUsernameofDetails.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
@@ -80,7 +83,7 @@ namespace Client
         private void btSetting_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Setting formSetting = new Form_Setting(textconnect, Avatarconnect);
+            Form_Setting formSetting = new Form_Setting(serverIP, textconnect, Avatarconnect);
             formSetting.Show();
             formSetting.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -105,7 +108,7 @@ namespace Client
         private void btHome_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Home formHome = new Form_Home(textconnect, Avatarconnect);
+            Form_Home formHome = new Form_Home(serverIP, textconnect, Avatarconnect);
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -114,7 +117,7 @@ namespace Client
         private void btCreate_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Create formCreate = new Form_Create(textconnect, Avatarconnect);
+            Form_Create formCreate = new Form_Create(serverIP, textconnect, Avatarconnect);
             formCreate.Show();
             formCreate.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -123,7 +126,7 @@ namespace Client
         private void btJoin_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Join formJoin = new Form_Join(textconnect, Avatarconnect);
+            Form_Join formJoin = new Form_Join(serverIP, textconnect, Avatarconnect);
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -162,7 +165,7 @@ namespace Client
             try
             {
                 // Tạo kết nối TCP đến server
-                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+                using (TcpClient client = new TcpClient(serverIP, 5000)) // Sửa địa chỉ IP và port nếu cần
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -231,7 +234,7 @@ namespace Client
                 return;
             }
 
-            using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+            using (TcpClient client = new TcpClient(serverIP, 5000)) // Sửa địa chỉ IP và port nếu cần
             using (NetworkStream stream = client.GetStream())
             using (BinaryWriter writer = new BinaryWriter(stream))
             using (BinaryReader reader = new BinaryReader(stream))
@@ -275,7 +278,7 @@ namespace Client
                 try
                 {
                     // Tạo kết nối TCP đến server
-                    using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Đảm bảo IP và port của máy chủ chính xác
+                    using (TcpClient client = new TcpClient(serverIP, 5000)) // Đảm bảo IP và port của máy chủ chính xác
                     using (NetworkStream stream = client.GetStream())
                     using (BinaryWriter writer = new BinaryWriter(stream))
                     using (BinaryReader reader = new BinaryReader(stream)) // Reader để đọc phản hồi

@@ -21,9 +21,11 @@ namespace Client
         private Point dragCursor;
         private Point dragForm;
         private byte[] avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
-        public Form_Signin()
+        private string serverIP;
+        public Form_Signin(string _serverIP)
         {
             InitializeComponent();
+            serverIP = _serverIP;
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -106,7 +108,7 @@ namespace Client
             try
             {
                 // Tạo kết nối TCP đến server
-                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+                using (TcpClient client = new TcpClient(serverIP, 5000)) // Sửa địa chỉ IP và port nếu cần
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -170,7 +172,7 @@ namespace Client
         private void OpenFormHome(string username)
         {
             this.Close();
-            Form_Home formHome = new Form_Home(username, avatarconnect);
+            Form_Home formHome = new Form_Home(serverIP, username, avatarconnect);
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }

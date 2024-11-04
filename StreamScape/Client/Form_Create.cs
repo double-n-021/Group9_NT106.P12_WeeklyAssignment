@@ -20,10 +20,12 @@ namespace Client
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
         private string nameroomconnect;
         private int isHost;
+        private string serverIP;
 
-        public Form_Create(string username, byte[] avatarconnect)
+        public Form_Create(string _serverIP, string username, byte[] avatarconnect)
         {
             InitializeComponent();
+            serverIP = _serverIP;
             textconnect = username;//gán dữ liệu vừa được truyền từ form home cho form create
             Avatarconnect = avatarconnect;//gán dữ liệu vừa được truyền từ form home cho form create
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
@@ -84,7 +86,7 @@ namespace Client
         private void btBack_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Home formHome = new Form_Home(textconnect, Avatarconnect);
+            Form_Home formHome = new Form_Home(serverIP, textconnect, Avatarconnect);
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -101,7 +103,7 @@ namespace Client
             {
                 nameroomconnect = tbNameofRoom.Text;
                 this.Close();
-                Form_Onlineroom formOnlineroom = new Form_Onlineroom(1, textconnect, Avatarconnect, 0, nameroomconnect, "");//0 là code create room
+                Form_Onlineroom formOnlineroom = new Form_Onlineroom(serverIP, 1, textconnect, Avatarconnect, 0, nameroomconnect, "");//0 là code create room
                 formOnlineroom.Show();
                 formOnlineroom.Location = new Point(this.Location.X, this.Location.Y);
             }

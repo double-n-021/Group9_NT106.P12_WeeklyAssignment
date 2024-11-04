@@ -21,9 +21,12 @@ namespace Client
         private Point dragForm;
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
-        public Form_Setting(string username, byte[] avatarconnect)
+        private string serverIP;
+
+        public Form_Setting(string _serverIP, string username, byte[] avatarconnect)
         {
             InitializeComponent();
+            serverIP = _serverIP;
             Avatarconnect = avatarconnect;
             lbUsername.Text = username;//gán dữ liệu vừa được truyền từ form home cho label của form setting
             textconnect = username; //gán dữ liệu bắc cầu form signin -> form home -> form setting -> form tiếp theo
@@ -92,7 +95,7 @@ namespace Client
         private void btHome_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Home formHome = new Form_Home(textconnect, Avatarconnect);
+            Form_Home formHome = new Form_Home(serverIP, textconnect, Avatarconnect);
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -101,7 +104,7 @@ namespace Client
         private void btProfile_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Profile formProfile = new Form_Profile(textconnect, Avatarconnect);
+            Form_Profile formProfile = new Form_Profile(serverIP, textconnect, Avatarconnect);
             formProfile.Show();
             formProfile.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -110,7 +113,7 @@ namespace Client
         private void btCreate_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Create formCreate = new Form_Create(textconnect, Avatarconnect);
+            Form_Create formCreate = new Form_Create(serverIP, textconnect, Avatarconnect);
             formCreate.Show();
             formCreate.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -119,7 +122,7 @@ namespace Client
         private void btJoin_Click(object sender, EventArgs e)
         {
             this.Close();
-            Form_Join formJoin = new Form_Join(textconnect, Avatarconnect);
+            Form_Join formJoin = new Form_Join(serverIP, textconnect, Avatarconnect);
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);
         }

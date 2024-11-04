@@ -33,6 +33,8 @@ namespace Client
             btMinimized.Parent = pbBackgroundlogin;
             pnHeader.Parent = pbBackgroundlogin;
             btLogin.Parent = pbBackgroundlogin;
+            lbEnterIP.Parent = pbBackgroundlogin;
+            tbEnterIP.Parent = pbBackgroundlogin;
         }
 
         //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
@@ -77,19 +79,31 @@ namespace Client
         //Chức năng chuyển đến form đăng nhập
         private void btLogin_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Form_Signin formSignin = new Form_Signin();
-            formSignin.Show();
-            formSignin.Location = new Point(this.Location.X, this.Location.Y);
+            string serverIP = tbEnterIP.Text;
+            if (!string.IsNullOrEmpty(serverIP))
+            {
+                this.Hide();
+                Form_Signin formSignin = new Form_Signin(serverIP);
+                formSignin.Show();
+                formSignin.Location = new Point(this.Location.X, this.Location.Y);
+            }
+            else
+                MessageBox.Show("Please enter server's IP address");
         }
 
         //Chức năng chuyển đến form đăng ký
         private void Signup_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Form_Signup formSignup = new Form_Signup();
-            formSignup.Show();
-            formSignup.Location = new Point(this.Location.X, this.Location.Y);
+            string serverIP = tbEnterIP.Text;
+            if (!string.IsNullOrEmpty(serverIP))
+            {
+                this.Hide();
+                Form_Signup formSignup = new Form_Signup(serverIP);
+                formSignup.Show();
+                formSignup.Location = new Point(this.Location.X, this.Location.Y);
+            }
+            else
+                MessageBox.Show("Please enter server's IP address");
         }
     }
 }

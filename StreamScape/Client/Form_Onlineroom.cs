@@ -27,10 +27,12 @@ namespace Client
         private Manager Manager;
         private bool isNew;
         private int isHost;
+        private string serverIP;
 
-        public Form_Onlineroom(int isHost, string username, byte[] avatarconnect, int code, string nameconnect, string idconnect)
+        public Form_Onlineroom(string _serverIP, int isHost, string username, byte[] avatarconnect, int code, string nameconnect, string idconnect)
         {
             InitializeComponent();
+            serverIP = _serverIP;
             LoadDataFromServer();
             textconnect = username;//gán dữ liệu vừa được truyền từ form home cho form create
             Avatarconnect = avatarconnect;//gán dữ liệu vừa được truyền từ form home cho form create
@@ -73,7 +75,7 @@ namespace Client
 
             try
             {
-                client = new TcpClient("127.0.0.1", 5000); // Sửa địa chỉ IP và port nếu cần
+                client = new TcpClient(serverIP, 5000); // Sửa địa chỉ IP và port nếu cần
                 NetworkStream stream = client.GetStream();
                 writer = new BinaryWriter(stream);
                 reader = new BinaryReader(stream); // Reader để đọc phản hồi
@@ -150,13 +152,10 @@ namespace Client
                         case 8:
                             next_video(response);
                             break;
-                        case 9:
-                            sync_video(response);
-                            break;
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 client.Close();
             }
@@ -167,6 +166,7 @@ namespace Client
             this_client_info.RoomID = response.RoomID;
             Manager.UpdateRoomIDNRoomName(this_client_info.RoomID, this_client_info.RoomName);
             isNew = false;
+            isHost = 1;
 
             
             if (response.isHost == 1)
@@ -177,7 +177,6 @@ namespace Client
                 btBackTime.Invoke(new MethodInvoker(() => btBackTime.Visible = true));
                 btPlaying.Invoke(new MethodInvoker(() => btPlaying.Visible = true));
                 btPause.Invoke(new MethodInvoker(() => btPause.Visible = true));
-                btSync.Invoke(new MethodInvoker(() => btSync.Visible = true));
             }
         }
         
@@ -187,7 +186,7 @@ namespace Client
             {
                 sendToServer(new Packet
                 {
-                    Code = 9, //Không thực hiện thêm hành động khác
+                    Code = 10, //Không thực hiện thêm hành động khác
                     RoomID = response.RoomID,
                 });
                 isNew = false;
@@ -350,11 +349,26 @@ namespace Client
             string tempFilePath = Path.Combine(Path.GetTempPath(), $"{username}_video_{Guid.NewGuid()}.mp4");
             File.WriteAllBytes(tempFilePath, compressedData);
 
-            // Phát video trong Windows Media Player
-            Videoplayer.URL = tempFilePath;
-            timer1.Start();
-            Videoplayer.Ctlcontrols.play();
-            btPause.Visible = false;
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    // Phát video trong Windows Media Player
+                    Videoplayer.URL = tempFilePath;
+                    Videoplayer.Ctlcontrols.play();
+                    timer1.Start();
+                    btPause.Visible = false;
+                }));
+            }
+            else
+            {
+                // Phát video trong Windows Media Player
+                Videoplayer.URL = tempFilePath;
+                Videoplayer.Ctlcontrols.play();
+                timer1.Start();
+                btPause.Visible = false;
+            }
         }
 
         public List<byte[]> SplitAvatars(byte[] listAvatar)
@@ -393,7 +407,7 @@ namespace Client
         {
             try
             {
-                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
+                using (TcpClient client = new TcpClient(serverIP, 5000)) // Sửa địa chỉ IP và port nếu cần
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -492,7 +506,7 @@ namespace Client
         {
             client.Close();
             this.Close();
-            Form_Home formHome = new Form_Home(textconnect, Avatarconnect);
+            Form_Home formHome = new Form_Home(serverIP, textconnect, Avatarconnect);
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
@@ -507,14 +521,6 @@ namespace Client
         //Chức năng up file mp3 và mp4 từ máy lên
         private void btUpload_Click(object sender, EventArgs e)
         {
-            /*OFD.Filter = "Media Files (*.mp3;*.mp4;*.wav)|*.mp3;*.mp4;*.wav";
-            DialogResult ofd = OFD.ShowDialog();
-            if (ofd == DialogResult.OK)
-            {
-                timer1.Start();
-                try { Videoplayer.URL = OFD.FileName; }
-                catch (Exception) { }
-            }*/
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Filter = "Media Files (*.mp3;*.mp4)|*.mp3;*.mp4";
@@ -574,8 +580,8 @@ namespace Client
             btPause.Visible = true;
             btPlaying.Visible = false;
 
-            lastPosition = Videoplayer.Ctlcontrols.currentPosition; // Lưu vị trí hiện tại
             Videoplayer.Ctlcontrols.pause();
+            lastPosition = Videoplayer.Ctlcontrols.currentPosition; // Lưu vị trí hiện tại
             Packet stopPacket = new Packet
             {
                 Code = 5,
@@ -610,7 +616,7 @@ namespace Client
 
         private void stop_video(Packet stopPacket)
         {
-                Videoplayer.Ctlcontrols.pause();
+            Videoplayer.Ctlcontrols.pause();
         }
 
         private void btFowardTime_Click(object sender, EventArgs e)
@@ -666,23 +672,45 @@ namespace Client
 
         private void csVideo_Scroll(object sender, ScrollEventArgs e)
         {
-            Videoplayer.Ctlcontrols.currentPosition = (int)csVideo.Value;
+            if (isHost == 1)
+            {
+                Videoplayer.Ctlcontrols.currentPosition = (int)csVideo.Value;
+                double newTime = Videoplayer.Ctlcontrols.currentPosition;
+                Packet _nextPacket = new Packet
+                {
+                    Code = 8, // Mã cho việc cập nhật video
+                    Username = this_client_info.Username,
+                    RoomID = this_client_info.RoomID,
+                    CurrentPosition = newTime // Vị trí video sau khi tua
+                };
+                sendToServer(_nextPacket);
+            }
+            else csVideo.Value = (int)Videoplayer.Ctlcontrols.currentPosition;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (!isUserDragging && Videoplayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
             {
-                csSound.Value = (int)Videoplayer.settings.volume;
-                csVideo.Maximum = (int)Videoplayer.Ctlcontrols.currentItem.duration;
-                csVideo.Value = (int)Videoplayer.Ctlcontrols.currentPosition;
+                this.Invoke((MethodInvoker)delegate {
+                    csSound.Value = (int)Videoplayer.settings.volume;
+                    csVideo.Maximum = (int)Videoplayer.Ctlcontrols.currentItem.duration;
+                    csVideo.Value = (int)Videoplayer.Ctlcontrols.currentPosition;
+                });
             }
 
             if (Videoplayer.playState == WMPLib.WMPPlayState.wmppsStopped)
-                btPause.Visible = true;
+            {
+                this.Invoke((MethodInvoker)delegate {
+                        if (isHost == 1) btPause.Visible = true;
+                        csVideo.Value = csVideo.Maximum;
+                });
+            }
 
-            lbTiming.Text = Videoplayer.Ctlcontrols.currentPositionString;
-            lbMaxTime.Text = Videoplayer.Ctlcontrols.currentItem.durationString.ToString();
+            this.Invoke((MethodInvoker)delegate {
+                lbTiming.Text = Videoplayer.Ctlcontrols.currentPositionString;
+                lbMaxTime.Text = Videoplayer.Ctlcontrols.currentItem.durationString.ToString();
+            });
         }
 
         private void csVideo_MouseUp(object sender, MouseEventArgs e)
@@ -699,16 +727,22 @@ namespace Client
         private void pbBackgroundONLR_MouseEnter(object sender, EventArgs e)
         {
             pnTool.Visible = false;
-            btSearch.Visible = false;
-            tbSearch.Visible = false;
+            if(isHost == 1)
+            {
+                btSearch.Visible = false;
+                tbSearch.Visible = false;
+            }
         }
 
         private void pbBackgroundONLR_MouseLeave(object sender, EventArgs e)
         {
             pnTool.Visible = true;
-            btSearch.Visible = true;
-            tbSearch.Visible = true;
-            searchResult.Visible = false;
+            if (isHost == 1)
+            {
+                btSearch.Visible = true;
+                tbSearch.Visible = true;
+                searchResult.Visible = false;
+            }
         }
 
         private void tbSearch_TextChanged(object sender, EventArgs e)
@@ -732,6 +766,16 @@ namespace Client
             }
         }
 
+        int count = 0;
+        private void btMenu_Click(object sender, EventArgs e)
+        {
+            count++;
+            if (count%2==0)
+                listView_room_users.Visible = false;
+            else
+                listView_room_users.Visible = true;
+        }
+
         private void searchResult_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Kiểm tra xem chỉ số hàng có hợp lệ không
@@ -742,68 +786,18 @@ namespace Client
 
                 // Lấy giá trị của cột "Title" từ hàng được chọn
                 string title = selectedRow.Cells["Title"].Value.ToString();
-                PlayFile(title);
+                Packet playFile = new Packet
+                {
+                    Code = 9, // Mã cho playfile
+                    RoomID = this_client_info.RoomID,
+                    Username = this_client_info.Username,
+                    Message = title
+                };
+                sendToServer(playFile);
                 searchResult.Visible = false;
             }
         }
 
-        private void PlayFile(string titleofFile)
-        {
-            string username = this_client_info.Username;
-            string roomId = this_client_info.RoomID;
-
-            try
-            {
-                // Tạo kết nối TCP đến server
-                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Sửa địa chỉ IP và port nếu cần
-                using (NetworkStream stream = client.GetStream())
-                using (BinaryWriter writer = new BinaryWriter(stream))
-                using (BinaryReader reader = new BinaryReader(stream))
-                {
-                    // Gửi yêu cầu lấy file mp3 và mp4 đến server
-                    writer.Write("getfile");       // Gửi yêu cầu "getfile"
-                    writer.Write(titleofFile);
-                    writer.Write(username);       // Gửi tên file
-
-                    // Đọc phản hồi từ server
-                    string tag = reader.ReadString();
-                    int fileSize = reader.ReadInt32();     // Đọc kích thước file
-                    if (fileSize > 0)
-                    {
-                        byte[] fileData = reader.ReadBytes(fileSize); // Đọc dữ liệu file
-
-                        // Đường dẫn tạm thời để lưu tệp
-                        string tempFilePath = Path.Combine(Path.GetTempPath(), titleofFile + tag);
-
-                        // Ghi dữ liệu vào tệp
-                        File.WriteAllBytes(tempFilePath, fileData);
-
-                        // Phát tệp bằng Videoplayer hoặc Audio player tùy thuộc vào loại tệp
-                        Videoplayer.URL = tempFilePath;
-                        timer1.Start();
-                        Videoplayer.Ctlcontrols.play();
-                    }
-                    else
-                    {
-                        MessageBox.Show("File not found on server." + titleofFile);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error connecting to server: " + ex.Message);
-            }
-        }
-
-        int count = 0;
-        private void btMenu_Click(object sender, EventArgs e)
-        {
-            count++;
-            if (count%2==0)
-                listView_room_users.Visible = false;
-            else
-                listView_room_users.Visible = true;
-        }
 
         private void btSendMessage_Click(object sender, EventArgs e)
         {
@@ -956,26 +950,5 @@ namespace Client
                 }
             }
         }
-
-        private void btSync_Click(object sender, EventArgs e)
-        {
-            double currentTime = Videoplayer.Ctlcontrols.currentPosition;
-            double newTime = currentTime;
-            Videoplayer.Ctlcontrols.currentPosition = newTime; // Cập nhật vị trí local
-            Packet syncPacket = new Packet
-            {
-                Code = 8, // Mã cho việc cập nhật video
-                Username = this_client_info.Username,
-                RoomID = this_client_info.RoomID,
-                CurrentPosition = newTime // Vị trí video sau khi tua
-            };
-            sendToServer(syncPacket);
-        }
-
-        private void sync_video(Packet syncPacket)
-        {
-            Videoplayer.Ctlcontrols.currentPosition = syncPacket.CurrentPosition;
-        }
-
     }
 }

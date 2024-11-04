@@ -19,9 +19,11 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
-        public Form_Signup()
+        private string serverIP;
+        public Form_Signup(string _serverIP)
         {
             InitializeComponent();
+            serverIP = _serverIP;
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -106,7 +108,7 @@ namespace Client
             try
             {
                 // Tạo kết nối TCP đến server
-                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Đảm bảo server đang chạy
+                using (TcpClient client = new TcpClient(serverIP, 5000)) // Đảm bảo server đang chạy
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using (BinaryReader reader = new BinaryReader(stream))
