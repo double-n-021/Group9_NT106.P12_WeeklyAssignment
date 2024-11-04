@@ -285,7 +285,6 @@
             this.pbAV1.TabStop = false;
             this.pbAV1.UseTransparentBackground = true;
             this.pbAV1.Visible = false;
-            this.pbAV1.Click += new System.EventHandler(this.pbAvatar_Click);
             // 
             // pbAV2
             // 

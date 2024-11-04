@@ -2,10 +2,10 @@
 {
     internal class Packet
     {
-        public int Code { get; set; }
-        public string Username { get; set; }
         public int isHost { get; set; }
+        public string Username { get; set; }
         public byte[] Avatar { get; set; }
+        public int Code { get; set; }
         public string RoomName { get; set; }
         public string RoomID { get; set; }
         public string Message { get; set; }

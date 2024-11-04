@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.HtmlControls;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Client
 {
@@ -44,7 +38,7 @@ namespace Client
             btSignin.Parent = pbBackgroundSignin;
         }
 
-        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
+        #region Chức năng có thể di chuyển cửa sổ...
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -65,9 +59,9 @@ namespace Client
         {
             dragging = false;
         }
-        //Kết thúc ở đây
+        #endregion
 
-        //Đóng app
+        #region 3 button công cụ...
         private void btExit_Click(object sender, EventArgs e)
         {
             var formsToClose = Application.OpenForms.Cast<Form>().ToList();
@@ -91,6 +85,7 @@ namespace Client
             formLogin.Show();
             formLogin.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
 
         //Chức năng gửi thông tin username, emailphone, password đến server để server lưu vào DB
         private void btSignin_Click(object sender, EventArgs e)
@@ -137,12 +132,13 @@ namespace Client
 
         }
 
-        private  byte[] GetAvatar(string username)
+        #region: Hàm con có liên quan đến Sigin_Click
+        private byte[] GetAvatar(string username)
         {
             try
             {
                 // Tạo kết nối TCP đến server
-                using (TcpClient client = new TcpClient("127.0.0.1", 5000)) // Đảm bảo IP và port của máy chủ chính xác
+                using (TcpClient client = new TcpClient(serverIP, 5000)) // Đảm bảo IP và port của máy chủ chính xác
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -176,5 +172,6 @@ namespace Client
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
     }
 }

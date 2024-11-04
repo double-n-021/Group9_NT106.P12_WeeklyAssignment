@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Client
@@ -37,7 +33,7 @@ namespace Client
             tbEnterIP.Parent = pbBackgroundlogin;
         }
 
-        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
+        #region Chức năng có thể di chuyển cửa sổ...
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -58,9 +54,9 @@ namespace Client
         {
             dragging = false;
         }
-        //Kết thúc ở đây
+        #endregion
 
-        //Đóng app
+        #region 3 button công cụ...
         private void btExit_Click(object sender, EventArgs e)
         {
             var formsToClose = Application.OpenForms.Cast<Form>().ToList();
@@ -75,6 +71,7 @@ namespace Client
         {
             WindowState = FormWindowState.Minimized;
         }
+        #endregion
 
         //Chức năng chuyển đến form đăng nhập
         private void btLogin_Click(object sender, EventArgs e)

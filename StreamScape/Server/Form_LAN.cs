@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Security.Cryptography;
-using Azure.Core;
-using System.Runtime.InteropServices.ComTypes;
 using Newtonsoft.Json;
-using System.Net.NetworkInformation;
 using System.IO.Compression;
 
 namespace Server
@@ -26,6 +17,7 @@ namespace Server
     {
         private TcpListener server;
         private string dbPath = "DBSS.db"; // Đường dẫn file database
+        
         private List<Room> roomList = new List<Room>();
         private List<User> userList = new List<User>();
         private Manager ManagerOBJ;
@@ -33,7 +25,7 @@ namespace Server
         public Form_LAN()
         {
             InitializeComponent();
-            ManagerOBJ = new Manager(listView_log, tbAvailableRoom, tbExistingUser);
+            ManagerOBJ = new Manager(listView_log, tbAvailableRoom, tbExistingUser);//khởi tạo để cập nhật thông tin phía SV
         }
 
         private void Form_LAN_Load(object sender, EventArgs e)
@@ -41,6 +33,7 @@ namespace Server
             cbUserandAdd.SelectedIndex = 0;
         }
 
+        #region Đổ dữ liệu User Accounts và Movies N Musics từ DB vào Datagridview và cập nhật DG khi có thay đổi
         private void cbUserAccount_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selected = cbUserandAdd.SelectedItem.ToString();
@@ -78,7 +71,96 @@ namespace Server
             }
         }
 
+        //User Accounts
+        private void LoadUserData()
+        {
+            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password, Avatar FROM Users", connection);
+            var table = new DataTable();
+            dap.Fill(table); // Đổ dữ liệu vào table
 
+            // Tạm thời lưu dữ liệu trong biến để cập nhật vào DataGridView thông qua UI thread
+            Action updateAction = () =>
+            {
+                dataGridView1.DataSource = table;
+            };
+
+            if (dataGridView1.InvokeRequired)
+            {
+                dataGridView1.Invoke(updateAction);
+            }
+            else
+            {
+                updateAction();
+            }
+        }
+
+        //MoviesNMusics
+        private void LoadFileData()
+        {
+            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            var dap = new SQLiteDataAdapter("SELECT ID, Title, Description, Tag, Poster FROM MoviesNMusics", connection);
+            var table = new DataTable();
+            dap.Fill(table); // Đổ dữ liệu vào table
+            Action updateAction = () =>
+            {
+                dataGridView1.DataSource = table;
+            };
+
+            if (dataGridView1.InvokeRequired)
+            {
+                dataGridView1.Invoke(updateAction);
+            }
+            else
+            {
+                updateAction();
+            }
+
+        }
+        #endregion
+
+        #region Chức năng Start(), Stop() và Listen() của SV
+        private void btStart_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                server = new TcpListener(IPAddress.Any, 5000);
+                server.Start();
+
+                Thread clientListener = new Thread(Listen);
+                clientListener.IsBackground = true;
+                clientListener.Start();
+
+                ManagerOBJ.WriteToLog("Start listening for incoming requests...");
+
+                btStart.Enabled = false;
+                btStop.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi khởi động server: " + ex.Message);
+            }
+        }
+
+        private void btStop_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ManagerOBJ.WriteToLog("Stop listening for incoming requests");
+                foreach (User user in userList)
+                {
+                    user.Client.Close();
+                }
+                server.Stop();
+
+                btStop.Enabled = false;
+                btStart.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi dừng server: " + ex.Message);
+            }
+        }
 
         private void Listen()
         {
@@ -98,9 +180,11 @@ namespace Server
                 server.Start();
             }
         }
+        #endregion
 
+        string tag = ""; //biến này có liên quan đến form home
 
-        string tag = "";
+        #region Đọc request của client và response Send Specific
         private void HandleClient(object obj)
         {
             TcpClient client = obj as TcpClient;
@@ -261,45 +345,135 @@ namespace Server
             }
         }
 
-        private void send_file_handler(User user,  Packet request)
+        private void sendSpecific(User user, Object message)
         {
-            byte[] sendFile = GetFileFromDB(request.Message);
-            if (sendFile != null)
+            if (user.Client.Connected)
             {
-                Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-                if (userRoom == null) return;
-
-                // VideoData đã được nén
-                byte[] videoData = CompressVideo(sendFile);
-                userRoom.CurrentVideoData = videoData;
-
-                // Gửi video nén tới tất cả các user trong phòng
-                foreach (User roomUser in userRoom.userList)
+                string messageInJson = JsonConvert.SerializeObject(message);
+                try
                 {
-                        Packet videoPacket = new Packet
-                        {
-                            Code = 4,
-                            Username = user.Username,
-                            VideoData = videoData, // Gửi video nén
-                        };
-                        sendSpecific(roomUser, videoPacket);
+                    user.Writer.Write(messageInJson);
+                    user.Writer.Flush();
+                }
+                catch (Exception ex)
+                {
+                    ManagerOBJ.ShowError($"Cannot send data to user: {user.Username}\nError: {ex.Message}");
                 }
             }
-        }
-
-        private byte[] CompressVideo(byte[] videoData) //Nén video
-        {
-            using (var outputStream = new MemoryStream())
+            else
             {
-                using (var gzipStream = new GZipStream(outputStream, CompressionMode.Compress))
-                {
-                    gzipStream.Write(videoData, 0, videoData.Length);
-                }
-                return outputStream.ToArray();
+                ManagerOBJ.ShowError("Connection is closed.");
             }
         }
+        #endregion
 
+        //Của Form_Onlineroom
+        #region Đóng kết nối của client
+        private void close_client(User user)
+        {
+            Room requestingRoom = new Room();
 
+            // xoá client khỏi cách list client và close client
+            foreach (Room room in roomList)
+            {
+                if (room.userList.Contains(user))
+                {
+                    requestingRoom = room;
+                    room.userList.Remove(user);
+                    break;
+                }
+            }
+            userList.Remove(user);
+            user.Client.Close();
+
+            if (user.Username != string.Empty)
+            {
+                ManagerOBJ.WriteToLog(user.Username + " disconnected.");
+            }
+
+            // gửi thông báo về client vừa ngắt kết nối đến client khác trong phòng
+            Packet message = new Packet()
+            {
+                Code = 1,
+                Username = "!" + user.Username,
+                Avatar = user.Avatar
+            };
+
+            if (requestingRoom.userList.Count == 0)
+            {
+                if (roomList.Contains(requestingRoom))
+                {
+                    roomList.Remove(requestingRoom);
+                    ManagerOBJ.WriteToLog("Deleted room: " + requestingRoom.roomID + " - No user here.");
+                }
+            }
+            else
+            {
+                foreach (User _user in requestingRoom.userList)
+                {
+                    sendSpecific(_user, message);
+                }
+            }
+            ManagerOBJ.UpdateRoomCount(roomList.Count);
+            ManagerOBJ.UpdateUserCount(userList.Count);
+        }
+        #endregion
+
+        #region Xử lý tính năng chat
+        private void send_icon_handler(User user, Packet request)
+        {
+            // Tìm phòng mà user đang tham gia
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            // Chuẩn bị gói tin chứa icon để gửi cho các user trong phòng
+            Packet iconPacket = new Packet
+            {
+                Code = 3, // Mã dành riêng cho icon (giả sử Code 3 là code dành cho icon)
+                Username = user.Username,
+                Icon = request.Icon // IconData chứa dữ liệu icon (có thể là đường dẫn hoặc mã byte)
+            };
+
+            // Gửi icon tới tất cả các người dùng trong phòng
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    sendSpecific(roomUser, iconPacket);
+                }
+            }
+
+            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} sent an icon.");
+        }
+
+        private void send_message_handler(User user, Packet request)
+        {
+            // Find the room that the user is in
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            // Prepare the message packet to be sent to all users in the room
+            Packet messagePacket = new Packet
+            {
+                Code = 2, // Code for a chat message
+                Username = user.Username,
+                Message = request.Message // Assuming `Message` property holds the text content
+            };
+
+            // Send the message to each user in the room
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Bỏ qua người gửi
+                {
+                    sendSpecific(roomUser, messagePacket);
+                }
+            }
+
+            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} sent a message.");
+        }
+        #endregion
+
+        #region Của host
         private void generate_room_handler(User user, Packet request)
         {
             user.Username = request.Username;
@@ -337,7 +511,165 @@ namespace Server
 
             sendSpecific(user, message);
         }
+        #endregion
 
+        #region Xử lý khi host chọn file từ công cụ tìm kiếm
+        private void send_file_handler(User user, Packet request)
+        {
+            byte[] sendFile = GetFileFromDB(request.Message);
+            if (sendFile != null)
+            {
+                Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+                if (userRoom == null) return;
+
+                // VideoData đã được nén
+                byte[] videoData = CompressVideo(sendFile);
+                userRoom.CurrentVideoData = videoData;
+
+                // Gửi video nén tới tất cả các user trong phòng
+                foreach (User roomUser in userRoom.userList)
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 4,
+                        Username = user.Username,
+                        VideoData = videoData, // Gửi video nén
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+
+        private byte[] CompressVideo(byte[] videoData) //Nén video
+        {
+            using (var outputStream = new MemoryStream())
+            {
+                using (var gzipStream = new GZipStream(outputStream, CompressionMode.Compress))
+                {
+                    gzipStream.Write(videoData, 0, videoData.Length);
+                }
+                return outputStream.ToArray();
+            }
+        }
+        #endregion
+
+        #region Xử lý khi host upload file
+        private void send_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            // VideoData đã được nén
+            byte[] videoData = request.VideoData;
+            userRoom.CurrentVideoData = videoData;
+
+            // Gửi video nén tới tất cả các user trong phòng
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 4,
+                        Username = user.Username,
+                        VideoData = videoData, // Gửi video nén
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} uploaded a video.");
+        }
+        #endregion
+
+        #region Xử lý khi host tua ngược file
+        private void rewind_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 7,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+        #endregion
+
+        #region Xử lý khi host tua nhanh file
+        private void next_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 8,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+        #endregion
+
+        #region Xử lý khi host bấm tiếp tục phát file
+        private void continue_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 6,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition,
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+        #endregion
+
+        #region Xử lý khi host bấm dừng file
+        private void stop_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 5,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+        #endregion
+
+        #region Của người tham gia
         private void join_room_handler(User user, Packet request)
         {
             bool roomExist = false;
@@ -391,236 +723,10 @@ namespace Server
             ManagerOBJ.WriteToLog("Room " + request.RoomID + ": " + user.Username + " joined");
             ManagerOBJ.UpdateUserCount(userList.Count);
         }
+        #endregion
 
-        private void send_icon_handler(User user, Packet request)
-        {
-            // Tìm phòng mà user đang tham gia
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            // Chuẩn bị gói tin chứa icon để gửi cho các user trong phòng
-            Packet iconPacket = new Packet
-            {
-                Code = 3, // Mã dành riêng cho icon (giả sử Code 3 là code dành cho icon)
-                Username = user.Username,
-                Icon = request.Icon // IconData chứa dữ liệu icon (có thể là đường dẫn hoặc mã byte)
-            };
-
-            // Gửi icon tới tất cả các người dùng trong phòng
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Không gửi lại cho chính người gửi
-                {
-                    sendSpecific(roomUser, iconPacket);
-                }
-            }
-
-            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} sent an icon.");
-        }
-
-        private void send_message_handler(User user, Packet request)
-        {
-            // Find the room that the user is in
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            // Prepare the message packet to be sent to all users in the room
-            Packet messagePacket = new Packet
-            {
-                Code = 2, // Code for a chat message
-                Username = user.Username,
-                Message = request.Message // Assuming `Message` property holds the text content
-            };
-
-            // Send the message to each user in the room
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Bỏ qua người gửi
-                {
-                    sendSpecific(roomUser, messagePacket);
-                }
-            }
-
-            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} sent a message.");
-        }
-
-        private void send_video_handler(User user, Packet request)
-        {
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            // VideoData đã được nén
-            byte[] videoData = request.VideoData;
-            userRoom.CurrentVideoData = videoData;
-
-            // Gửi video nén tới tất cả các user trong phòng
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Không gửi lại cho chính người gửi
-                {
-                    Packet videoPacket = new Packet
-                    {
-                        Code = 4,
-                        Username = user.Username,
-                        VideoData = videoData, // Gửi video nén
-                    };
-                    sendSpecific(roomUser, videoPacket);
-                }
-            }
-            ManagerOBJ.WriteToLog($"Room {userRoom.roomID}: {user.Username} uploaded a video.");
-        }
-
-        private void rewind_video_handler(User user, Packet request)
-        {
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Không gửi lại cho chính người gửi
-                {
-                    Packet videoPacket = new Packet
-                    {
-                        Code = 7,
-                        Username = user.Username,
-                        CurrentPosition = request.CurrentPosition
-                    };
-                    sendSpecific(roomUser, videoPacket);
-                }
-            }
-        }
-
-        private void next_video_handler(User user, Packet request)
-        {
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Không gửi lại cho chính người gửi
-                {
-                    Packet videoPacket = new Packet
-                    {
-                        Code = 8,
-                        Username = user.Username,
-                        CurrentPosition = request.CurrentPosition
-                    };
-                    sendSpecific(roomUser, videoPacket);
-                }
-            }
-        }
-
-        private void continue_video_handler(User user, Packet request)
-        {
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Không gửi lại cho chính người gửi
-                {
-                    Packet videoPacket = new Packet
-                    {
-                        Code = 6,
-                        Username = user.Username,
-                        CurrentPosition = request.CurrentPosition,
-                    };
-                    sendSpecific(roomUser, videoPacket);
-                }
-            }
-        }
-
-        private void stop_video_handler(User user, Packet request)
-        {
-            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
-            if (userRoom == null) return;
-
-            foreach (User roomUser in userRoom.userList)
-            {
-                if (roomUser != user) // Không gửi lại cho chính người gửi
-                {
-                    Packet videoPacket = new Packet
-                    {
-                        Code = 5,
-                        Username = user.Username,
-                        CurrentPosition = request.CurrentPosition
-                    };
-                    sendSpecific(roomUser, videoPacket);
-                }
-            }
-        }
-
-        private void close_client(User user)
-        {
-            Room requestingRoom = new Room();
-
-            // xoá client khỏi cách list client và close client
-            foreach (Room room in roomList)
-            {
-                if (room.userList.Contains(user))
-                {
-                    requestingRoom = room;
-                    room.userList.Remove(user);
-                    break;
-                }
-            }
-            userList.Remove(user);
-            user.Client.Close();
-
-            if (user.Username != string.Empty)
-            {
-                ManagerOBJ.WriteToLog(user.Username + " disconnected.");
-            }
-
-            // gửi thông báo về client vừa ngắt kết nối đến client khác trong phòng
-            Packet message = new Packet()
-            {
-                Code = 1,
-                Username = "!" + user.Username,
-                Avatar = user.Avatar
-            };
-
-            if (requestingRoom.userList.Count == 0)
-            {
-                if (roomList.Contains(requestingRoom))
-                {
-                    roomList.Remove(requestingRoom);
-                    ManagerOBJ.WriteToLog("Deleted room: " + requestingRoom.roomID + " - No user here.");
-                }
-            }
-            else
-            {
-                foreach (User _user in requestingRoom.userList)
-                {
-                    sendSpecific(_user, message);
-                }
-            }
-            ManagerOBJ.UpdateRoomCount(roomList.Count);
-            ManagerOBJ.UpdateUserCount(userList.Count);
-        }
-
-        private void sendSpecific(User user, Object message)
-        {
-            if (user.Client.Connected)
-            {
-                string messageInJson = JsonConvert.SerializeObject(message);
-                try
-                {
-                    user.Writer.Write(messageInJson);
-                    user.Writer.Flush();
-                }
-                catch (Exception ex)
-                {
-                    ManagerOBJ.ShowError($"Cannot send data to user: {user.Username}\nError: {ex.Message}");
-                }
-            }
-            else
-            {
-                ManagerOBJ.ShowError("Connection is closed.");
-            }
-        }
-
-
+        //Của Form_Signup
+        #region Xử lý yêu cầu đăng kí
         private bool RegisterUser(string username, string password, string emailphone)
         {
 
@@ -645,6 +751,10 @@ namespace Server
                 }
             }
         }
+        #endregion
+
+        //Của Form_Signin
+        #region Xử lý yêu cầu đăng nhập
         private bool CheckUserLogin(string username, string password)
         {
             using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
@@ -671,7 +781,10 @@ namespace Server
             }
             return false; // Đăng nhập thất bại
         }
+        #endregion
 
+        //Của Form_Profile
+        #region Xử lý yêu cầu đổi MK
         private bool ChangePassword(string username, string password)
         {
             using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
@@ -699,7 +812,9 @@ namespace Server
                 }
             }
         }
+        #endregion
 
+        #region Xử lý yêu cầu đổi tên TK
         private bool ChangeUsername(string newusername, string oldusername)
         {
             using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
@@ -727,7 +842,9 @@ namespace Server
                 }
             }
         }
+        #endregion
 
+        #region Xử lý yêu cầu cập nhật Avatar
         private bool UpdateAvatar(string username, byte[] imageData)
         {
             try
@@ -752,7 +869,10 @@ namespace Server
                 return false;
             }
         }
+        #endregion
 
+        //Của Form_Home
+        #region Xử lý yêu cầu lấy ảnh đại diện trả về cho client sau khi đăng nhập
         //Truy vấn ảnh đại diện từ DB
         private byte[] GetAvatarFromDB(string username)
         {
@@ -775,73 +895,90 @@ namespace Server
             }
             return null;
         }
+        #endregion
 
-
-        private void LoadUserData()
+        #region Gửi thông tin của các file cho form home sau khi client đăng nhập
+        private List<MovieNMusic> GetMoviesNMusicsFromDB()
         {
-            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT Username, Emailphone, Password, Avatar FROM Users", connection);
-            var table = new DataTable();
-            dap.Fill(table); // Đổ dữ liệu vào table
-
-            // Tạm thời lưu dữ liệu trong biến để cập nhật vào DataGridView thông qua UI thread
-            Action updateAction = () =>
+            // Lấy dữ liệu từ DataGridView và chuyển thành danh sách MovieNMusic
+            List<MovieNMusic> movieandmusic = new List<MovieNMusic>();
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
             {
-                dataGridView1.DataSource = table;
-            };
+                connection.Open();
+                string query = "SELECT Title, Description, Tag, Poster FROM MoviesNMusics";
 
-            if (dataGridView1.InvokeRequired)
-            {
-                dataGridView1.Invoke(updateAction);
-            }
-            else
-            {
-                updateAction();
-            }
-        }
-
-        private void btStart_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                server = new TcpListener(IPAddress.Any, 5000);
-                server.Start();
-
-                Thread clientListener = new Thread(Listen);
-                clientListener.IsBackground = true;
-                clientListener.Start();
-
-                ManagerOBJ.WriteToLog("Start listening for incoming requests...");
-
-                btStart.Enabled = false;
-                btStop.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi khởi động server: " + ex.Message);
-            }
-        }
-
-        private void btStop_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ManagerOBJ.WriteToLog("Stop listening for incoming requests");
-                foreach (User user in userList)
+                using (var command = new SQLiteCommand(query, connection))
+                using (SQLiteDataReader reader = command.ExecuteReader())
                 {
-                    user.Client.Close();
+                    while (reader.Read())
+                    {
+                        movieandmusic.Add(new MovieNMusic
+                        {
+                            // Lấy dữ liệu từ cơ sở dữ liệu
+                            Title = reader["Title"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            Tag = reader["Tag"].ToString(),
+                            Poster = reader["Poster"] as byte[]
+                        });
+                    }
                 }
-                server.Stop();
-
-                btStop.Enabled = false;
-                btStart.Enabled = true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi dừng server: " + ex.Message);
-            }
+            return movieandmusic;
         }
 
+        public byte[] SerializeMovieNMusic(List<MovieNMusic> movieandmusic)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (BinaryWriter writer = new BinaryWriter(ms))
+                {
+                    writer.Write(movieandmusic.Count);
+                    foreach (var movie in movieandmusic)
+                    {
+                        writer.Write(movie.Title);
+                        writer.Write(movie.Description);
+                        writer.Write(movie.Tag);
+                        writer.Write(movie.Poster.Length);
+                        writer.Write(movie.Poster); // ghi byte array
+                    }
+                }
+                return ms.ToArray();
+            }
+        }
+        #endregion
+
+        #region Xử lý gửi file tương ứng với title từ công cụ tìm kiếm
+        private byte[] GetFileFromDB(string titleofFile)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT FileData FROM MoviesNMusics WHERE Title = @title";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@title", titleofFile);
+
+                    object result = command.ExecuteScalar();
+                    // Kiểm tra kết quả và chuyển đổi sang mảng byte
+                    if (result != DBNull.Value && result != null)
+                    {
+                        return (byte[])result;
+                    }
+                }
+                query = "SELECT Tag FROM MoviesNMusics WHERE Title = @title";
+                using (var command = new SQLiteCommand(query, connection))
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    command.Parameters.AddWithValue("@title", titleofFile);
+                    tag = reader["Tag"].ToString();
+                }
+            }
+            return null;
+        }
+        #endregion
+
+        //Của Server
+        #region Chức năng Add File vào DB
         byte[] posterBytes;
         private void btPoster_Click(object sender, EventArgs e)
         {
@@ -932,110 +1069,14 @@ namespace Server
             }
             catch (Exception ex) { MessageBox.Show("Lỗi khi thêm dữ liệu: " + ex.Message); }
         }
+        #endregion
 
-        private void LoadFileData()
-        {
-            var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-            var dap = new SQLiteDataAdapter("SELECT ID, Title, Description, Tag, Poster FROM MoviesNMusics", connection);
-            var table = new DataTable();
-            dap.Fill(table); // Đổ dữ liệu vào table
-            Action updateAction = () =>
-            {
-                dataGridView1.DataSource = table;
-            };
-
-            if (dataGridView1.InvokeRequired)
-            {
-                dataGridView1.Invoke(updateAction);
-            }
-            else
-            {
-                updateAction();
-            }
-
-        }
         public class MovieNMusic
         {
             public string Title { get; set; }
             public string Description { get; set; }
-            public string Tag {  get; set; }
+            public string Tag { get; set; }
             public byte[] Poster { get; set; }
-        }
-
-        private List<MovieNMusic> GetMoviesNMusicsFromDB()
-        {
-            // Lấy dữ liệu từ DataGridView và chuyển thành danh sách MovieNMusic
-            List<MovieNMusic> movieandmusic = new List<MovieNMusic>();
-            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
-            {
-                connection.Open();
-                string query = "SELECT Title, Description, Tag, Poster FROM MoviesNMusics";
-
-                using (var command = new SQLiteCommand(query, connection))
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        movieandmusic.Add(new MovieNMusic
-                        {
-                            // Lấy dữ liệu từ cơ sở dữ liệu
-                            Title = reader["Title"].ToString(),
-                            Description = reader["Description"].ToString(),
-                            Tag = reader["Tag"].ToString(),
-                            Poster = reader["Poster"] as byte[]
-                        });
-                    }
-                }
-            }
-            return movieandmusic;
-        }
-
-        public byte[] SerializeMovieNMusic(List<MovieNMusic> movieandmusic)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                using (BinaryWriter writer = new BinaryWriter(ms))
-                {
-                    writer.Write(movieandmusic.Count);
-                    foreach (var movie in movieandmusic)
-                    {
-                        writer.Write(movie.Title);
-                        writer.Write(movie.Description);
-                        writer.Write(movie.Tag);
-                        writer.Write(movie.Poster.Length);
-                        writer.Write(movie.Poster); // ghi byte array
-                    }
-                }
-                return ms.ToArray();
-            }
-        }
-
-        private byte[] GetFileFromDB(string titleofFile)
-        {
-            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
-            {
-                connection.Open();
-                string query = "SELECT FileData FROM MoviesNMusics WHERE Title = @title";
-                using (var command = new SQLiteCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@title", titleofFile);
-
-                    object result = command.ExecuteScalar();
-                    // Kiểm tra kết quả và chuyển đổi sang mảng byte
-                    if (result != DBNull.Value && result != null)
-                    {
-                        return (byte[])result;
-                    }
-                }
-                query = "SELECT Tag FROM MoviesNMusics WHERE Title = @title";
-                using (var command = new SQLiteCommand(query, connection))
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                { 
-                    command.Parameters.AddWithValue("@title", titleofFile);
-                    tag = reader["Tag"].ToString();
-                }
-            }
-            return null;
         }
     }
 }

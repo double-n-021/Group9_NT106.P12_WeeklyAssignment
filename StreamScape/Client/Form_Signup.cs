@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.HtmlControls;
 using System.Windows.Forms;
 
 namespace Client
@@ -19,6 +14,7 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
+        
         private string serverIP;
         public Form_Signup(string _serverIP)
         {
@@ -43,7 +39,7 @@ namespace Client
             btSignup.Parent = pbBackgroundSignup;
         }
 
-        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
+        #region Chức năng có thể di chuyển cửa sổ...
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -64,9 +60,9 @@ namespace Client
         {
             dragging = false;
         }
-        //Kết thúc ở đây
+        #endregion
 
-        //Đóng app
+        #region 3 button công cụ...
         private void btExit_Click(object sender, EventArgs e)
         {
             var formsToClose = Application.OpenForms.Cast<Form>().ToList();
@@ -90,6 +86,7 @@ namespace Client
             formLogin.Show();
             formLogin.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
 
         //Chức năng gửi thông tin username, emailphone, password đến server để server lưu vào DB
         private void btSignup_Click(object sender, EventArgs e)

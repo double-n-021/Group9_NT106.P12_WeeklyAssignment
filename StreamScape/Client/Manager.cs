@@ -41,6 +41,56 @@ namespace Client
             }
         }
 
+        public void RemoveFromUserListView(string line, Form_Onlineroom formonlineroom)
+        {
+            Action action = () =>
+            {
+                int seq = 0;
+                foreach (ListViewItem item in List.Items)
+                {
+                    if (item.Text == line)
+                    {
+                        List.Items.Remove(item);
+                        avatar.Remove(avatar[seq]);
+                        ConvertListViewToPB(List, formonlineroom);
+                        break;
+                    }
+                    seq++;
+                }
+            };
+            if (List.InvokeRequired)
+            {
+                List.Invoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        public void ClearUserListView(Form_Onlineroom formonlineroom)
+        {
+            Action action = () =>
+            {
+                ListViewItem firstLine = List.Items[0];
+                byte[] firstAvatar = avatar[0];
+                List.Clear();
+                avatar.Clear();
+                List.Items.Add(firstLine);
+                avatar.Add(firstAvatar);
+                ConvertListViewToPB(List, formonlineroom);
+            };
+            if (List.InvokeRequired)
+            {
+                List.Invoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        #region Chức năng hiển thị username và avatar của client trong room
         private void ConvertListViewToPB(ListView list, Form_Onlineroom formonlineroom)
         {
             int seq_user = 0;
@@ -92,56 +142,7 @@ namespace Client
                     seq_user++;
             }
         }
-
-
-        public void RemoveFromUserListView(string line, Form_Onlineroom formonlineroom)
-        {
-            Action action = () =>
-            {
-                int seq = 0;
-                foreach (ListViewItem item in List.Items)
-                {
-                    if (item.Text == line)
-                    {
-                        List.Items.Remove(item);
-                        avatar.Remove(avatar[seq]);
-                        ConvertListViewToPB(List, formonlineroom);
-                        break;
-                    }
-                    seq++;
-                }
-            };
-            if (List.InvokeRequired)
-            {
-                List.Invoke(action);
-            }
-            else
-            {
-                action();
-            }
-        }
-
-        public void ClearUserListView(Form_Onlineroom formonlineroom)
-        {
-            Action action = () =>
-            {
-                ListViewItem firstLine = List.Items[0];
-                byte[] firstAvatar = avatar[0];
-                List.Clear();
-                avatar.Clear();
-                List.Items.Add(firstLine);
-                avatar.Add(firstAvatar);
-                ConvertListViewToPB(List, formonlineroom);
-            };
-            if (List.InvokeRequired)
-            {
-                List.Invoke(action);
-            }
-            else
-            {
-                action();
-            }
-        }
+        #endregion
 
         public void UpdateRoomIDNRoomName(string roomID, string roomName)
         {

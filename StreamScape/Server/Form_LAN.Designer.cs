@@ -86,35 +86,35 @@
             // 
             // tbAvailableRoom
             // 
-            this.tbAvailableRoom.Location = new System.Drawing.Point(380, 462);
+            this.tbAvailableRoom.Location = new System.Drawing.Point(129, 210);
             this.tbAvailableRoom.Name = "tbAvailableRoom";
-            this.tbAvailableRoom.Size = new System.Drawing.Size(100, 22);
+            this.tbAvailableRoom.Size = new System.Drawing.Size(62, 22);
             this.tbAvailableRoom.TabIndex = 5;
             // 
             // tbExistingUser
             // 
-            this.tbExistingUser.Location = new System.Drawing.Point(716, 462);
+            this.tbExistingUser.Location = new System.Drawing.Point(129, 263);
             this.tbExistingUser.Name = "tbExistingUser";
-            this.tbExistingUser.Size = new System.Drawing.Size(100, 22);
+            this.tbExistingUser.Size = new System.Drawing.Size(62, 22);
             this.tbExistingUser.TabIndex = 6;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(255, 468);
+            this.label1.Location = new System.Drawing.Point(12, 216);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 16);
+            this.label1.Size = new System.Drawing.Size(114, 16);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Available Rooms";
+            this.label1.Text = "Available Rooms:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(587, 468);
+            this.label2.Location = new System.Drawing.Point(12, 266);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(92, 16);
+            this.label2.Size = new System.Drawing.Size(95, 16);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Existing Users";
+            this.label2.Text = "Existing Users:";
             // 
             // cbUserandAdd
             // 
@@ -274,7 +274,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(962, 503);
+            this.ClientSize = new System.Drawing.Size(962, 454);
             this.Controls.Add(this.listView_log);
             this.Controls.Add(this.gbAdd);
             this.Controls.Add(this.btAdd);

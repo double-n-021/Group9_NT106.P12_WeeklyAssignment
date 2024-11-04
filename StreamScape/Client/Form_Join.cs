@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Client
@@ -16,8 +12,10 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
+        
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
+        
         private string idroomconnect;
         private string serverIP;
         public Form_Join(string _serverIP, string username, byte[] avatarconnect)
@@ -26,6 +24,7 @@ namespace Client
             serverIP = _serverIP;
             textconnect = username;//gán dữ liệu vừa được truyền từ form home cho form create
             Avatarconnect = avatarconnect;//gán dữ liệu vừa được truyền từ form home cho form create
+            
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -41,7 +40,7 @@ namespace Client
             btBack.Parent = pbBackgroundJoin;
         }
 
-        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
+        #region Chức năng có thể di chuyển cửa sổ...
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -62,9 +61,9 @@ namespace Client
         {
             dragging = false;
         }
-        //Kết thúc ở đây
+        #endregion
 
-        //Đóng app
+        #region 3 button công cụ...
         private void btExit_Click(object sender, EventArgs e)
         {
             var formsToClose = Application.OpenForms.Cast<Form>().ToList();
@@ -88,6 +87,7 @@ namespace Client
             formHome.Show();
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
 
         //Mở form join và đóng form hiện tại
         private void btJoin_Click(object sender, EventArgs e)

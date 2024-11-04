@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using System.Text.Json;
 using System.Net.Sockets;
 
 namespace Client
 {
     public partial class Form_Home : Form
     {
-        private string[] titleofFile = { "", "", "", "", "", "" };
         //3 biến này sử dụng cho chức năng panelHeader
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
+
+        private string[] titleofFile = { "", "", "", "", "", "" }; //biến này dùng cho chức năng hiện phim và ảnh trong form
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
         private string serverIP;
@@ -28,7 +24,8 @@ namespace Client
         {
             InitializeComponent();
             serverIP = _serverIP;
-            LoadDataFromServer();
+            LoadDataFromServer(); //lấy dữ liệu từ DB đổ về cho form home
+            
             Avatarconnect = avatarconnect;
             lbUsername.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
             textconnect = username; //gán dữ liệu bắc cầu form signin -> form home -> form tiếp theo
@@ -39,19 +36,13 @@ namespace Client
                     btAvatar.Image = Image.FromStream(ms); //load avatar vừa được truyền lên giao diện
                 }
             }
+            
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
         }
 
-        public class MovieNMusic
-        {
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public string Tag {  get; set; }
-            public byte[] Poster { get; set; }
-        }
-
+        #region Chức năng load data từ DB của server về cho form home và hiển thị trên form home...
         List<MovieNMusic> movieandmusic;
         public void LoadDataFromServer()
         {
@@ -114,28 +105,6 @@ namespace Client
             }
             return movieandmusic;
         }
-
-        private void tbSearch_TextChanged(object sender, EventArgs e)
-        {
-            searchResult.Visible = true;
-            // Kiểm tra từ khóa tìm kiếm có trống hay không
-            if (string.IsNullOrEmpty(tbSearch.Text))
-            {
-                return;
-            }
-            else
-            {
-                // Lọc danh sách dựa trên từ khóa tìm kiếm (không phân biệt chữ hoa chữ thường)
-                var filteredList = movieandmusic
-                    .Where(m => m.Title.IndexOf(tbSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-                    .Select(m => new { Title = m.Title })
-                    .ToList();
-
-                // Cập nhật DataSource của DataGridView với danh sách đã lọc
-                searchResult.DataSource = filteredList;
-            }
-        }
-
 
         List<MovieNMusic> movieList = new List<MovieNMusic>();
         List<MovieNMusic> musicList = new List<MovieNMusic>();
@@ -200,7 +169,7 @@ namespace Client
                 // Chuyển đổi byte array thành hình ảnh cho PictureBox
                 using (MemoryStream ms = new MemoryStream(music.Poster))
                 {
-                     match_musicPoster.Image = Image.FromStream(ms);
+                    match_musicPoster.Image = Image.FromStream(ms);
                 }
                 match_musicTitle.Visible = true;
                 match_musicDes.Visible = true;
@@ -208,6 +177,8 @@ namespace Client
                 if (seq_music == 4) break;
             }
         }
+
+        #endregion...
 
         private void Form_Home_Load(object sender, EventArgs e)
         {
@@ -231,7 +202,7 @@ namespace Client
             lbDesS4.Parent = pbBackgroundHome;
         }
 
-        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
+        #region Chức năng có thể di chuyển cửa sổ...
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -252,9 +223,9 @@ namespace Client
         {
             dragging = false;
         }
-        //Kết thúc ở đây
+        #endregion
 
-        //Đóng app
+        #region 3 button công cụ...
         private void btExit_Click(object sender, EventArgs e)
         {
             var formsToClose = Application.OpenForms.Cast<Form>().ToList();
@@ -269,7 +240,9 @@ namespace Client
         {
             WindowState = FormWindowState.Minimized;
         }
+        #endregion
 
+        #region Chức năng mở các form liên kết...
         //Mở form setting và đóng form hiện tại
         private void btSetting_Click(object sender, EventArgs e)
         {
@@ -305,8 +278,9 @@ namespace Client
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
 
-        //Phần dưới này liên quan tới bấm vào bt ở form home để xem phim và nghe nhạc
+        #region Chức năng cho phép chuyển video và chuyển nhạc...
         private void btBackofVideo_Click(object sender, EventArgs e)
         {
             somemovies -= 2;
@@ -355,7 +329,9 @@ namespace Client
                 DisplayMusics(musicList);
             }
         }
+        #endregion
 
+        #region Chức năng mở video và nhạc tương ứng...
         private void pbMV1_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -403,6 +379,29 @@ namespace Client
             formRoom.Show();
             formRoom.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
+
+        #region Công cụ tìm kiếm...
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+            searchResult.Visible = true;
+            // Kiểm tra từ khóa tìm kiếm có trống hay không
+            if (string.IsNullOrEmpty(tbSearch.Text))
+            {
+                return;
+            }
+            else
+            {
+                // Lọc danh sách dựa trên từ khóa tìm kiếm (không phân biệt chữ hoa chữ thường)
+                var filteredList = movieandmusic
+                    .Where(m => m.Title.IndexOf(tbSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .Select(m => new { Title = m.Title })
+                    .ToList();
+
+                // Cập nhật DataSource của DataGridView với danh sách đã lọc
+                searchResult.DataSource = filteredList;
+            }
+        }
 
         private void searchResult_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -430,6 +429,15 @@ namespace Client
         private void tbSearch_MouseEnter(object sender, EventArgs e)
         {
             searchResult.Visible = true;
+        }
+        #endregion
+
+        public class MovieNMusic
+        {
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string Tag { get; set; }
+            public byte[] Poster { get; set; }
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
+        
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
         private string serverIP;
@@ -27,6 +28,7 @@ namespace Client
         {
             InitializeComponent();
             serverIP = _serverIP;
+            
             Avatarconnect = avatarconnect;
             lbUsername.Text = username;//gán dữ liệu vừa được truyền từ form home cho label của form setting
             textconnect = username; //gán dữ liệu bắc cầu form signin -> form home -> form setting -> form tiếp theo
@@ -37,6 +39,7 @@ namespace Client
                     btAvatar.Image = Image.FromStream(ms);//load avatar vừa được truyền lên giao diện
                 }
             }
+            
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -52,7 +55,7 @@ namespace Client
             btSetting.Parent = pbBackgroundSetting;
         }
 
-        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
+        #region Chức năng có thể di chuyển cửa sổ...
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -73,9 +76,9 @@ namespace Client
         {
             dragging = false;
         }
-        //Kết thúc ở đây
+        #endregion
 
-        //Đóng app
+        #region 3 button công cụ...
         private void btExit_Click(object sender, EventArgs e)
         {
             var formsToClose = Application.OpenForms.Cast<Form>().ToList();
@@ -90,7 +93,9 @@ namespace Client
         {
             WindowState = FormWindowState.Minimized;
         }
+        #endregion
 
+        #region Chức năng mở các form liên kết...
         //Mở form home và đóng form hiện tại
         private void btHome_Click(object sender, EventArgs e)
         {
@@ -135,7 +140,9 @@ namespace Client
             formLogin.Show();
             formLogin.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
 
+        //Chức năng mở web github của nhóm
         private void btLowG_Click(object sender, EventArgs e)
         {
             try

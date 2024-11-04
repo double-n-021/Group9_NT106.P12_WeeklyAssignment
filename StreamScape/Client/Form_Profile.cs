@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Client
 {
@@ -19,17 +14,20 @@ namespace Client
         private bool dragging = false;
         private Point dragCursor;
         private Point dragForm;
+        
         private string textconnect;//biến này dùng để truyền dữ liệu tên người dùng từ form hiện tại đến các form khác
         private byte[] Avatarconnect;//biến này dùng để truyền dữ liệu ảnh từ form hiện tại đến các form khác
+        
         private string serverIP;
 
         public Form_Profile(string _serverIP, string username, byte[] avatarconnect)
         {
             InitializeComponent();
             serverIP = _serverIP;
+            
             Avatarconnect = avatarconnect;
-            lbUsername.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
-            lbUsernameofDetails.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form home
+            lbUsername.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form profile
+            lbUsernameofDetails.Text = username; //gán dữ liệu vừa được truyền từ form signin cho label của form profile
             textconnect = lbUsername.Text;//gán dữ liệu bắc cầu form signin -> form home -> form profile -> form tiếp theo
             if (avatarconnect != null && avatarconnect.Length > 0)
             {
@@ -39,6 +37,7 @@ namespace Client
                     pbAvatar.Image = Image.FromStream(ms); //load avatar vừa được truyền lên giao diện
                 }
             }
+            
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
             this.pnHeader.MouseMove += new MouseEventHandler(panelHeader_MouseMove);
             this.pnHeader.MouseUp += new MouseEventHandler(panelHeader_MouseUp);
@@ -57,7 +56,7 @@ namespace Client
             tbChangepassword.Parent = pbBackgroundProfiledetails;
         }
 
-        //Chức năng có thể di chuyển cửa sổ: Bắt đầu từ đây
+        #region Chức năng có thể di chuyển cửa sổ...
         private void panelHeader_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
@@ -78,30 +77,15 @@ namespace Client
         {
             dragging = false;
         }
-        //Kết thúc ở đây
+        #endregion
 
+        #region Chức năng mở các form liên kết...
         private void btSetting_Click(object sender, EventArgs e)
         {
             this.Close();
             Form_Setting formSetting = new Form_Setting(serverIP, textconnect, Avatarconnect);
             formSetting.Show();
             formSetting.Location = new Point(this.Location.X, this.Location.Y);
-        }
-
-        //Đóng app
-        private void btExit_Click(object sender, EventArgs e)
-        {
-            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
-            foreach (var form in formsToClose)
-            {
-                form.Close();
-            }
-        }
-
-        //Chức năng thu nhỏ cửa sổ xuống tab
-        private void btMinimized_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
         }
 
         //Mở form home và đóng form hiện tại
@@ -130,8 +114,28 @@ namespace Client
             formJoin.Show();
             formJoin.Location = new Point(this.Location.X, this.Location.Y);
         }
+        #endregion
 
-        //Đổi giao diện khi nhất edit profile
+        #region 3 button công cụ...
+        //Đóng app
+        private void btExit_Click(object sender, EventArgs e)
+        {
+            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
+            foreach (var form in formsToClose)
+            {
+                form.Close();
+            }
+        }
+
+        //Chức năng thu nhỏ cửa sổ xuống tab
+        private void btMinimized_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+        #endregion
+
+
+        //Đổi giao diện khi nhấn edit profile
         private void btEditProfile_Click(object sender, EventArgs e)
         {
             //Hide
@@ -150,7 +154,7 @@ namespace Client
             lbUsernameofDetails.Visible = true;
         }
 
-        //Cập nhật username
+        #region Chức năng đổi tên...
         private void btSave_Click(object sender, EventArgs e)
         {
             string newusername = tbUsername.Text;
@@ -221,7 +225,9 @@ namespace Client
             tbChangepassword.Text = "";
             tbUsername.Text = "";
         }
+        #endregion
 
+        #region Chức năng đổi password...
         //Cập nhật password
         private void btAccept_Click(object sender, EventArgs e)
         {
@@ -249,7 +255,9 @@ namespace Client
                 MessageBox.Show(response);
             }
         }
+        #endregion
 
+        #region Đổi avatar...
         private void btEditavatar_Click(object sender, EventArgs e)
         {
             OFD.Filter = "Image Files (*.png;*.jpg)|*.png;*.jpg";
@@ -303,5 +311,6 @@ namespace Client
                 }
             }
         }
+        #endregion
     }
 }
