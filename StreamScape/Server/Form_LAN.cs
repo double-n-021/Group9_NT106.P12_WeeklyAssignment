@@ -237,6 +237,9 @@ namespace Server
                                     case 8:
                                         next_video_handler(user, request);
                                         break;
+                                    case 9:
+                                        sync_video_handler(user, request);
+                                        break;
                                 }
                             }
                         }
@@ -499,6 +502,26 @@ namespace Server
                     Packet videoPacket = new Packet
                     {
                         Code = 5,
+                        Username = user.Username,
+                        CurrentPosition = request.CurrentPosition
+                    };
+                    sendSpecific(roomUser, videoPacket);
+                }
+            }
+        }
+
+        private void sync_video_handler(User user, Packet request)
+        {
+            Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));
+            if (userRoom == null) return;
+
+            foreach (User roomUser in userRoom.userList)
+            {
+                if (roomUser != user) // Không gửi lại cho chính người gửi
+                {
+                    Packet videoPacket = new Packet
+                    {
+                        Code = 9,
                         Username = user.Username,
                         CurrentPosition = request.CurrentPosition
                     };

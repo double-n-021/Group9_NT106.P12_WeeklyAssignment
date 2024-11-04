@@ -150,6 +150,9 @@ namespace Client
                         case 8:
                             next_video(response);
                             break;
+                        case 9:
+                            sync_video(response);
+                            break;
                     }
                 }
             }
@@ -174,6 +177,7 @@ namespace Client
                 btBackTime.Invoke(new MethodInvoker(() => btBackTime.Visible = true));
                 btPlaying.Invoke(new MethodInvoker(() => btPlaying.Visible = true));
                 btPause.Invoke(new MethodInvoker(() => btPause.Visible = true));
+                btSync.Invoke(new MethodInvoker(() => btSync.Visible = true));
             }
         }
         
@@ -952,5 +956,26 @@ namespace Client
                 }
             }
         }
+
+        private void btSync_Click(object sender, EventArgs e)
+        {
+            double currentTime = Videoplayer.Ctlcontrols.currentPosition;
+            double newTime = currentTime;
+            Videoplayer.Ctlcontrols.currentPosition = newTime; // Cập nhật vị trí local
+            Packet syncPacket = new Packet
+            {
+                Code = 8, // Mã cho việc cập nhật video
+                Username = this_client_info.Username,
+                RoomID = this_client_info.RoomID,
+                CurrentPosition = newTime // Vị trí video sau khi tua
+            };
+            sendToServer(syncPacket);
+        }
+
+        private void sync_video(Packet syncPacket)
+        {
+            Videoplayer.Ctlcontrols.currentPosition = syncPacket.CurrentPosition;
+        }
+
     }
 }
