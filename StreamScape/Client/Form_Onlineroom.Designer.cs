@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Onlineroom));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pbBackgroundONLR = new System.Windows.Forms.PictureBox();
             this.btBack = new Guna.UI2.WinForms.Guna2Button();
             this.pnHeader = new System.Windows.Forms.Panel();
@@ -74,6 +74,7 @@
             this.listView_room_users = new System.Windows.Forms.ListView();
             this.btSendMessage = new Guna.UI2.WinForms.Guna2Button();
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnSync = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbBackgroundONLR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAV2)).BeginInit();
@@ -91,8 +92,9 @@
             this.pbBackgroundONLR.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbBackgroundONLR.Image = ((System.Drawing.Image)(resources.GetObject("pbBackgroundONLR.Image")));
             this.pbBackgroundONLR.Location = new System.Drawing.Point(0, 0);
+            this.pbBackgroundONLR.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pbBackgroundONLR.Name = "pbBackgroundONLR";
-            this.pbBackgroundONLR.Size = new System.Drawing.Size(1030, 550);
+            this.pbBackgroundONLR.Size = new System.Drawing.Size(2060, 1066);
             this.pbBackgroundONLR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbBackgroundONLR.TabIndex = 0;
             this.pbBackgroundONLR.TabStop = false;
@@ -111,9 +113,10 @@
             this.btBack.FillColor = System.Drawing.Color.Transparent;
             this.btBack.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btBack.ForeColor = System.Drawing.Color.White;
-            this.btBack.Location = new System.Drawing.Point(21, 5);
+            this.btBack.Location = new System.Drawing.Point(42, 10);
+            this.btBack.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btBack.Name = "btBack";
-            this.btBack.Size = new System.Drawing.Size(32, 32);
+            this.btBack.Size = new System.Drawing.Size(64, 62);
             this.btBack.TabIndex = 14;
             this.btBack.Text = "guna2Button1";
             this.btBack.Click += new System.EventHandler(this.btBack_Click);
@@ -121,9 +124,10 @@
             // pnHeader
             // 
             this.pnHeader.BackColor = System.Drawing.Color.Transparent;
-            this.pnHeader.Location = new System.Drawing.Point(56, 0);
+            this.pnHeader.Location = new System.Drawing.Point(112, 0);
+            this.pnHeader.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pnHeader.Name = "pnHeader";
-            this.pnHeader.Size = new System.Drawing.Size(798, 45);
+            this.pnHeader.Size = new System.Drawing.Size(1596, 87);
             this.pnHeader.TabIndex = 13;
             // 
             // btMinimized
@@ -138,9 +142,10 @@
             this.btMinimized.FillColor = System.Drawing.Color.Transparent;
             this.btMinimized.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btMinimized.ForeColor = System.Drawing.Color.White;
-            this.btMinimized.Location = new System.Drawing.Point(860, 10);
+            this.btMinimized.Location = new System.Drawing.Point(1720, 19);
+            this.btMinimized.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btMinimized.Name = "btMinimized";
-            this.btMinimized.Size = new System.Drawing.Size(25, 25);
+            this.btMinimized.Size = new System.Drawing.Size(50, 48);
             this.btMinimized.TabIndex = 12;
             this.btMinimized.Text = "guna2Button1";
             this.btMinimized.Click += new System.EventHandler(this.btMinimized_Click);
@@ -157,9 +162,10 @@
             this.btMaximized.FillColor = System.Drawing.Color.Transparent;
             this.btMaximized.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btMaximized.ForeColor = System.Drawing.Color.White;
-            this.btMaximized.Location = new System.Drawing.Point(928, 15);
+            this.btMaximized.Location = new System.Drawing.Point(1856, 29);
+            this.btMaximized.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btMaximized.Name = "btMaximized";
-            this.btMaximized.Size = new System.Drawing.Size(15, 15);
+            this.btMaximized.Size = new System.Drawing.Size(30, 29);
             this.btMaximized.TabIndex = 11;
             this.btMaximized.Text = "guna2Button1";
             // 
@@ -175,9 +181,10 @@
             this.btExit.FillColor = System.Drawing.Color.Transparent;
             this.btExit.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btExit.ForeColor = System.Drawing.Color.White;
-            this.btExit.Location = new System.Drawing.Point(982, 12);
+            this.btExit.Location = new System.Drawing.Point(1964, 23);
+            this.btExit.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btExit.Name = "btExit";
-            this.btExit.Size = new System.Drawing.Size(20, 20);
+            this.btExit.Size = new System.Drawing.Size(40, 39);
             this.btExit.TabIndex = 10;
             this.btExit.Text = "guna2Button1";
             this.btExit.Click += new System.EventHandler(this.btExit_Click);
@@ -195,9 +202,10 @@
             this.btMenu.FillColor = System.Drawing.Color.Transparent;
             this.btMenu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btMenu.ForeColor = System.Drawing.Color.White;
-            this.btMenu.Location = new System.Drawing.Point(56, 468);
+            this.btMenu.Location = new System.Drawing.Point(112, 907);
+            this.btMenu.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btMenu.Name = "btMenu";
-            this.btMenu.Size = new System.Drawing.Size(32, 32);
+            this.btMenu.Size = new System.Drawing.Size(64, 62);
             this.btMenu.TabIndex = 15;
             this.btMenu.Text = "guna2Button1";
             this.btMenu.Click += new System.EventHandler(this.btMenu_Click);
@@ -219,14 +227,14 @@
             this.tbEnterchat.Font = new System.Drawing.Font("Segoe UI Black", 9F, System.Drawing.FontStyle.Bold);
             this.tbEnterchat.ForeColor = System.Drawing.Color.White;
             this.tbEnterchat.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbEnterchat.Location = new System.Drawing.Point(810, 476);
-            this.tbEnterchat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbEnterchat.Location = new System.Drawing.Point(1620, 922);
+            this.tbEnterchat.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.tbEnterchat.Name = "tbEnterchat";
             this.tbEnterchat.PasswordChar = '\0';
             this.tbEnterchat.PlaceholderForeColor = System.Drawing.Color.White;
             this.tbEnterchat.PlaceholderText = "Enter chat ...";
             this.tbEnterchat.SelectedText = "";
-            this.tbEnterchat.Size = new System.Drawing.Size(192, 43);
+            this.tbEnterchat.Size = new System.Drawing.Size(384, 83);
             this.tbEnterchat.TabIndex = 16;
             this.tbEnterchat.TextOffset = new System.Drawing.Point(23, 0);
             // 
@@ -243,9 +251,10 @@
             this.btReaction.FillColor = System.Drawing.Color.Transparent;
             this.btReaction.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btReaction.ForeColor = System.Drawing.Color.White;
-            this.btReaction.Location = new System.Drawing.Point(817, 482);
+            this.btReaction.Location = new System.Drawing.Point(1634, 934);
+            this.btReaction.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btReaction.Name = "btReaction";
-            this.btReaction.Size = new System.Drawing.Size(36, 32);
+            this.btReaction.Size = new System.Drawing.Size(72, 62);
             this.btReaction.TabIndex = 17;
             this.btReaction.Click += new System.EventHandler(this.btReaction_Click);
             // 
@@ -253,7 +262,7 @@
             // 
             this.btUpload.AutoRoundedCorners = true;
             this.btUpload.BackColor = System.Drawing.Color.Transparent;
-            this.btUpload.BorderRadius = 21;
+            this.btUpload.BorderRadius = 42;
             this.btUpload.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btUpload.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btUpload.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -261,9 +270,10 @@
             this.btUpload.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btUpload.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.btUpload.ForeColor = System.Drawing.Color.Black;
-            this.btUpload.Location = new System.Drawing.Point(638, 464);
+            this.btUpload.Location = new System.Drawing.Point(1276, 899);
+            this.btUpload.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btUpload.Name = "btUpload";
-            this.btUpload.Size = new System.Drawing.Size(128, 45);
+            this.btUpload.Size = new System.Drawing.Size(256, 87);
             this.btUpload.TabIndex = 22;
             this.btUpload.Text = "Upload";
             this.btUpload.UseTransparentBackground = true;
@@ -276,10 +286,11 @@
             this.pbAV1.Image = ((System.Drawing.Image)(resources.GetObject("pbAV1.Image")));
             this.pbAV1.ImageRotate = 0F;
             this.pbAV1.InitialImage = null;
-            this.pbAV1.Location = new System.Drawing.Point(123, 448);
+            this.pbAV1.Location = new System.Drawing.Point(246, 868);
+            this.pbAV1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pbAV1.Name = "pbAV1";
             this.pbAV1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbAV1.Size = new System.Drawing.Size(61, 56);
+            this.pbAV1.Size = new System.Drawing.Size(122, 108);
             this.pbAV1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAV1.TabIndex = 23;
             this.pbAV1.TabStop = false;
@@ -292,10 +303,11 @@
             this.pbAV2.Image = ((System.Drawing.Image)(resources.GetObject("pbAV2.Image")));
             this.pbAV2.ImageRotate = 0F;
             this.pbAV2.InitialImage = null;
-            this.pbAV2.Location = new System.Drawing.Point(225, 448);
+            this.pbAV2.Location = new System.Drawing.Point(450, 868);
+            this.pbAV2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pbAV2.Name = "pbAV2";
             this.pbAV2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbAV2.Size = new System.Drawing.Size(61, 56);
+            this.pbAV2.Size = new System.Drawing.Size(122, 108);
             this.pbAV2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAV2.TabIndex = 24;
             this.pbAV2.TabStop = false;
@@ -307,9 +319,10 @@
             this.lbUS1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.lbUS1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lbUS1.ForeColor = System.Drawing.Color.White;
-            this.lbUS1.Location = new System.Drawing.Point(113, 508);
+            this.lbUS1.Location = new System.Drawing.Point(226, 984);
+            this.lbUS1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbUS1.Name = "lbUS1";
-            this.lbUS1.Size = new System.Drawing.Size(80, 19);
+            this.lbUS1.Size = new System.Drawing.Size(160, 37);
             this.lbUS1.TabIndex = 25;
             this.lbUS1.Text = "user_name12345";
             this.lbUS1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -323,9 +336,10 @@
             this.pnVideo.Controls.Add(this.pnTool);
             this.pnVideo.Controls.Add(this.tbSearch);
             this.pnVideo.Controls.Add(this.Videoplayer);
-            this.pnVideo.Location = new System.Drawing.Point(12, 43);
+            this.pnVideo.Location = new System.Drawing.Point(24, 83);
+            this.pnVideo.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pnVideo.Name = "pnVideo";
-            this.pnVideo.Size = new System.Drawing.Size(778, 392);
+            this.pnVideo.Size = new System.Drawing.Size(1556, 760);
             this.pnVideo.TabIndex = 36;
             // 
             // searchResult
@@ -337,20 +351,21 @@
             this.searchResult.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.searchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.searchResult.ColumnHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.searchResult.DefaultCellStyle = dataGridViewCellStyle3;
-            this.searchResult.Location = new System.Drawing.Point(157, 55);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.searchResult.DefaultCellStyle = dataGridViewCellStyle1;
+            this.searchResult.Location = new System.Drawing.Point(314, 107);
+            this.searchResult.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.searchResult.Name = "searchResult";
             this.searchResult.RowHeadersVisible = false;
             this.searchResult.RowHeadersWidth = 51;
             this.searchResult.RowTemplate.Height = 40;
-            this.searchResult.Size = new System.Drawing.Size(452, 72);
+            this.searchResult.Size = new System.Drawing.Size(904, 140);
             this.searchResult.TabIndex = 48;
             this.searchResult.Visible = false;
             this.searchResult.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.searchResult_CellClick);
@@ -367,15 +382,17 @@
             this.btSearch.FillColor = System.Drawing.Color.Transparent;
             this.btSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btSearch.ForeColor = System.Drawing.Color.White;
-            this.btSearch.Location = new System.Drawing.Point(166, 14);
+            this.btSearch.Location = new System.Drawing.Point(332, 27);
+            this.btSearch.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btSearch.Name = "btSearch";
-            this.btSearch.Size = new System.Drawing.Size(39, 35);
+            this.btSearch.Size = new System.Drawing.Size(78, 68);
             this.btSearch.TabIndex = 37;
             this.btSearch.Visible = false;
             // 
             // pnTool
             // 
             this.pnTool.BackColor = System.Drawing.Color.Black;
+            this.pnTool.Controls.Add(this.btnSync);
             this.pnTool.Controls.Add(this.csVideo);
             this.pnTool.Controls.Add(this.btPause);
             this.pnTool.Controls.Add(this.btMute);
@@ -386,9 +403,10 @@
             this.pnTool.Controls.Add(this.btUnmute);
             this.pnTool.Controls.Add(this.btBackTime);
             this.pnTool.Controls.Add(this.btFowardTime);
-            this.pnTool.Location = new System.Drawing.Point(0, 331);
+            this.pnTool.Location = new System.Drawing.Point(0, 641);
+            this.pnTool.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pnTool.Name = "pnTool";
-            this.pnTool.Size = new System.Drawing.Size(778, 64);
+            this.pnTool.Size = new System.Drawing.Size(1556, 124);
             this.pnTool.TabIndex = 31;
             this.pnTool.Visible = false;
             // 
@@ -411,7 +429,8 @@
             0,
             0,
             0});
-            this.csVideo.Location = new System.Drawing.Point(157, 40);
+            this.csVideo.Location = new System.Drawing.Point(314, 78);
+            this.csVideo.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.csVideo.Maximum = new decimal(new int[] {
             100,
             0,
@@ -435,7 +454,7 @@
             0});
             this.csVideo.ShowDivisionsText = true;
             this.csVideo.ShowSmallScale = false;
-            this.csVideo.Size = new System.Drawing.Size(471, 28);
+            this.csVideo.Size = new System.Drawing.Size(942, 54);
             this.csVideo.SmallChange = new decimal(new int[] {
             1,
             0,
@@ -471,9 +490,10 @@
             this.btPause.FillColor = System.Drawing.Color.Transparent;
             this.btPause.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btPause.ForeColor = System.Drawing.Color.White;
-            this.btPause.Location = new System.Drawing.Point(371, 5);
+            this.btPause.Location = new System.Drawing.Point(742, 10);
+            this.btPause.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btPause.Name = "btPause";
-            this.btPause.Size = new System.Drawing.Size(33, 33);
+            this.btPause.Size = new System.Drawing.Size(66, 64);
             this.btPause.TabIndex = 41;
             this.btPause.Visible = false;
             this.btPause.Click += new System.EventHandler(this.btPause_Click);
@@ -490,9 +510,10 @@
             this.btMute.FillColor = System.Drawing.Color.Transparent;
             this.btMute.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btMute.ForeColor = System.Drawing.Color.White;
-            this.btMute.Location = new System.Drawing.Point(181, 9);
+            this.btMute.Location = new System.Drawing.Point(362, 17);
+            this.btMute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btMute.Name = "btMute";
-            this.btMute.Size = new System.Drawing.Size(25, 25);
+            this.btMute.Size = new System.Drawing.Size(50, 48);
             this.btMute.TabIndex = 40;
             this.btMute.Visible = false;
             this.btMute.Click += new System.EventHandler(this.btMute_Click);
@@ -516,7 +537,8 @@
             0,
             0,
             0});
-            this.csSound.Location = new System.Drawing.Point(211, 7);
+            this.csSound.Location = new System.Drawing.Point(422, 14);
+            this.csSound.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.csSound.Maximum = new decimal(new int[] {
             100,
             0,
@@ -540,7 +562,7 @@
             0});
             this.csSound.ShowDivisionsText = true;
             this.csSound.ShowSmallScale = false;
-            this.csSound.Size = new System.Drawing.Size(90, 29);
+            this.csSound.Size = new System.Drawing.Size(180, 56);
             this.csSound.SmallChange = new decimal(new int[] {
             1,
             0,
@@ -575,9 +597,10 @@
             this.btPlaying.FillColor = System.Drawing.Color.Transparent;
             this.btPlaying.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btPlaying.ForeColor = System.Drawing.Color.White;
-            this.btPlaying.Location = new System.Drawing.Point(371, 5);
+            this.btPlaying.Location = new System.Drawing.Point(742, 10);
+            this.btPlaying.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btPlaying.Name = "btPlaying";
-            this.btPlaying.Size = new System.Drawing.Size(33, 33);
+            this.btPlaying.Size = new System.Drawing.Size(66, 64);
             this.btPlaying.TabIndex = 41;
             this.btPlaying.Visible = false;
             this.btPlaying.Click += new System.EventHandler(this.btPlaying_Click);
@@ -586,9 +609,10 @@
             // 
             this.lbMaxTime.AutoSize = true;
             this.lbMaxTime.ForeColor = System.Drawing.Color.White;
-            this.lbMaxTime.Location = new System.Drawing.Point(634, 44);
+            this.lbMaxTime.Location = new System.Drawing.Point(1268, 85);
+            this.lbMaxTime.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbMaxTime.Name = "lbMaxTime";
-            this.lbMaxTime.Size = new System.Drawing.Size(38, 16);
+            this.lbMaxTime.Size = new System.Drawing.Size(86, 32);
             this.lbMaxTime.TabIndex = 1;
             this.lbMaxTime.Text = "00:00";
             // 
@@ -596,9 +620,10 @@
             // 
             this.lbTiming.AutoSize = true;
             this.lbTiming.ForeColor = System.Drawing.Color.White;
-            this.lbTiming.Location = new System.Drawing.Point(96, 44);
+            this.lbTiming.Location = new System.Drawing.Point(192, 85);
+            this.lbTiming.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbTiming.Name = "lbTiming";
-            this.lbTiming.Size = new System.Drawing.Size(38, 16);
+            this.lbTiming.Size = new System.Drawing.Size(86, 32);
             this.lbTiming.TabIndex = 0;
             this.lbTiming.Text = "00:00";
             this.lbTiming.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -615,9 +640,10 @@
             this.btUnmute.FillColor = System.Drawing.Color.Transparent;
             this.btUnmute.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btUnmute.ForeColor = System.Drawing.Color.White;
-            this.btUnmute.Location = new System.Drawing.Point(181, 9);
+            this.btUnmute.Location = new System.Drawing.Point(362, 17);
+            this.btUnmute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btUnmute.Name = "btUnmute";
-            this.btUnmute.Size = new System.Drawing.Size(25, 25);
+            this.btUnmute.Size = new System.Drawing.Size(50, 48);
             this.btUnmute.TabIndex = 35;
             this.btUnmute.Click += new System.EventHandler(this.btUnmute_Click);
             // 
@@ -633,9 +659,10 @@
             this.btBackTime.FillColor = System.Drawing.Color.Transparent;
             this.btBackTime.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btBackTime.ForeColor = System.Drawing.Color.White;
-            this.btBackTime.Location = new System.Drawing.Point(329, 7);
+            this.btBackTime.Location = new System.Drawing.Point(658, 14);
+            this.btBackTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btBackTime.Name = "btBackTime";
-            this.btBackTime.Size = new System.Drawing.Size(30, 30);
+            this.btBackTime.Size = new System.Drawing.Size(60, 58);
             this.btBackTime.TabIndex = 2;
             this.btBackTime.UseTransparentBackground = true;
             this.btBackTime.Visible = false;
@@ -653,9 +680,10 @@
             this.btFowardTime.FillColor = System.Drawing.Color.Transparent;
             this.btFowardTime.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btFowardTime.ForeColor = System.Drawing.Color.White;
-            this.btFowardTime.Location = new System.Drawing.Point(414, 7);
+            this.btFowardTime.Location = new System.Drawing.Point(828, 14);
+            this.btFowardTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btFowardTime.Name = "btFowardTime";
-            this.btFowardTime.Size = new System.Drawing.Size(30, 30);
+            this.btFowardTime.Size = new System.Drawing.Size(60, 58);
             this.btFowardTime.TabIndex = 1;
             this.btFowardTime.UseTransparentBackground = true;
             this.btFowardTime.Visible = false;
@@ -665,7 +693,7 @@
             // 
             this.tbSearch.AutoRoundedCorners = true;
             this.tbSearch.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
-            this.tbSearch.BorderRadius = 20;
+            this.tbSearch.BorderRadius = 40;
             this.tbSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.tbSearch.DefaultText = "";
             this.tbSearch.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
@@ -677,14 +705,14 @@
             this.tbSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tbSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
             this.tbSearch.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbSearch.Location = new System.Drawing.Point(157, 9);
-            this.tbSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbSearch.Location = new System.Drawing.Point(314, 17);
+            this.tbSearch.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.PasswordChar = '\0';
             this.tbSearch.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(179)))), ((int)(((byte)(179)))));
             this.tbSearch.PlaceholderText = "What do you want to play?";
             this.tbSearch.SelectedText = "";
-            this.tbSearch.Size = new System.Drawing.Size(456, 43);
+            this.tbSearch.Size = new System.Drawing.Size(912, 83);
             this.tbSearch.TabIndex = 38;
             this.tbSearch.TextOffset = new System.Drawing.Point(25, 0);
             this.tbSearch.Visible = false;
@@ -694,6 +722,7 @@
             // 
             this.Videoplayer.Enabled = true;
             this.Videoplayer.Location = new System.Drawing.Point(-13, 0);
+            this.Videoplayer.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Videoplayer.Name = "Videoplayer";
             this.Videoplayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Videoplayer.OcxState")));
             this.Videoplayer.Size = new System.Drawing.Size(616, 395);
@@ -712,9 +741,10 @@
             this.lbUS2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.lbUS2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lbUS2.ForeColor = System.Drawing.Color.White;
-            this.lbUS2.Location = new System.Drawing.Point(216, 508);
+            this.lbUS2.Location = new System.Drawing.Point(432, 984);
+            this.lbUS2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbUS2.Name = "lbUS2";
-            this.lbUS2.Size = new System.Drawing.Size(80, 19);
+            this.lbUS2.Size = new System.Drawing.Size(160, 37);
             this.lbUS2.TabIndex = 37;
             this.lbUS2.Text = "user_name12345";
             this.lbUS2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -725,9 +755,10 @@
             this.lbUS3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.lbUS3.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lbUS3.ForeColor = System.Drawing.Color.White;
-            this.lbUS3.Location = new System.Drawing.Point(319, 508);
+            this.lbUS3.Location = new System.Drawing.Point(638, 984);
+            this.lbUS3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbUS3.Name = "lbUS3";
-            this.lbUS3.Size = new System.Drawing.Size(80, 19);
+            this.lbUS3.Size = new System.Drawing.Size(160, 37);
             this.lbUS3.TabIndex = 39;
             this.lbUS3.Text = "user_name12345";
             this.lbUS3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -739,10 +770,11 @@
             this.pbAV3.Image = ((System.Drawing.Image)(resources.GetObject("pbAV3.Image")));
             this.pbAV3.ImageRotate = 0F;
             this.pbAV3.InitialImage = null;
-            this.pbAV3.Location = new System.Drawing.Point(328, 448);
+            this.pbAV3.Location = new System.Drawing.Point(656, 868);
+            this.pbAV3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pbAV3.Name = "pbAV3";
             this.pbAV3.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbAV3.Size = new System.Drawing.Size(61, 56);
+            this.pbAV3.Size = new System.Drawing.Size(122, 108);
             this.pbAV3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAV3.TabIndex = 38;
             this.pbAV3.TabStop = false;
@@ -754,9 +786,10 @@
             this.lbUS4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.lbUS4.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lbUS4.ForeColor = System.Drawing.Color.White;
-            this.lbUS4.Location = new System.Drawing.Point(420, 508);
+            this.lbUS4.Location = new System.Drawing.Point(840, 984);
+            this.lbUS4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbUS4.Name = "lbUS4";
-            this.lbUS4.Size = new System.Drawing.Size(80, 19);
+            this.lbUS4.Size = new System.Drawing.Size(160, 37);
             this.lbUS4.TabIndex = 41;
             this.lbUS4.Text = "user_name12345";
             this.lbUS4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -768,10 +801,11 @@
             this.pbAV4.Image = ((System.Drawing.Image)(resources.GetObject("pbAV4.Image")));
             this.pbAV4.ImageRotate = 0F;
             this.pbAV4.InitialImage = null;
-            this.pbAV4.Location = new System.Drawing.Point(429, 448);
+            this.pbAV4.Location = new System.Drawing.Point(858, 868);
+            this.pbAV4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pbAV4.Name = "pbAV4";
             this.pbAV4.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbAV4.Size = new System.Drawing.Size(61, 56);
+            this.pbAV4.Size = new System.Drawing.Size(122, 108);
             this.pbAV4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAV4.TabIndex = 40;
             this.pbAV4.TabStop = false;
@@ -783,9 +817,10 @@
             this.lbUS5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.lbUS5.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lbUS5.ForeColor = System.Drawing.Color.White;
-            this.lbUS5.Location = new System.Drawing.Point(522, 508);
+            this.lbUS5.Location = new System.Drawing.Point(1044, 984);
+            this.lbUS5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbUS5.Name = "lbUS5";
-            this.lbUS5.Size = new System.Drawing.Size(80, 19);
+            this.lbUS5.Size = new System.Drawing.Size(160, 37);
             this.lbUS5.TabIndex = 43;
             this.lbUS5.Text = "user_name12345";
             this.lbUS5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -797,10 +832,11 @@
             this.pbAV5.Image = ((System.Drawing.Image)(resources.GetObject("pbAV5.Image")));
             this.pbAV5.ImageRotate = 0F;
             this.pbAV5.InitialImage = null;
-            this.pbAV5.Location = new System.Drawing.Point(531, 448);
+            this.pbAV5.Location = new System.Drawing.Point(1062, 868);
+            this.pbAV5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pbAV5.Name = "pbAV5";
             this.pbAV5.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.pbAV5.Size = new System.Drawing.Size(61, 56);
+            this.pbAV5.Size = new System.Drawing.Size(122, 108);
             this.pbAV5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAV5.TabIndex = 42;
             this.pbAV5.TabStop = false;
@@ -813,11 +849,12 @@
             this.tbRoomName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbRoomName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRoomName.ForeColor = System.Drawing.Color.White;
-            this.tbRoomName.Location = new System.Drawing.Point(323, 4);
+            this.tbRoomName.Location = new System.Drawing.Point(646, 8);
+            this.tbRoomName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tbRoomName.Multiline = true;
             this.tbRoomName.Name = "tbRoomName";
             this.tbRoomName.ReadOnly = true;
-            this.tbRoomName.Size = new System.Drawing.Size(146, 32);
+            this.tbRoomName.Size = new System.Drawing.Size(292, 62);
             this.tbRoomName.TabIndex = 53;
             this.tbRoomName.Text = "Room_name";
             this.tbRoomName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -828,10 +865,11 @@
             this.tbRoomID.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbRoomID.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRoomID.ForeColor = System.Drawing.Color.White;
-            this.tbRoomID.Location = new System.Drawing.Point(522, 14);
+            this.tbRoomID.Location = new System.Drawing.Point(1044, 27);
+            this.tbRoomID.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tbRoomID.Name = "tbRoomID";
             this.tbRoomID.ReadOnly = true;
-            this.tbRoomID.Size = new System.Drawing.Size(49, 20);
+            this.tbRoomID.Size = new System.Drawing.Size(98, 40);
             this.tbRoomID.TabIndex = 52;
             this.tbRoomID.Text = "1234";
             this.tbRoomID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -843,9 +881,10 @@
             this.listView_room_users.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView_room_users.ForeColor = System.Drawing.Color.Black;
             this.listView_room_users.HideSelection = false;
-            this.listView_room_users.Location = new System.Drawing.Point(105, 374);
+            this.listView_room_users.Location = new System.Drawing.Point(210, 725);
+            this.listView_room_users.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.listView_room_users.Name = "listView_room_users";
-            this.listView_room_users.Size = new System.Drawing.Size(121, 153);
+            this.listView_room_users.Size = new System.Drawing.Size(242, 296);
             this.listView_room_users.TabIndex = 51;
             this.listView_room_users.UseCompatibleStateImageBehavior = false;
             this.listView_room_users.View = System.Windows.Forms.View.List;
@@ -864,9 +903,10 @@
             this.btSendMessage.FillColor = System.Drawing.Color.Transparent;
             this.btSendMessage.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btSendMessage.ForeColor = System.Drawing.Color.White;
-            this.btSendMessage.Location = new System.Drawing.Point(966, 486);
+            this.btSendMessage.Location = new System.Drawing.Point(1932, 942);
+            this.btSendMessage.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btSendMessage.Name = "btSendMessage";
-            this.btSendMessage.Size = new System.Drawing.Size(26, 22);
+            this.btSendMessage.Size = new System.Drawing.Size(52, 43);
             this.btSendMessage.TabIndex = 54;
             this.btSendMessage.Click += new System.EventHandler(this.btSendMessage_Click);
             // 
@@ -875,20 +915,40 @@
             this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.flowLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel.Location = new System.Drawing.Point(802, 83);
-            this.flowLayoutPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.flowLayoutPanel.Location = new System.Drawing.Point(1604, 161);
+            this.flowLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
             this.flowLayoutPanel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.flowLayoutPanel.Size = new System.Drawing.Size(203, 381);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(406, 738);
             this.flowLayoutPanel.TabIndex = 55;
             this.flowLayoutPanel.WrapContents = false;
             // 
+            // btnSync
+            // 
+            this.btnSync.BackColor = System.Drawing.Color.Transparent;
+            this.btnSync.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSync.BackgroundImage")));
+            this.btnSync.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSync.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnSync.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnSync.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnSync.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnSync.FillColor = System.Drawing.Color.Transparent;
+            this.btnSync.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnSync.ForeColor = System.Drawing.Color.White;
+            this.btnSync.Location = new System.Drawing.Point(900, 8);
+            this.btnSync.Margin = new System.Windows.Forms.Padding(6);
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(66, 64);
+            this.btnSync.TabIndex = 44;
+            this.btnSync.Visible = false;
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
+            // 
             // Form_Onlineroom
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1030, 550);
+            this.ClientSize = new System.Drawing.Size(2060, 1066);
             this.Controls.Add(this.flowLayoutPanel);
             this.Controls.Add(this.btSendMessage);
             this.Controls.Add(this.listView_room_users);
@@ -917,6 +977,7 @@
             this.Controls.Add(this.pbBackgroundONLR);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "Form_Onlineroom";
             this.Text = "Form_Onlineroom";
             this.Load += new System.EventHandler(this.Form_Onlineroom_Load);
@@ -981,5 +1042,6 @@
         private System.Windows.Forms.ListView listView_room_users;
         private Guna.UI2.WinForms.Guna2Button btSendMessage;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
+        private Guna.UI2.WinForms.Guna2Button btnSync;
     }
 }
