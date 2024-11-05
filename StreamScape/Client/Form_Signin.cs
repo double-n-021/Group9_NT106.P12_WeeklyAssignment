@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Client
@@ -36,6 +37,9 @@ namespace Client
             tbUsername.Parent = pbBackgroundSignin;
             tbPassword.Parent = pbBackgroundSignin;
             btSignin.Parent = pbBackgroundSignin;
+            btShowPassword.Parent = pbBackgroundSignin;
+
+            tbPassword.UseSystemPasswordChar = true;
         }
 
         #region Chức năng có thể di chuyển cửa sổ...
@@ -132,7 +136,7 @@ namespace Client
 
         }
 
-        #region: Hàm con có liên quan đến Sigin_Click
+        #region Hàm con có liên quan đến Sigin_Click
         private byte[] GetAvatar(string username)
         {
             try
@@ -173,5 +177,16 @@ namespace Client
             formHome.Location = new Point(this.Location.X, this.Location.Y);
         }
         #endregion
+
+        //Chức năng ẩn mật khẩu
+        int count = 0;
+        private void btShowPassword_Click(object sender, EventArgs e)
+        {
+            if (count%2==0)
+                tbPassword.UseSystemPasswordChar = false;
+            else
+                tbPassword.UseSystemPasswordChar = true;
+            count++;
+        }
     }
 }

@@ -203,7 +203,7 @@ namespace Server
                         string emailphone = reader.ReadString();
 
                         bool registerSuccess = RegisterUser(username, password, emailphone);
-                        writer.Write(registerSuccess ? "Đăng ký thành công!" : "Đăng ký thất bại. Tài khoản đã tồn tại.");
+                        writer.Write(registerSuccess ? "Đăng ký thành công!" : "Đăng ký thất bại. Tên tài khoản đã tồn tại.");
                         if (registerSuccess) { LoadUserData(); }
                     }
                     else if (requestType == "login")
@@ -729,27 +729,36 @@ namespace Server
         #region Xử lý yêu cầu đăng kí
         private bool RegisterUser(string username, string password, string emailphone)
         {
-
             using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
             {
                 connection.Open();
-                string query = "INSERT INTO Users (Username, Emailphone, Password) VALUES (@username, @emailphone, @password)";
-
-                using (var command = new SQLiteCommand(query, connection))
+                // Kiểm tra xem username có tồn tại hay không
+                string checkQuery = "SELECT COUNT(*) FROM Users WHERE Username = @username";
+                using (var checkCommand = new SQLiteCommand(checkQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@username", username);
-                    command.Parameters.AddWithValue("@emailphone", emailphone);
-                    command.Parameters.AddWithValue("@password", password);
+                    checkCommand.Parameters.AddWithValue("@username", username);
+                    int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                    if (count > 0) return false;
+                }
+
+                // Thêm người dùng mới vào cơ sở dữ liệu nếu username chưa tồn tại
+                string insertQuery = "INSERT INTO Users (Username, Emailphone, Password) VALUES (@username, @emailphone, @password)";
+                using (var insertCommand = new SQLiteCommand(insertQuery, connection))
+                {
+                    insertCommand.Parameters.AddWithValue("@username", username);
+                    insertCommand.Parameters.AddWithValue("@emailphone", emailphone);
+                    insertCommand.Parameters.AddWithValue("@password", password);
 
                     try
                     {
-                        command.ExecuteNonQuery();
+                        insertCommand.ExecuteNonQuery();
                         return true;
                     }
-                    catch (SQLiteException ex) { }
-                    return false;
+                    catch { }
                 }
             }
+            return false;
         }
         #endregion
 

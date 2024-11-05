@@ -102,8 +102,13 @@ namespace Client
                 return;
             }
 
-            try
+            if (tbCreatepassword.Text.Length < 8 || tbEmailphone.Text.Length < 10)
             {
+                MessageBox.Show("Mật khẩu phải từ 8 kí tự trở lên. Email/Phone phải từ 10 kí tự trở lên");
+            }
+
+            try
+                {
                 // Tạo kết nối TCP đến server
                 using (TcpClient client = new TcpClient(serverIP, 5000)) // Đảm bảo server đang chạy
                 using (NetworkStream stream = client.GetStream())

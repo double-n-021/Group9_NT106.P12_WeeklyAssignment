@@ -226,6 +226,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icons\avatarnull.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\icon1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

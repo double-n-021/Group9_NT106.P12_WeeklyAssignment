@@ -36,6 +36,18 @@ namespace Client
 
             textconnect = username;//gán dữ liệu vừa được truyền từ form home cho form create
             Avatarconnect = avatarconnect;//gán dữ liệu vừa được truyền từ form home cho form create
+            
+            if (avatarconnect == null)
+            {
+                byte[] imageData;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    Image avatar = Image.FromFile(Path.Combine("Icons", "avatarnull.jpg"));
+                    avatar.Save(ms, avatar.RawFormat); // Lưu ảnh vào MemoryStream
+                    imageData = ms.ToArray(); // Chuyển MemoryStream thành mảng byte
+                }
+                avatarconnect = imageData;
+            }
 
             //Chức năng panel_header
             this.pnHeader.MouseDown += new MouseEventHandler(panelHeader_MouseDown);
