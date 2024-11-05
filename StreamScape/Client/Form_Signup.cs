@@ -105,6 +105,7 @@ namespace Client
             if (tbCreatepassword.Text.Length < 8 || tbEmailphone.Text.Length < 10)
             {
                 MessageBox.Show("Mật khẩu phải từ 8 kí tự trở lên. Email/Phone phải từ 10 kí tự trở lên");
+                return;
             }
 
             try
