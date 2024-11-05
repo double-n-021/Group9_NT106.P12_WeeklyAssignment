@@ -217,9 +217,6 @@ namespace Client
                         case 8:
                             next_video(response);
                             break;
-                        case 9:
-                            sync_video(response);
-                            break;
                     }
                 }
             }
@@ -775,6 +772,30 @@ namespace Client
 
 
         //Playing
+        private void btPause_Click(object sender, EventArgs e)
+        {
+            btPlaying.Visible = true;
+            btPause.Visible = false;
+            Videoplayer.Ctlcontrols.currentPosition = lastPosition; // Đặt lại vị trí
+            Videoplayer.Ctlcontrols.play();
+            Packet continuePacket = new Packet
+            {
+                Code = 6,
+                Username = this_client_info.Username,
+                RoomID = this_client_info.RoomID,
+                CurrentPosition = lastPosition // Gửi vị trí để phát tiếp
+            };
+            sendToServer(continuePacket);
+        }
+
+        private void continue_video(Packet continuePacket)
+        {
+            Videoplayer.Ctlcontrols.currentPosition = continuePacket.CurrentPosition; // Đặt vị trí
+            Videoplayer.Ctlcontrols.play();
+        }
+
+
+        //Pause
         private void btPlaying_Click(object sender, EventArgs e)
         {
             btPause.Visible = true;
@@ -790,30 +811,6 @@ namespace Client
                 CurrentPosition = lastPosition // Gửi vị trí đã dừng
             };
             sendToServer(stopPacket);
-        }
-
-        private void continue_video(Packet continuePacket)
-        {
-            Videoplayer.Ctlcontrols.currentPosition = continuePacket.CurrentPosition; // Đặt vị trí
-            Videoplayer.Ctlcontrols.play();
-        }
-
-
-        //Pause
-        private void btPause_Click(object sender, EventArgs e)
-        {
-            btPlaying.Visible = true;
-            btPause.Visible = false;
-            Videoplayer.Ctlcontrols.currentPosition = lastPosition; // Đặt lại vị trí
-            Videoplayer.Ctlcontrols.play();
-            Packet continuePacket = new Packet
-            {
-                Code = 6,
-                Username = this_client_info.Username,
-                RoomID = this_client_info.RoomID,
-                CurrentPosition = lastPosition // Gửi vị trí để phát tiếp
-            };
-            sendToServer(continuePacket);
         }
 
         private void stop_video(Packet stopPacket)
@@ -881,11 +878,6 @@ namespace Client
                 CurrentPosition = newTime // Vị trí video sau khi tua
             };
             sendToServer(syncPacket);
-        }
-
-        private void sync_video(Packet syncPacket)
-        {
-            Videoplayer.Ctlcontrols.currentPosition = syncPacket.CurrentPosition;
         }
         #endregion
 

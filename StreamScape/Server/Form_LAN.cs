@@ -625,7 +625,7 @@ namespace Server
         }
         #endregion
 
-        #region Xử lý khi host bấm tiếp tục phát file
+        #region Xử lý khi host bấm tiếp tục phát file và khi muốn đồng bộ
         private void continue_video_handler(User user, Packet request)
         {
             Room userRoom = roomList.FirstOrDefault(r => r.roomID == int.Parse(request.RoomID));

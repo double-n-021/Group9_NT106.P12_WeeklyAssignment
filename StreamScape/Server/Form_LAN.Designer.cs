@@ -62,10 +62,9 @@
             this.btStart.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btStart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btStart.ForeColor = System.Drawing.Color.Black;
-            this.btStart.Location = new System.Drawing.Point(22, 29);
-            this.btStart.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btStart.Location = new System.Drawing.Point(11, 15);
             this.btStart.Name = "btStart";
-            this.btStart.Size = new System.Drawing.Size(360, 87);
+            this.btStart.Size = new System.Drawing.Size(180, 45);
             this.btStart.TabIndex = 1;
             this.btStart.Text = "Start";
             this.btStart.Click += new System.EventHandler(this.btStart_Click);
@@ -79,47 +78,42 @@
             this.btStop.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btStop.ForeColor = System.Drawing.Color.Black;
-            this.btStop.Location = new System.Drawing.Point(22, 132);
-            this.btStop.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btStop.Location = new System.Drawing.Point(11, 68);
             this.btStop.Name = "btStop";
-            this.btStop.Size = new System.Drawing.Size(360, 87);
+            this.btStop.Size = new System.Drawing.Size(180, 45);
             this.btStop.TabIndex = 2;
             this.btStop.Text = "Stop";
             this.btStop.Click += new System.EventHandler(this.btStop_Click);
             // 
             // tbAvailableRoom
             // 
-            this.tbAvailableRoom.Location = new System.Drawing.Point(258, 407);
-            this.tbAvailableRoom.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbAvailableRoom.Location = new System.Drawing.Point(129, 210);
             this.tbAvailableRoom.Name = "tbAvailableRoom";
-            this.tbAvailableRoom.Size = new System.Drawing.Size(120, 38);
+            this.tbAvailableRoom.Size = new System.Drawing.Size(62, 22);
             this.tbAvailableRoom.TabIndex = 5;
             // 
             // tbExistingUser
             // 
-            this.tbExistingUser.Location = new System.Drawing.Point(258, 510);
-            this.tbExistingUser.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbExistingUser.Location = new System.Drawing.Point(129, 263);
             this.tbExistingUser.Name = "tbExistingUser";
-            this.tbExistingUser.Size = new System.Drawing.Size(120, 38);
+            this.tbExistingUser.Size = new System.Drawing.Size(62, 22);
             this.tbExistingUser.TabIndex = 6;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 418);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Location = new System.Drawing.Point(12, 216);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(236, 32);
+            this.label1.Size = new System.Drawing.Size(114, 16);
             this.label1.TabIndex = 7;
             this.label1.Text = "Available Rooms:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 515);
-            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label2.Location = new System.Drawing.Point(12, 266);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(203, 32);
+            this.label2.Size = new System.Drawing.Size(95, 16);
             this.label2.TabIndex = 8;
             this.label2.Text = "Existing Users:";
             // 
@@ -136,22 +130,20 @@
             this.cbUserandAdd.Items.AddRange(new object[] {
             "User Accounts",
             "Movies and Musics"});
-            this.cbUserandAdd.Location = new System.Drawing.Point(438, 29);
-            this.cbUserandAdd.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbUserandAdd.Location = new System.Drawing.Point(219, 15);
             this.cbUserandAdd.Name = "cbUserandAdd";
-            this.cbUserandAdd.Size = new System.Drawing.Size(1472, 36);
+            this.cbUserandAdd.Size = new System.Drawing.Size(738, 36);
             this.cbUserandAdd.TabIndex = 9;
             this.cbUserandAdd.SelectedIndexChanged += new System.EventHandler(this.cbUserAccount_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(438, 132);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dataGridView1.Location = new System.Drawing.Point(219, 68);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1476, 318);
+            this.dataGridView1.Size = new System.Drawing.Size(738, 164);
             this.dataGridView1.TabIndex = 10;
             // 
             // btAdd
@@ -163,10 +155,9 @@
             this.btAdd.FillColor = System.Drawing.Color.DeepSkyBlue;
             this.btAdd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btAdd.ForeColor = System.Drawing.Color.Black;
-            this.btAdd.Location = new System.Drawing.Point(18, 769);
-            this.btAdd.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btAdd.Location = new System.Drawing.Point(9, 397);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(168, 87);
+            this.btAdd.Size = new System.Drawing.Size(84, 45);
             this.btAdd.TabIndex = 12;
             this.btAdd.Text = "Add";
             this.btAdd.Visible = false;
@@ -175,37 +166,33 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 43);
-            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label3.Location = new System.Drawing.Point(4, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 32);
+            this.label3.Size = new System.Drawing.Size(36, 16);
             this.label3.TabIndex = 13;
             this.label3.Text = "Title:";
             // 
             // tbTitle
             // 
-            this.tbTitle.Location = new System.Drawing.Point(92, 37);
-            this.tbTitle.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbTitle.Location = new System.Drawing.Point(46, 19);
             this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(262, 38);
+            this.tbTitle.Size = new System.Drawing.Size(133, 22);
             this.tbTitle.TabIndex = 14;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(370, 43);
-            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label4.Location = new System.Drawing.Point(185, 22);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(165, 32);
+            this.label4.Size = new System.Drawing.Size(78, 16);
             this.label4.TabIndex = 15;
             this.label4.Text = "Description:";
             // 
             // tbDescription
             // 
-            this.tbDescription.Location = new System.Drawing.Point(538, 39);
-            this.tbDescription.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbDescription.Location = new System.Drawing.Point(269, 20);
             this.tbDescription.Name = "tbDescription";
-            this.tbDescription.Size = new System.Drawing.Size(258, 38);
+            this.tbDescription.Size = new System.Drawing.Size(131, 22);
             this.tbDescription.TabIndex = 16;
             // 
             // gbAdd
@@ -218,11 +205,9 @@
             this.gbAdd.Controls.Add(this.tbDescription);
             this.gbAdd.Controls.Add(this.label3);
             this.gbAdd.Controls.Add(this.label4);
-            this.gbAdd.Location = new System.Drawing.Point(198, 754);
-            this.gbAdd.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.gbAdd.Location = new System.Drawing.Point(99, 389);
             this.gbAdd.Name = "gbAdd";
-            this.gbAdd.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.gbAdd.Size = new System.Drawing.Size(1716, 103);
+            this.gbAdd.Size = new System.Drawing.Size(858, 53);
             this.gbAdd.TabIndex = 17;
             this.gbAdd.TabStop = false;
             this.gbAdd.Text = "Add Movies and Music";
@@ -230,10 +215,9 @@
             // 
             // btUploadFile
             // 
-            this.btUploadFile.Location = new System.Drawing.Point(1486, 29);
-            this.btUploadFile.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btUploadFile.Location = new System.Drawing.Point(743, 15);
             this.btUploadFile.Name = "btUploadFile";
-            this.btUploadFile.Size = new System.Drawing.Size(214, 56);
+            this.btUploadFile.Size = new System.Drawing.Size(107, 29);
             this.btUploadFile.TabIndex = 20;
             this.btUploadFile.Text = "Upload File";
             this.btUploadFile.UseVisualStyleBackColor = true;
@@ -241,10 +225,9 @@
             // 
             // btPoster
             // 
-            this.btPoster.Location = new System.Drawing.Point(1146, 29);
-            this.btPoster.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btPoster.Location = new System.Drawing.Point(573, 15);
             this.btPoster.Name = "btPoster";
-            this.btPoster.Size = new System.Drawing.Size(328, 56);
+            this.btPoster.Size = new System.Drawing.Size(164, 29);
             this.btPoster.TabIndex = 19;
             this.btPoster.Text = "Upload Poster";
             this.btPoster.UseVisualStyleBackColor = true;
@@ -256,20 +239,18 @@
             this.cbTag.Items.AddRange(new object[] {
             "Movie",
             "Music"});
-            this.cbTag.Location = new System.Drawing.Point(892, 35);
-            this.cbTag.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbTag.Location = new System.Drawing.Point(446, 18);
             this.cbTag.Name = "cbTag";
-            this.cbTag.Size = new System.Drawing.Size(238, 39);
+            this.cbTag.Size = new System.Drawing.Size(121, 24);
             this.cbTag.TabIndex = 18;
             this.cbTag.SelectedIndexChanged += new System.EventHandler(this.cbTag_SelectedIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(810, 45);
-            this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label5.Location = new System.Drawing.Point(405, 23);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(71, 32);
+            this.label5.Size = new System.Drawing.Size(35, 16);
             this.label5.TabIndex = 17;
             this.label5.Text = "Tag:";
             // 
@@ -281,20 +262,20 @@
             // 
             this.listView_log.Font = new System.Drawing.Font("Yu Gothic UI Semibold", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView_log.HideSelection = false;
-            this.listView_log.Location = new System.Drawing.Point(438, 463);
-            this.listView_log.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.listView_log.Location = new System.Drawing.Point(219, 239);
+            this.listView_log.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listView_log.Name = "listView_log";
-            this.listView_log.Size = new System.Drawing.Size(1472, 264);
+            this.listView_log.Size = new System.Drawing.Size(738, 138);
             this.listView_log.TabIndex = 21;
             this.listView_log.UseCompatibleStateImageBehavior = false;
             this.listView_log.View = System.Windows.Forms.View.List;
             // 
             // Form_LAN
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.ClientSize = new System.Drawing.Size(1924, 880);
+            this.ClientSize = new System.Drawing.Size(962, 455);
             this.Controls.Add(this.listView_log);
             this.Controls.Add(this.gbAdd);
             this.Controls.Add(this.btAdd);
@@ -308,7 +289,6 @@
             this.Controls.Add(this.btStart);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "Form_LAN";
             this.Text = "Server";
             this.Load += new System.EventHandler(this.Form_LAN_Load);
