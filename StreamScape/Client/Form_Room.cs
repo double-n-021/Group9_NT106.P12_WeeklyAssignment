@@ -253,6 +253,7 @@ namespace Client
         //Chức năng up file mp3 và mp4 từ máy lên
         private void btUpload_Click(object sender, EventArgs e)
         {
+            btPlaying.Visible = true;
             OFD.Filter = "Media Files (*.mp3;*.mp4)|*.mp3;*.mp4";
             DialogResult ofd = OFD.ShowDialog();
             if (ofd == DialogResult.OK)
