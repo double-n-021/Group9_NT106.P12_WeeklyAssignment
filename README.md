@@ -32,6 +32,7 @@
 - C# .NET Framework
 - Window Form
 - SQLite
+- GUNA2 UI,vv...
 
 ## 📸 Demo
 
