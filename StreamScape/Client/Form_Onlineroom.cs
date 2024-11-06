@@ -289,8 +289,8 @@ namespace Client
 
                         // Gửi dữ liệu nén tới server
                         sendToServer(videoPacket);
-
-                        // Hiển thị video
+                        btPlaying.Visible = true;
+                        //Hiển thị video
                         displayVideo(this_client_info.Username, compressedData);
                     }
                     catch (Exception ex)
