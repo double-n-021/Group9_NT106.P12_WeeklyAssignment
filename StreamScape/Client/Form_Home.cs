@@ -297,6 +297,9 @@ namespace Client
                 pbMV1.Visible = false;
                 lbTitleMV1.Visible = false;
                 lbDesMV1.Visible = false;
+                pbMV2.Visible = false;
+                lbTitleMV2.Visible = false;
+                lbDesMV2.Visible = false;
                 DisplayMovies(movieList);
             }
         }
