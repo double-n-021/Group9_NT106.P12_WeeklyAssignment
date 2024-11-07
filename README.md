@@ -35,7 +35,7 @@
 - GUNA2 UI,vv...
 
 ## 📸 Demo
-
+[Demo StreamScape]([https://github.com](https://drive.google.com/drive/folders/1WSM2MB-4uMsacAE84YnhlI1rkLb5_Fe1))
 
 ## 📝 Weekly Assignments
 Bài tập hàng tuần của môn học được thực hiện và chia đều trong các nhánh của repo.
