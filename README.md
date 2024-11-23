@@ -1,7 +1,7 @@
 
 # 🎵 StreamScape
 
-![Logo](https://github.com/user-attachments/assets/b2a920b1-0386-4286-8e05-e80e1bf40c42)
+![Logo](https://github.com/double-n-021/Group9_NT106.P12_Project-and-Assignment/blob/StreamScape/Logo.png?raw=true)
   
 Ứng dụng nghe nhạc và xem phim cùng nhau (có thể qua mạng LAN và Internet)
 
