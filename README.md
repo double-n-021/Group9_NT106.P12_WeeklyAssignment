@@ -15,11 +15,11 @@
 - Giảng viên hướng dẫn: Đặng Lê Bảo Chương.
 
 ## 👥 Thành viên nhóm
-| MSSV     | Họ và Tên              | 
-|----------|------------------------|
-| 23521037 | Bùi Đặng Nhật Nguyên   |
-| 23521040 | Lê Nhật Trinh Nguyên   |
-| 23520168 | Đoàn Ngọc Minh Châu    |
+| MSSV     | Họ và Tên              | Email                  | Github                                          |
+|----------|------------------------|------------------------|-------------------------------------------------|
+| 23520168 | Đoàn Ngọc Minh Châu    | 23520168@gm.uit.edu.vn | [Minh Châu](https://github.com/23520168)        |
+| 23521037 | Bùi Đặng Nhật Nguyên   | 23521037@gm.uit.edu.vn | [Nhật Nguyên](https://github.com/double-n-021)  |
+| 23521040 | Lê Nhật Trinh Nguyên   | 23521040@gm.uit.edu.vn | [Trinh Nguyên](https://github.com/ovapil)       |
 
 ## ✨ Tính năng chính
 - 🎵 Nghe nhạc đồng bộ với bạn bè
